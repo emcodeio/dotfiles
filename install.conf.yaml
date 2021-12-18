@@ -1,0 +1,26 @@
+- defaults:
+    link:
+      relink: true
+
+- clean: ['~']
+
+- link:
+    ~/.zshrc:
+    ~/.gitconfig:
+    ~/.doom.d:
+    ~/.oh-my-zsh/custom: ~/.dotfiles/oh-my-zsh
+    ~/.p10k.zsh:
+    ~/.wallpaper:
+    ~/.config/karabiner: ~/.dotfiles/karabiner
+    ~/.ideavimrc:
+    ~/dev/obsidian_vault/.obsidian.vimrc: ~/.dotfiles/obsidian.vimrc
+
+    # ~/.test:
+
+- create:
+    - ~/inbox/transfer
+    # - ~/downloads
+    # - ~/.vim/undo-history
+
+# - shell:
+#   - [git submodule update --init --recursive, Installing submodules]

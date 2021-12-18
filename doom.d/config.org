@@ -1,0 +1,158 @@
+#+TITLE: EE's Doom Emacs Config
+#+AUTHOR: Evan Erickson (EE)
+#+STARTUP: showeverything
+
+* ABOUT THIS CONFIG
+This is my personal Doom Emacs config.  Doom Emacs is a distribution of Emacs that uses the "evil" keybindings (Vim keybindings) and includes a number of nice extensions and a bit of configuration out of the box.
+
+To compile this file run
+#+BEGIN_SRC emacs-lisp
+;; org-babel-load-file
+#+END_SRC
+
+* PERSONAL INFORMATION
+
+#+BEGIN_SRC emacs-lisp
+(setq user-full-name "Evan Erickson"
+      user-mail-address "evan.erksn@gmail.com")
+#+END_SRC
+
+* DOOM THEME
+There are two ways to load a theme. Both assume the theme is installed and available. You can either set `doom-theme' or manually load a theme with the`load-theme' function. This is the default:
+
+#+BEGIN_SRC emacs-lisp
+(setq doom-theme 'doom-xcode)
+(custom-theme-set-faces! 'doom-xcode
+  ;;'(default :background "#1C1C1C")
+  '(default :background "#151515")
+  ;;'(default :background "#000000")
+  )
+
+(custom-theme-set-faces! 'doom-palenight
+  ;;'(default :background "#1C1C1C")
+  '(default :background "#151515")
+  ;;'(default :background "#000000")
+  )
+
+(custom-theme-set-faces! 'doom-xcode
+  ;;'(default :background "#1C1C1C")
+  '(default :background "#151515")
+  ;;'(default :background "#000000")
+  )
+#+END_SRC
+
+* FONTS
+Settings related to fonts within Doom Emacs:
++ 'doom-font' -- standard monospace font that is used for most things in Emacs.
++ 'doom-variable-pitch-font' -- variable font which is useful in some Emacs plugins.
++ 'doom-big-font' -- used in doom-big-font-mode; useful for presentations.
++ 'font-lock-comment-face' -- for comments.
++ 'font-lock-keyword-face' -- for keywords with special significance like 'setq' in elisp.
++ 'global-prettify-symbols-mode' -- change certain keywords to symbols, such as lambda!
+
+#+BEGIN_SRC emacs-lisp
+(setq doom-font (font-spec :family "Dank Mono" :size 14)
+      doom-big-font (font-spec :family "Dank Mono" :size 24))
+(after! doom-themes
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t))
+(custom-set-faces!
+  '(font-lock-comment-face :slant italic)
+  '(font-lock-keyword-face :slant italic))
+#+END_SRC
+
+* LINE SETTINGS
+I set comment-line to 'SPC TAB TAB' which is a rather comfortable keybinding for me on my ZSA Moonlander keyboard.  The standard Emacs keybinding for comment-line is 'C-x C-;'.  The other keybindings are for commands that toggle on/off various line-related settings.  Doom Emacs uses 'SPC t' for "toggle" commands, so I choose 'SPC t' plus 'key' for those bindings.
+
+| COMMAND                  | DESCRIPTION                               | KEYBINDING  |
+|--------------------------+-------------------------------------------+-------------|
+| comment-line             | /Comment or uncomment lines/                | SPC TAB TAB |
+| hl-line-mode             | /Toggle line highlighting in current frame/ | SPC t h     |
+| global-hl-line-mode      | /Toggle line highlighting globally/         | SPC t H     |
+| doom/toggle-line-numbers | /Toggle line numbers/                       | SPC t l     |
+| toggle-truncate-lines    | /Toggle truncate lines/                     | SPC t t     |
+
+#+BEGIN_SRC emacs-lisp
+(setq display-line-numbers-type t)
+(map! :leader
+      (:prefix ("t" . "toggle")
+       :desc "Comment or uncomment lines" "/" #'comment-line
+       :desc "Toggle line numbers" "l" #'doom/toggle-line-numbers
+       :desc "Toggle line highlight in frame" "h" #'hl-line-mode
+       :desc "Toggle line highlight globally" "H" #'global-hl-line-mode
+       :desc "Toggle truncate lines" "t" #'toggle-truncate-lines))
+#+END_SRC
+
+* OTHER
+Here are some additional functions/macros that could help you configure Doom:
+- `load!' for loading external *.el files relative to this one
+- `use-package!' for configuring packages
+- `after!' for running code after a package has loaded
+- `add-load-path!' for adding directories to the `load-path', relative to
+  this file. Emacs searches the `load-path' when you load packages with
+  `require' or `use-package'.
+- `map!' for binding new keys
+To get information about any of these functions/macros, move the cursor over
+the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
+This will open documentation for it, including demos of how they are used.
+
+You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
+they are implemented.
+
+#+BEGIN_SRC emacs-lisp
+(use-package! ace-window
+  :ensure t
+  :config
+    (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+
+(use-package! key-chord
+  :ensure t
+  :config
+    (key-chord-mode 1)
+    (setq key-chord-two-keys-delay 0.05)
+    (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
+    (key-chord-define-global "vv" 'ace-window))
+
+;;(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+(setq initial-frame-alist
+      '(
+        ;;(top . 1)
+        ;;(left . 1)
+        (width . 143)
+        (height . 55)))
+
+(after! org
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+  (setq org-directory "~/Org/"
+        org-agenda-files '("~/Org/agenda.org")
+        org-default-notes-file (expand-file-name "notes.org" org-directory)
+        org-ellipsis " ▼ "
+        org-log-done 'time
+        org-journal-dir "~/Org/journal/"
+        org-journal-date-format "%B %d, %Y (%A) "
+        org-journal-file-format "%Y-%m-%d.org"
+        org-hide-emphasis-markers t
+        ;; ex. of org-link-abbrev-alist in action
+        ;; [[arch-wiki:Name_of_Page][Description]]
+        org-link-abbrev-alist    ; This overwrites the default Doom org-link-abbrev-list
+          '(("google" . "http://www.google.com/search?q=")
+            ("arch-wiki" . "https://wiki.archlinux.org/index.php/")
+            ("ddg" . "https://duckduckgo.com/?q=")
+            ("wiki" . "https://en.wikipedia.org/wiki/"))
+        org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
+          '((sequence
+             "TODO(t)"           ; A task that is ready to be tackled
+             "BLOG(b)"           ; Blog writing assignments
+             "GYM(g)"            ; Things to accomplish at the gym
+             "PROJ(p)"           ; A project that contains other tasks
+             "VIDEO(v)"          ; Video assignments
+             "WAIT(w)"           ; Something is holding up this task
+             "|"                 ; The pipe necessary to separate "active" states and "inactive" states
+             "DONE(d)"           ; Task has been completed
+             "CANCELLED(c)" )))) ; Task has been cancelled
+
+(map! :leader
+      (:desc "Open in Finder" "z" #'reveal-in-osx-finder))
+
+(setq projectile-project-search-path '("~/dev/"))
+#+END_SRC
