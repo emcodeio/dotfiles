@@ -86,6 +86,7 @@ source $ZSH/oh-my-zsh.sh
 
 export PATH=/usr/local/opt/llvm/bin:$PATH
 export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:~/bin:$PATH
+export PATH=/Users/eerickson/.local/bin:$PATH
 
 # User configuration
 
@@ -168,6 +169,7 @@ alias doom-pack="open -a emacs ~/.doom.d/packages.el"
 alias doom-init="open -a emacs ~/.doom.d/init.el"
 alias doom-open="open -a emacs "
 alias zsh-config="open -a emacs ~/.zshrc"
+alias emacs="open -a emacs"
 
 ## Scripts
 alias dotpdf="~/.dotfiles/scripts/dot2pdf.sh"
