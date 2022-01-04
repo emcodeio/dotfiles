@@ -13,7 +13,7 @@
     ~/.wallpaper:
     ~/.config/karabiner: ~/.dotfiles/karabiner
     ~/.ideavimrc:
-    ~/dev/obsidian_vault/.obsidian.vimrc: ~/.dotfiles/obsidian.vimrc
+    ~/dev/obsidian_vault: ~/.dotfiles/obsidian
 
     # ~/.test:
 
