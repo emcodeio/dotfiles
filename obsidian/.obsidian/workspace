@@ -9,10 +9,23 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "README.md",
+            "file": "GoTo Elimination/Eliminating GoTos.md",
             "mode": "source"
           }
-        }
+        },
+        "group": "7ccfd427d2434941"
+      },
+      {
+        "id": "3a41b9104216c92d",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "GoTo Elimination/Eliminating GoTos.md",
+            "mode": "preview"
+          }
+        },
+        "group": "7ccfd427d2434941"
       }
     ],
     "direction": "vertical"
@@ -68,7 +81,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "README.md",
+                "file": "GoTo Elimination/Eliminating GoTos.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -88,7 +101,8 @@
   },
   "active": "f3c1811d059e53b4",
   "lastOpenFiles": [
-    "README.md",
+    "GoTo Elimination/Eliminating GoTos.md",
+    "FindPair/README.md",
     "README 1.md"
   ]
 }
