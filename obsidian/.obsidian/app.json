@@ -2,5 +2,11 @@
   "vimMode": true,
   "spellcheck": true,
   "legacyEditor": true,
-  "livePreview": true
+  "livePreview": true,
+  "pdfExportSettings": {
+    "pageSize": "Letter",
+    "landscape": false,
+    "margin": "0",
+    "downscalePercent": 75
+  }
 }

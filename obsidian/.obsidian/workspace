@@ -1,0 +1,107 @@
+{
+  "main": {
+    "id": "5175ef17ad0f5916",
+    "type": "split",
+    "children": [
+      {
+        "id": "2b9da941a501c964",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "GoTo Elimination/Eliminating GoTos.md",
+            "mode": "source"
+          }
+        },
+        "group": "7692b81c17621ec4"
+      },
+      {
+        "id": "9096815aa94b0b2f",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "GoTo Elimination/Eliminating GoTos.md",
+            "mode": "preview"
+          }
+        },
+        "group": "7692b81c17621ec4"
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "76939e35e5629427",
+    "type": "split",
+    "children": [
+      {
+        "id": "ed928ea4f32ed5df",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "4f2d12e7fa9e2818",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "141705c2826cb85c",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "fdc65e2c0c2035fb",
+    "type": "split",
+    "children": [
+      {
+        "id": "dccc803f1457436f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ae4e67a2ad5a9b76",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "GoTo Elimination/Eliminating GoTos.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "2b9da941a501c964",
+  "lastOpenFiles": [
+    "GoTo Elimination/Eliminating GoTos.md",
+    "Untitled.md"
+  ]
+}
