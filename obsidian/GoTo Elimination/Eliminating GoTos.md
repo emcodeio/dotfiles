@@ -2,14 +2,14 @@
 
 ## Summary of *Taming Control Flow*
 
-*Taming Control Flow: A Structured Approach to Eliminating Goto Statements* formalizes a procedure to eliminate all goto statements from a program. There are two categories of transformations that must be done to eliminate all goto statements from a program. These categories include:
+*Taming Control Flow: A Structured Approach to Eliminating Goto Statements* formalizes a procedure to eliminate all goto statements from a program. This is done by making the source conform to specific standards of structured programming. There are two categories of transformations that must be done to eliminate all goto statements from a program. These categories include:
 
 - **Eliminating the goto statement**, and
 - **Moving the goto statement** in preparation for elimination.
 
 Only a subset of the transformations described in each category is relevant for eliminating gotos from COBOL programs. We will discuss the reasons for this shortly, but first we will give some important definitions (with examples) that will be used to define the transformations. 
 
-## Definitions
+### Definitions
 
 **Definition 0**: The *label* of a goto is a unique identifier used to specify the target of a goto statement. According to the semantics of COBOL, this label must be a paragraph or section name.
 
@@ -120,7 +120,7 @@ Because of the semantics of COBOL, a goto statement and a label will always be e
 
 The *TCF* paper includes two other definitions—*offset* and *indirectly-related*—but neither is relevant to the semantics and structure of COBOL.
 
-### Summary of Relevant Points to COBOL
+#### Summary of Relevant Points to COBOL
 Although discussed above, it is useful to reiterate what parts of the definitions are relevant to COBOL and why. So in summary:
 1) Labels in COBOL (i.e. paragraph or section names) will *always* have level = 0 because they cannot be directly nested inside statements (such as an `IF` statement).
 2) Because of (1), a goto statement and a label will always be either *siblings* or *directly-related*.
@@ -129,10 +129,10 @@ Otherwise they will be *directly-related* with $$level(label) = 0 \textrm{ and }
 
 Due to these restrictions to how COBOL handles goto statements and labels, only a subset of the transformations found in *TCF* are necessary. A discussion of the COBOL relevant transformations follows.
 
-## Transformations
+### Transformations
 There are two categories of transformations outlined in *TCF*, those that **eliminate the goto statement** and those that **moving the goto statement** by unnesting it from other statements in preparation for elimination. We will begin our discussion with the latter.
 
-### Moving Goto Statements by Unnesting
+#### Moving Goto Statements by Unnesting
 *TCF* defines two types of movement transformations that can be done on a goto statement:
 1) **Outward-movement** transformations where a goto or label statement is unnested from and moved outside another statement such as a  `loop`, `switch`, or `if/else`. If $level(goto)>level(label)$ then a series of outward-movement transformations are done to decrease the level of the goto statement until $level(goto)=level(label)$
 2) **Inward-movement** transformations where a goto or label statement is nested inside another statement such as a `loop`, `switch`, or `if/else`. If $level(goto)<level(label)$ then a series of inward-movement transformations are done to increase the level of the goto statement until $level(goto)=level(label)$.
@@ -149,7 +149,7 @@ Thus, *the only movement transformation we need in eliminating gotos from a COBO
 
 $$level(goto) = level(label) = 0.$$
 
-#### Outward-movement Transformations in COBOL
+##### Outward-movement Transformations in COBOL
 
 There are two basic statements from which gotos can be unnested and moved out to a lower level. These are from inside `IF ... ELSE ...` statements and  `PERFORM ... UNTIL ...` statements (the standard looping structure in COBOL). 
 
@@ -157,13 +157,11 @@ There are two basic statements from which gotos can be unnested and moved out to
 
 The same basic approach is used if the GOTO is nested inside an `IF ... ELSE ...` statement or `PERFORM ... UNTIL ...` statement:
 - identify the guard expression in the statement in which goto statement is nested,
-- assign a boolean variable the value of that guard,
+- assign a boolean variable the value of that guard expression,
 - place this assignment statement right before the nesting statement, and
 - move the goto statement down one level by pulling it out of the statement it's nested in.
 
 A simple example follows.
-
-We can see that the `IF` statement on line `01` guards the goto statement on line `02`. The guard expression inside this statement is `VAL1 IS LESS THAN 9`. So we first create a boolean variable at line `01` on the right:
 
 ```cobol
 00 PROCEDURE DIVISION.                00 PROCEDURE DIVISION.
@@ -176,7 +174,9 @@ We can see that the `IF` statement on line `01` guards the goto statement on lin
                                       07   MULTIPLY 2 BY VAL1.             
 ```
 
-Note that the introduction of this `cond_1` value is not valid COBOL. Here we used a simplified notation, but COBOL does not include boolean valued variables. Level 88 variables are often used to serve this function and the actual implementation of the outward-movement transformation will have to do something similar.
+We can see that the `IF` statement on line `01` guards the goto statement on line `02`. The guard expression inside this statement is `VAL1 IS LESS THAN 9`. So we first create a boolean variable at line `01` on the right:
+
+*Note that the introduction of this `cond_1` value is not valid COBOL. Here we used a simplified notation, but COBOL does not include boolean valued variables. Level 88 variables are often used to serve this function and the actual implementation of the outward-movement transformation will have to do something similar.* See the discussion below in **COBOL Does Not Have Boolean Valued Variables**
 
 Once the value of the guard expression in the conditional in which the goto is nested is captured, we can move the goto statement outside the conditional:
 
@@ -233,12 +233,12 @@ Just as in the `IF ... Else ...` statement, we identify the guard expression gua
 	                                   11   MULTIPLY 2 BY VAL1.
 ```
 
-### Goto Elimination Transformations
+#### Goto Elimination Transformations
 Once the goto has been completely unnested (i.e. $level(goto)=level(label)=0$) using the outward-movement transformations we are ready to eliminate the goto statement. There are two such transformations depending on how the goto and its target label are ordered *according to the execution of those statements*. Execution order will become relevant shortly, but let us first describe the two transformations. These transformations are
 1) **Forward goto transformation** where a goto that is before its target label according to the execution order of the program is eliminated, and
 2) **Backward goto transformation** where a goto that is after its target label according to the execution order of the program is eliminated.
 
-#### Forward Goto Transformation
+##### Forward Goto Transformation
 The basic procedure of either elimination transformations is to
 1) Find the statements that are between the goto and its target label according to the execution order of the program.
 2) Nest those statements into the appropriate COBOL control flow statement while persevering equivalence to the original program
@@ -395,7 +395,7 @@ Once again, the outward-movement transformation is applied to the goto statement
 
 Here we can see original program on the left with the fully transformed version on the right with the goto eliminated.
 
-#### Backward Goto Transformation
+##### Backward Goto Transformation
 To reiterate, the basic procedure of either elimination transformations is to
 1) Find the statements that are between the goto and its target label according to the execution order of the program.
 2) Nest those statements into the appropriate COBOL control flow statement while persevering equivalence to the original program.
@@ -413,6 +413,8 @@ In the forward goto elimination transformation, the appropriate COBOL control fl
 07     GO TO PARA-1.                07   IF VAL1 IS LESS THAN 9.
                                     08   GO TO PARA-1.
 ```
+
+We can see on right lines `06` through `08`, the goto has been unnested from the conditional statement using an outward-movement transformation.
 
 ```cobol
 00 PROCEDURE DIVISION.
@@ -438,3 +440,44 @@ In the forward goto elimination transformation, the appropriate COBOL control fl
 08     cond_1 = VAL1 IS LESS THAN 9
 09     IF VAL1 IS LESS THAN 9
 ```
+
+Then the top statements on lines `05` through `07` are collected and nested inside the body of the `PERFORM UNTIL NOT(cond_1) WITH TEST AFTER` where `cond_1` is the boolean variable created during the outward-movement transformation.
+
+The goto statement can now be eliminated and the conditional statement on bottom line `09` can safely be removed (again, because both the true block and false block of that conditional statement are now empty). The original program with the final eliminated goto version can be seen below.
+
+```cobol
+00 PROCEDURE DIVISION.
+01   PERFORM PARA-1.
+02   STOP RUN.
+03   
+04 PARA-1.
+05   MULTIPLY 2 BY VAL1.
+06   IF VAL1 IS LESS THAN 9.
+07     GO TO PARA-1.               
+
+==Transforms to==>  
+  
+00 PROCEDURE DIVISION.                                    
+01   PERFORM PARA-1.
+02   STOP RUN.
+03   
+04 PARA-1.
+05   PERFORM UNTIL NOT(cond_1) WITH TEST AFTER 
+06     MULTIPLY 2 BY VAL1
+07     cond_1 = VAL1 IS LESS THAN 9
+```
+
+## Other Considerations When Applying *TCF* to COBOL Source
+### Backward Goto Elimination Transformation Using Regular Loops and Statement Duplication.
+- Emulating a do-while using a regular loop and statement duplication.
+
+### COBOL Does Not Have Boolean Valued Variables
+- Using level 88 variables to capture the values of guard expressions guarding gotos during the outward-movement transformations.
+
+### Paragraphs and Sections are the Target Labels of Goto Statements.
+- How to properly "nest" the statements in a paragraph or section when performing a forward or backward goto elimination transformation.
+- The source line ordering of paragraphs can be different than their execution order.
+
+### Other Statements Causing Early Exits
+- STOP RUNs
+- Combination of PERFORMs and STOP RUNs
