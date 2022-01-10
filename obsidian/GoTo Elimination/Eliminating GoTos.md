@@ -76,7 +76,7 @@ The following code snippets show examples of goto statements and labels that are
 09
 10  PARA-2.
 11    ADD 3 TO VAL1.
-12	  GO TO PARA-1.
+12    GO TO PARA-1.
 ```
 
 (`12 GO TO PARA-1` and `07 PARA-1` are siblings)
@@ -108,8 +108,8 @@ The following code snippets show examples of goto statements and labels that are
 09
 10  PARA-2.
 11    ADD 3 TO VAL1.
-12	  IF VAL1 IS LESS THAN 99
-13	    GO TO PARA-1.
+12    IF VAL1 IS LESS THAN 99
+13      GO TO PARA-1.
 ```
 
 (`13 GO TO PARA-1` and `07 PARA-1` are *not* siblings because `13 GO TO PARA-1` has level = 1 as a result of being nested inside `12 IF VAL1 IS LESS THAN 9`)
@@ -174,7 +174,7 @@ A simple example follows.
                                       07   MULTIPLY 2 BY VAL1.             
 ```
 
-We can see that the `IF` statement on line `01` guards the goto statement on line `02`. The guard expression inside this statement is `VAL1 IS LESS THAN 9`. So we first create a boolean variable at line `01` on the right:
+We can see that the `IF` statement on line `01` guards the goto statement on line `02`. The guard expression inside this statement is `VAL1 IS LESS THAN 9`. So we first create a boolean variable at line `01` on the right.
 
 *Note that the introduction of this `cond_1` value is not valid COBOL. Here we used a simplified notation, but COBOL does not include boolean valued variables. Level 88 variables are often used to serve this function and the actual implementation of the outward-movement transformation will have to do something similar.* See the discussion below in **COBOL Does Not Have Boolean Valued Variables**
 
@@ -192,6 +192,10 @@ Once the value of the guard expression in the conditional in which the goto is n
 ```
 
 This concludes the steps involved in the outward-movement transformation of the goto included in this example. How we use the variable `cond_1` that we introduced or what we do with the statement on line `04` after the goto but before the label will be discussed when explaining the goto elimination transformations. Until then, let's look at another example that uses a  `PERFORM ... UNTIL ...` to nest a goto.
+
+##### Moving Goto Outside a PERFORM Statement
+
+Consider the following example.
 
 ```cobol
 00 PROCEDURE DIVISION.
@@ -214,7 +218,11 @@ This concludes the steps involved in the outward-movement transformation of the 
 07   MULTIPLY 2 BY VAL1.                      
 ```
 
-Just as in the `IF ... Else ...` statement, we identify the guard expression guarding the goto statement, assign to a boolean variable the value of that guard expression,  and move the goto outside the statement in which it was originally nested. This process can be done recursively for any level of nesting until $level(goto) = 0$ as can be seen in the following example.
+Just as in the `IF ... Else ...` statement, we identify the guard expression guarding the goto statement, assign to a boolean variable the value of that guard expression,  and move the goto outside the statement in which it was originally nested.
+
+#### Outward-movement Transformations for Multiple Levels of Nesting
+
+The above outward-movement process can be done recursively for any level of nesting until $level(goto) = 0$ as can be seen in the following example.
 
 ```cobol
 00 PROCEDURE DIVISION.                 00 PROCEDURE DIVISION.
@@ -229,8 +237,8 @@ Just as in the `IF ... Else ...` statement, we identify the guard expression gua
 09                                     05   GO TO PARA-1.
 10 PARA-1.                             06   COMPUTE VAL1 = VAL1 + 1. 
 11   MULTIPLY 2 BY VAL1.               07 
-	                                   10 PARA-1.
-	                                   11   MULTIPLY 2 BY VAL1.
+                                       10 PARA-1.
+                                       11   MULTIPLY 2 BY VAL1.
 ```
 
 #### Goto Elimination Transformations
@@ -292,7 +300,7 @@ This procedure of forward goto elimination is the same for any amount of outward
 00 PROCEDURE DIVISION.                 00 PROCEDURE DIVISION.
 01   IF VAL1 IS LESS THAN 0.           01   cond_2 = VAL1 IS LESS THAN 0.
 02     SUBTRACT VAL1 FROM VAL1         02   IF VAL1 IS LESS THAN 0
-03     IF VAL1 IS EQUAL TO 0           03     SUBTRACT VAL1 TO VAL1
+03     IF VAL1 IS EQUAL TO 0           03     SUBTRACT VAL1 FROM VAL1
 04       MOVE 9 TO VAL1                04     cond_1 = VAL1 IS EQUAL TO 0
 05       GO TO PARA-1            ==>   05     IF VAL1 IS EQUAL TO 0 
 06     END-IF                          06       MOVE 9 TO VAL1
@@ -303,13 +311,17 @@ This procedure of forward goto elimination is the same for any amount of outward
 11                                     11       ADD VAL1 TO VAL1
 12  PARA-1.                            12     END-IF
 13    MULTIPLY 2 BY VAL1.              13     COMPUTE VAL1 = VAL1 + 1
-	                                   14   END-IF.
+                                       14   END-IF.
                                        15 
                                        16 PARA-1.
                                        17   MULTIPLY 2 BY VAL1.
 ```
 
-If more than one outward-movement transformation was done to completely unnest the goto, the guard expression for the created `IF` statement on line `09` on the right becomes the disjunction of the negation of each of the boolean variables (`cond_1` and `cond_2` in this case). Notice where we cannot cleanup by removing the `IF` statements on lines `02` and `05` on the right in which the goto was originally nested. This is because they included other statement (lines `03` and  `06`) the removal of which would change the semantics from the original program.
+If more than one outward-movement transformation was done to completely unnest the goto, the guard expression for the created `IF` statement on line `09` on the right becomes the disjunction of the negation of each of the boolean variables (`cond_1` and `cond_2` in this cas
+
+*Note: If the boolean variable was created by unnesting from a `PERFORM ... UNTIL ... ` statement, than the guard disjunction will include that variable *not* negated*. For example, say we have `cond_1` created by an outward-movement transformation from an `IF` statement and `cond_2` created by an outward-movement transformation from a `PERFORM ... UNTIL ...` statement. Our `IF` statement created during the forward goto elimination transformation will look like this: `IF NOT(cond_1) OR cond_2`. We now return to our original example.
+
+Notice that we cannot cleanup by removing the `IF` statements on lines `02` and `05` on the right in which the goto was originally nested because they included other statement (lines `03` and  `06`), the removal of which would change the semantics from the original program.
 
 Furthermore, forward goto elimination must be done recursively, using a combination of outward-movement and forward goto elimination transformations for each level of nesting out of which the goto is pulled. For example,
 
@@ -320,9 +332,9 @@ Furthermore, forward goto elimination must be done recursively, using a combinat
 03     IF VAL1 IS EQUAL TO 0           03     cond_1 = VAL1 IS EQUAL TO 0
 04       MOVE 9 TO VAL1                04     IF VAL1 IS EQUAL TO 0 
 05       GO TO PARA-1                  05       MOVE 9 TO VAL1
-06	   ELSE                            06     ELSE
-07	     MOVE 200 TO VAL1              07       MOVE 200 TO VAL1
-08	   END-IF                    ==>   08     END-IF
+06     ELSE                            06     ELSE
+07       MOVE 200 TO VAL1              07       MOVE 200 TO VAL1
+08     END-IF                    ==>   08     END-IF
 09     DISPLAY 'Hello, reader'         09     IF NOT(cond_1)
 10   END-IF.                           10       DISPLAY 'Hello, reader'
 11   IF VAL1 IS GREATER THAN 8         11     END-IF
@@ -332,8 +344,8 @@ Furthermore, forward goto elimination must be done recursively, using a combinat
 14  PARA-1.                            15     ADD VAL1 TO VAL1.
 15   MULTIPLY 2 BY VAL1.               16   COMPUTE VAL1 = VAL1 + 1.
                                        17   
-	                                   18 PARA-1
-	                                   19   MULTIPLY 2 BY VAL1. 
+                                       18 PARA-1
+                                       19   MULTIPLY 2 BY VAL1. 
 ```
 
 We can see in this example that the goto on line `05` on the left is nested inside the true branch of the `IF` statement on line `03`, which is nested inside the true branch of the `IF` statement on line `01`. We can also see that there is a statement at line `09` that ends the true branch of the line `01` statement after the nested conditional statement online `03`. We can see on the right that this statement `DISPLAY 'Hello, reader'` gets nested inside the true branch of the condition guarded by the negation of `cond_1`, which can be seen on line `09` on the right. The goto is now the last statement in the true block of the outer `IF` statement. 
@@ -467,9 +479,149 @@ The goto statement can now be eliminated and the conditional statement on bottom
 07     cond_1 = VAL1 IS LESS THAN 9
 ```
 
+Just as in the forward goto elimination transformation, multiple outward-movement transformations can be required to unnest the goto from several statements before completing the backward goto elimination transformation:
+
+```cobol
+00 PROCEDURE DIVISION.
+01   PERFORM PARA-1.
+02   STOP RUN.
+03   
+04 PARA-1.
+06   PERFORM UNTIL VAL1 IS GREATER THAN 20
+07     MULTIPLY 2 BY VAL1
+08     IF VAL1 IS LESS THAN 10
+09       MOVE 10 TO VAL1
+10       GO TO PARA-1
+11     END-IF
+12   END-PERFORM.
+
+==Transforms to==>  
+  
+00 PROCEDURE DIVISION.
+01   PERFORM PARA-1.
+02   STOP RUN.
+03   
+04 PARA-1.
+05   PERFORM UNTIL NOT(cond_1) OR cond_2 WITH TEST AFTER
+06     cond_2 = VAL1 IS GREATER THAN 20
+07     PERFORM UNTIL VAL1 IS GREATER THAN 20
+08       MULTIPLY 2 BY VAL1
+09       cond_1 = VAL1 IS LESS THAN 10
+10       IF VAL1 IS LESS THAN 10
+11         MOVE 10 TO VAL1
+12       END-IF
+14     END-PERFORM
+15   END-PERFORM.
+
+```
+
+Again, note that `cond_1` is negated in our created disjunction guard in the statement on line `05` below and `cond_2` is not negated. This is because `cond_1` was created by moving the goto out of an `IF` statement and `cond_2` was created by moving the goto out of a `PERFORM ... UNTIL ...` statement.
+
 ## Other Considerations When Applying *TCF* to COBOL Source
+We have now completed the basic application of the *TCF* paper to COBOL. What follows is a discussion of specific issues that must be considered when applying *TCF* to our work at Phase Change. This includes specific design and implementation options and choices that must be made to easily transform the COBOL source code into a FOM representation. 
+
 ### Backward Goto Elimination Transformation Using Regular Loops and Statement Duplication.
-- Emulating a do-while using a regular loop and statement duplication.
+In the discussion of eliminating backward gotos, we used COBOL do-while construct, the `PERFORM ... UNITL ... WITH TEST AFTER`. While the semantics are slightly different from a usual do-while, the `PERFORM ... UNTIL .. WITH TEST AFTER` has the key feature of testing the guard expression after iterating through the loop body at least once. Unfortunately, FOM does not have a do-while statement. Thus, to best prepare the original COBOL program for FOM translation, we can use a regular `PERFORM ... UNTIL ...` loop and strategically duplicate statements from the created loop body. Consider our example from above:
+
+```cobol
+00 PROCEDURE DIVISION.
+01   PERFORM PARA-1.
+02   STOP RUN.
+03   
+04 PARA-1.
+05   MULTIPLY 2 BY VAL1.
+06   IF VAL1 IS LESS THAN 9.
+07     GO TO PARA-1.               
+
+==Transformation using do-while==>  
+  
+00 PROCEDURE DIVISION.                                    
+01   PERFORM PARA-1.
+02   STOP RUN.
+03   
+04 PARA-1.
+05   PERFORM UNTIL NOT(cond_1) WITH TEST AFTER 
+06     MULTIPLY 2 BY VAL1
+07     cond_1 = VAL1 IS LESS THAN 9
+
+==Transformation using regular loop==>
+  
+00 PROCEDURE DIVISION.                                    
+01   PERFORM PARA-1.
+02   STOP RUN.
+03   
+04 PARA-1.
+05   MULTIPLY 2 BY VAL1.
+06   cond_1 = VAL1 IS LESS THAN 9.
+07   PERFORM UNTIL NOT(cond_1) 
+08     MULTIPLY 2 BY VAL1
+09     cond_1 = VAL1 IS LESS THAN 9
+```
+
+In the bottom transformations we can see the duplicated loop body (lines `06` and `07` in the middle transformation) that we have added on bottom lines `05` and `06`. We can then drop the `WITH TEST AFTER` clause from our `PERFORM ... UNTIL ...` statement.
+
+*Note: we are not suggesting that the implementation of this transformation produce the do-while version first before producing the regular loop version. The point is, however it is done, a regular loop version can be produced that captures the same behavior. Both are do-while and regular loop transformations are included in these examples for understanding purposes only.*
+
+The same can be done for any level of nesting/complexity that exists in the program. For example,
+
+```cobol
+00 PROCEDURE DIVISION.
+01   PERFORM PARA-1.
+02   STOP RUN.
+03   
+04 PARA-1.
+06   PERFORM UNTIL VAL1 IS GREATER THAN 20
+07     MULTIPLY 2 BY VAL1
+08     IF VAL1 IS LESS THAN 10
+09       MOVE 10 TO VAL1
+10       GO TO PARA-1
+11     END-IF
+12   END-PERFORM.
+
+==Transformation using do-while==>  
+  
+00 PROCEDURE DIVISION.
+01   PERFORM PARA-1.
+02   STOP RUN.
+03   
+04 PARA-1.
+05   PERFORM UNTIL NOT(cond_1) OR cond_2 WITH TEST AFTER
+06     cond_2 = VAL1 IS GREATER THAN 20
+07     PERFORM UNTIL VAL1 IS GREATER THAN 20
+08       MULTIPLY 2 BY VAL1
+09       cond_1 = VAL1 IS LESS THAN 10
+10       IF VAL1 IS LESS THAN 10
+11         MOVE 10 TO VAL1
+12       END-IF
+14     END-PERFORM
+15   END-PERFORM.
+
+==Transformation using regular loop==>  
+  
+00 PROCEDURE DIVISION.
+01   PERFORM PARA-1.
+02   STOP RUN.
+03   
+04 PARA-1.
+06   cond_2 = VAL1 IS GREATER THAN 20
+07   PERFORM UNTIL VAL1 IS GREATER THAN 20
+08     MULTIPLY 2 BY VAL1
+09     cond_1 = VAL1 IS LESS THAN 10
+10     IF VAL1 IS LESS THAN 10
+11       MOVE 10 TO VAL1
+12     END-IF
+14   END-PERFORM.
+05   PERFORM UNTIL NOT(cond_1) OR cond_2 
+06     cond_2 = VAL1 IS GREATER THAN 20
+07     PERFORM UNTIL VAL1 IS GREATER THAN 20
+08       MULTIPLY 2 BY VAL1
+09       cond_1 = VAL1 IS LESS THAN 10
+10       IF VAL1 IS LESS THAN 10
+11         MOVE 10 TO VAL1
+12       END-IF
+14     END-PERFORM
+15   END-PERFORM.
+```
 
 ### COBOL Does Not Have Boolean Valued Variables
 - Using level 88 variables to capture the values of guard expressions guarding gotos during the outward-movement transformations.
@@ -478,6 +630,196 @@ The goto statement can now be eliminated and the conditional statement on bottom
 - How to properly "nest" the statements in a paragraph or section when performing a forward or backward goto elimination transformation.
 - The source line ordering of paragraphs can be different than their execution order.
 
-### Other Statements Causing Early Exits
-- STOP RUNs
-- Combination of PERFORMs and STOP RUNs
+### Other Statements Causing Unstructured Exits
+The critical issue caused by goto statements is they allow multiple, unstructured exits from the program. To be a fully structured program, all paths through that program must use the same single exit. This raises the question, are there other statements that cause unstructured exits?
+
+#### STOP RUNs 
+Consider the following example:
+
+```cobol
+00 PROCEDURE DIVISION.
+01   IF VAL1 IS LESS THAN 9
+02     STOP RUN
+03   END-IF
+04   MUTLIPLY 2 BY VAL1.
+05   STOP RUN.
+```
+
+Here there are two unstructured exits: one on line `02` and another on line `05`. To make this program structured, we can use all the same definition and transformations discussed above in a novel way to eliminate the exits until we are left with a single structured exit. We first apply the outward-movement transformation:  
+
+```cobol
+00 PROCEDURE DIVISION.
+01   IF VAL1 IS LESS THAN 9
+02     STOP RUN
+03   END-IF
+04   MUTLIPLY 2 BY VAL1.
+05   STOP RUN.
+ 
+==Outward-movement transformation=>
+
+00 PROCEDURE DIVISION.
+01   cond_1 = VAL1 IS LESS THAN 9
+02   IF VAL1 IS LESS THAN 9
+03   END-IF
+04   STOP RUN
+05   MUTLIPLY 2 BY VAL1.
+06   STOP RUN.
+```
+
+Then we apply the "forward goto" elimination transformation by moving the `STOP RUN` at line `04` next to the `STOP RUN` at line `06`, collecting the statements we move past and nesting them in a created conditional:
+
+```cobol
+00 PROCEDURE DIVISION.
+01   cond_1 = VAL1 IS LESS THAN 9
+02   IF VAL1 IS LESS THAN 9
+03   END-IF
+04   STOP RUN
+05   MUTLIPLY 2 BY VAL1.
+06   STOP RUN.
+  
+==Outward-movement transformation=>
+
+00 PROCEDURE DIVISION.
+01   cond_1 = VAL1 IS LESS THAN 9
+02   IF VAL1 IS LESS THAN 9
+03   END-IF
+04   IF NOT(cond_1)
+05     MUTLIPLY 2 BY VAL1.
+06   END-IF.
+07   STOP RUN
+08   STOP RUN.
+```
+
+The `STOP RUN` can now be eliminated and the original conditional cleaned up:
+
+```cobol
+00 PROCEDURE DIVISION.
+01   IF VAL1 IS LESS THAN 9
+02     STOP RUN
+03   END-IF
+04   MUTLIPLY 2 BY VAL1.
+05   STOP RUN.
+  
+==Full transformation=>
+
+00 PROCEDURE DIVISION.
+01   cond_1 = VAL1 IS LESS THAN 9
+02   IF NOT(cond_1)
+03     MUTLIPLY 2 BY VAL1.
+04   END-IF.
+06   STOP RUN.
+```
+
+This works with implicit exits:
+
+```cobol
+00 PROCEDURE DIVISION.
+01   IF VAL1 IS LESS THAN 9
+02     STOP RUN
+03   END-IF.
+04   MUTLIPLY 2 BY VAL1.
+  
+==Transforms to=>
+
+00 PROCEDURE DIVISION.
+01   cond_1 = VAL1 IS LESS THAN 9
+02   IF NOT(cond_1)
+03     MUTLIPLY 2 BY VAL1.
+04   END-IF.
+```
+
+As well as with any level of nesting:
+
+```cobol
+00 PROCEDURE DIVISION.                 
+01   IF VAL1 IS LESS THAN 0.           
+02     SUBTRACT VAL1 FROM VAL1         
+03     IF VAL1 IS EQUAL TO 0           
+04       MOVE 9 TO VAL1                
+05       STOP RUN   
+06     END-IF                          
+07   END-IF.                           
+08   IF VAL1 IS GREATER THAN 8         
+09     ADD VAL1 TO VAL1.               
+10   COMPUTE VAL1 = VAL1 + 1.
+
+==Transforms to=>
+
+00 PROCEDURE DIVISION.  
+01   cond_2 = VAL1 IS LESS THAN 0.
+02   IF VAL1 IS LESS THAN 0
+03     SUBTRACT VAL1 SUBTRACT VAL1
+04     cond_1 = VAL1 IS EQUAL TO 0
+05     IF VAL1 IS EQUAL TO 0 
+06       MOVE 9 TO VAL1
+07     END-IF
+08   END-IF.
+09   IF NOT(cond_1) OR NOT(cond_2)
+10     IF VAL1 IS GREATER THAN 8
+11       ADD VAL1 TO VAL1
+12     END-IF
+13     COMPUTE VAL1 = VAL1 + 1
+14   END-IF.
+```
+
+#### PERFORMs that Don't Return
+`PERFORM` statements are a structured way for COBOL programs to execute a well-defined group of statements and cleanly return to the original context in which the `PERFORM` statement was first executed. Unfortunately, when used in combination with `STOP RUN`s and/or gotos, `PERFORM` statements can cause unstructured behavior just as bad as gotos. For example, 
+
+```cobol
+00 PROCEDURE DIVISION.
+01   IF VAL1 IS LESS THAN 9
+02     PERFORM PARA-1
+03   END-IF
+04   ADD 1 TO VAL1.
+05   STOP RUN.
+06
+07 PARA-1.
+07   MUTLIPLY 2 BY VAL1.
+08   STOP RUN.
+```
+
+Notice there is a `STOP RUN` inside `PARA-1` at line `08`. This causes the conditions under which line `04` gets executed to be ambiguous. The problem is that one branch of the conditional on line `02` (the true branch) never returns to the structured join point after the conditional at line `03`. Luckily, the same transformations used in the goto elimination transformations can be used here to properly structure the program:
+
+```cobol
+00 PROCEDURE DIVISION.
+01   IF VAL1 IS LESS THAN 9
+02     PERFORM PARA-1
+03   END-IF
+04   ADD 1 TO VAL1.
+05   STOP RUN.
+06
+07 PARA-1.
+07   MUTLIPLY 2 BY VAL1.
+08   STOP RUN.
+
+==Transforms to==>
+  
+00 PROCEDURE DIVISION.
+01   IF VAL1 IS LESS THAN 9
+07     MUTLIPLY 2 BY VAL1
+08     STOP RUN
+03   END-IF
+04   ADD 1 TO VAL1.
+05   STOP RUN.
+06
+07 PARA-1.
+07   MUTLIPLY 2 BY VAL1.
+08   STOP RUN.
+
+==Transforms to==>
+
+00 PROCEDURE DIVISION.
+01   cond_1 = VAL1 IS LESS THAN 9
+02   IF VAL1 IS LESS THAN 9
+03     MUTLIPLY 2 BY VAL1
+04   END-IF
+05   IF NOT(cond_1)
+06     ADD 1 TO VAL1.
+07   END-IF
+08   STOP RUN.
+09
+10 PARA-1.
+11   MUTLIPLY 2 BY VAL1.
+12   STOP RUN.
+
+```
