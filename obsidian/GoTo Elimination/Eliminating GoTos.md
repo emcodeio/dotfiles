@@ -76,7 +76,7 @@ The following code snippets show examples of goto statements and labels that are
 09
 10  PARA-2.
 11    ADD 3 TO VAL1.
-12	  GO TO PARA-1.
+12    GO TO PARA-1.
 ```
 
 (`12 GO TO PARA-1` and `07 PARA-1` are siblings)
@@ -229,8 +229,8 @@ Just as in the `IF ... Else ...` statement, we identify the guard expression gua
 09                                     05   GO TO PARA-1.
 10 PARA-1.                             06   COMPUTE VAL1 = VAL1 + 1. 
 11   MULTIPLY 2 BY VAL1.               07 
-	                                   10 PARA-1.
-	                                   11   MULTIPLY 2 BY VAL1.
+                                       10 PARA-1.
+                                       11   MULTIPLY 2 BY VAL1.
 ```
 
 #### Goto Elimination Transformations
@@ -303,7 +303,7 @@ This procedure of forward goto elimination is the same for any amount of outward
 11                                     11       ADD VAL1 TO VAL1
 12  PARA-1.                            12     END-IF
 13    MULTIPLY 2 BY VAL1.              13     COMPUTE VAL1 = VAL1 + 1
-	                                   14   END-IF.
+                                       14   END-IF.
                                        15 
                                        16 PARA-1.
                                        17   MULTIPLY 2 BY VAL1.
@@ -320,9 +320,9 @@ Furthermore, forward goto elimination must be done recursively, using a combinat
 03     IF VAL1 IS EQUAL TO 0           03     cond_1 = VAL1 IS EQUAL TO 0
 04       MOVE 9 TO VAL1                04     IF VAL1 IS EQUAL TO 0 
 05       GO TO PARA-1                  05       MOVE 9 TO VAL1
-06	   ELSE                            06     ELSE
-07	     MOVE 200 TO VAL1              07       MOVE 200 TO VAL1
-08	   END-IF                    ==>   08     END-IF
+06     ELSE                            06     ELSE
+07       MOVE 200 TO VAL1              07       MOVE 200 TO VAL1
+08     END-IF                    ==>   08     END-IF
 09     DISPLAY 'Hello, reader'         09     IF NOT(cond_1)
 10   END-IF.                           10       DISPLAY 'Hello, reader'
 11   IF VAL1 IS GREATER THAN 8         11     END-IF
@@ -332,8 +332,8 @@ Furthermore, forward goto elimination must be done recursively, using a combinat
 14  PARA-1.                            15     ADD VAL1 TO VAL1.
 15   MULTIPLY 2 BY VAL1.               16   COMPUTE VAL1 = VAL1 + 1.
                                        17   
-	                                   18 PARA-1
-	                                   19   MULTIPLY 2 BY VAL1. 
+                                       18 PARA-1
+                                       19   MULTIPLY 2 BY VAL1. 
 ```
 
 We can see in this example that the goto on line `05` on the left is nested inside the true branch of the `IF` statement on line `03`, which is nested inside the true branch of the `IF` statement on line `01`. We can also see that there is a statement at line `09` that ends the true branch of the line `01` statement after the nested conditional statement online `03`. We can see on the right that this statement `DISPLAY 'Hello, reader'` gets nested inside the true branch of the condition guarded by the negation of `cond_1`, which can be seen on line `09` on the right. The goto is now the last statement in the true block of the outer `IF` statement. 
