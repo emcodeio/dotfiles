@@ -1,7 +1,8 @@
 {
   "baseFontSize": 16,
-  "cssTheme": "",
+  "cssTheme": "Obsidianite",
   "enabledCssSnippets": [
     "dank_mono_font"
-  ]
+  ],
+  "theme": "obsidian"
 }

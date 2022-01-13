@@ -12,7 +12,20 @@
             "file": "GoTo Elimination/Eliminating GoTos.md",
             "mode": "source"
           }
-        }
+        },
+        "group": "c4236ca0fea7ec40"
+      },
+      {
+        "id": "7c156a0c8ad335a9",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "GoTo Elimination/Eliminating GoTos.md",
+            "mode": "preview"
+          }
+        },
+        "group": "c4236ca0fea7ec40"
       }
     ],
     "direction": "vertical"
@@ -52,8 +65,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "fdc65e2c0c2035fb",
@@ -90,6 +102,9 @@
   "active": "c20163f95fcd4566",
   "lastOpenFiles": [
     "GoTo Elimination/Eliminating GoTos.md",
-    "Untitled.md"
+    "GoTo Elimination/goto.pdf",
+    "Untitled.md",
+    "GoTo Elimination/Eliminating GoTos.pdf",
+    "Untitled 1.md"
   ]
 }

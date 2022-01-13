@@ -1,5 +1,23 @@
-# Eliminating Goto Statements from COBOL
+---
+title: Eliminating Goto Statements from COBOL
+date: \today{}
+geometry: margin=1in
+numbersections: true
+header-includes:
+- \usepackage{graphicx}
+- \usepackage{fancyhdr}
+- \fancyhf{}
+- \pagestyle{fancy}
+- \newcommand{\changefont}{\fontsize{8}{10}\selectfont}
+- \rhead{\includegraphics[height=.35cm]{/Users/eerickson/dev/writing/templates/official/rheader.png}}
+- \lhead{\includegraphics[height=.35cm]{/Users/eerickson/dev/writing/templates/official/lheader.png}}
+- \rfoot{\thepage}
+- \lfoot{\changefont Copyright \the\year\ Phase Change Software LLC Company Confidential}
+- \linespread{1.2}
 
+---
+
+# Eliminating Goto Statements from COBOL
 ## Summary of *Taming Control Flow*
 
 *Taming Control Flow: A Structured Approach to Eliminating Goto Statements* formalizes a procedure to eliminate all goto statements from a program. This is done by making the source conform to specific standards of structured programming. There are two categories of transformations that must be done to eliminate all goto statements from a program. These categories include:
@@ -9,7 +27,7 @@
 
 Only a subset of the transformations described in each category is relevant for eliminating gotos from COBOL programs. We will discuss the reasons for this shortly, but first we will give some important definitions (with examples) that will be used to define the transformations. 
 
-### Definitions
+## Definitions
 
 **Definition 0**: The *label* of a goto is a unique identifier used to specify the target of a goto statement. According to the semantics of COBOL, this label must be a paragraph or section name.
 
@@ -24,11 +42,80 @@ Only a subset of the transformations described in each category is relevant for 
 
 In the above COBOL code, the goto statement on line `02` has the target labeled `PARA-1` located on line `04`. This means when the goto statement executes, control will pass to the beginning of `PARA-1` and start executing the statement at line `05`.
 
-**Definition 1**: The *level* of a goto or label is $m$ if the goto or label is nested inside exactly $m$ `loop`, `switch`, or `if/else` statements.
+**Definition 1** A *non-naked* goto is a goto that is nested inside the true branch of a conditional and it is the only statement inside that conditional. A non-naked goto refers to both the conditional statement in which the goto is nested and the goto statement itself. For example, the following shows a non-naked goto:
 
-In the above COBOL snippet, the goto statement on line `02` has level = 1 because it is nested inside one `IF` statement. The label `PARA-1` has level = 0. Labels in COBOL (i.e. paragraph or section names) will *always* have level = 0 because they cannot be directly nested inside other statements.
+```cobol
+00 PROCEDURE DIVISION.
+01   IF VAL1 IS LESS THAN 9
+02     GO TO PARA-1.
+03
+04 PARA-1.
+05   MULTIPLY 2 BY VAL1.
+```
 
-**Definition 2**: A goto and label are *siblings* if there exists some statement sequence, `stmt_1; ... ; stmt_n`, such that the label statement corresponds to some `stmt_i` and the goto statement corresponds to some `stmt_j` in the statement sequence. For COBOL it is equivalent to say a goto statement $g$ and label $l$ are *siblings* if and only if 
+Again, we consider `IF VAL1 IS LESS THAN 9 GO TO PARA-1.` to be the non-naked goto. The following are not *non-naked* gotos (a *naked* goto):
+
+```cobol
+00 PROCEDURE DIVISION.
+01   GO TO PARA-1.
+02
+03 PARA-1.
+04   MULTIPLY 2 BY VAL1.
+```
+
+and
+
+```cobol
+00 PROCEDURE DIVISION.
+01   IF VAL1 IS LESS THAN 9
+02     ADD 1 TO VAL1
+03     GO TO PARA-1.
+04
+05 PARA-1.
+06   MULTIPLY 2 BY VAL1.
+```
+
+and
+
+```cobol
+00 PROCEDURE DIVISION.
+01   IF VAL1 IS LESS THAN 9
+02     GO TO PARA-1
+03     ADD 1 TO VAL1.
+04
+05 PARA-1.
+06   MULTIPLY 2 BY VAL1.
+```
+
+**Note:** *Because we treat the conditional in which a goto is nested and the goto statement itself as a single unit, when we refer to a* goto *in the following definitions, we are referring to a* non-naked *goto unless otherwise specified*
+
+**Definition 2**: The *level* of a non-naked goto or label is $m$ if the goto or label is nested inside exactly $m$ `loop`, `switch`, or `if/else` statements.
+
+```cobol
+00 PROCEDURE DIVISION.
+01   IF VAL1 IS LESS THAN 9 GO TO PARA-1.
+02
+03 PARA-1.
+04   MULTIPLY 2 BY VAL1.
+```
+
+In the above COBOL snippet, the non-naked goto statement starting on line `01` has level = 0. In the following example, the goto has level = 1 because it is nested inside the `IF` statement on line `01`.
+
+```cobol
+00 PROCEDURE DIVISION.
+01   IF VAL1 IS LESS THAN 100
+02     IF VAL1 IS LESS THAN 9
+03       GO TO PARA-1
+04     END-IF
+05   END-IF.
+06
+07 PARA-1.
+08   MULTIPLY 2 BY VAL1.
+```
+
+The label `PARA-1` has level = 0. Labels in COBOL (i.e. paragraph or section names) will *always* have level = 0 because they cannot be directly nested inside other statements.
+
+**Definition 3**: A goto and label are *siblings* if there exists some statement sequence, `stmt_1; ... ; stmt_n`, such that the label statement corresponds to some `stmt_i` and the goto statement corresponds to some `stmt_j` in the statement sequence. For COBOL it is equivalent to say a goto statement $g$ and label $l$ are *siblings* if and only if 
 $$level(g) = level(l) = 0$$
 
 The following code snippets show examples of goto statements and labels that are siblings.
@@ -38,21 +125,21 @@ The following code snippets show examples of goto statements and labels that are
 01  ADD 1 TO VAL1. 
 02  IF VAL1 IS EQUAL TO 9
 03    DIVIDE VAL1 BY 3 GIVING VAL1.
-04  GO TO PARA-1.  
+04  IF VAL1 IS GREATER THAN 99 GO TO PARA-1.  
 05  SUBTRACT 3 FROM VAL1.  
 06
 07  PARA-1.
 08    MULTIPLY 2 BY VAL1.
 ```
 
-(`04 GO TO PARA-1` and `07 PARA-1` are siblings)
+(`04 IF VAL1 IS GREATER THAN 99 GO TO PARA-1.` and `07 PARA-1` are siblings)
 
 ```cobol
 00 PROCEDURE DIVISION.
 01  ADD 1 TO VAL1. 
 02  IF VAL1 IS EQUAL TO 9
 03    DIVIDE VAL1 BY 3 GIVING VAL1.
-04  GO TO PARA-2.  
+04  IF VAL1 IS GREATER THAN 99 G0 TO PARA-2.  
 05  SUBTRACT 3 FROM VAL1.  
 06
 07  PARA-1.
@@ -62,7 +149,7 @@ The following code snippets show examples of goto statements and labels that are
 11    ADD 3 TO VAL1.
 ```
 
-(`04 GO TO PARA-2` and `10 PARA-2` are siblings)
+(`04 IF VAL1 IS GREATER THAN 99 G0 TO PARA-2.` and `10 PARA-2` are siblings)
 
 ```cobol
 00 PROCEDURE DIVISION.
@@ -76,25 +163,39 @@ The following code snippets show examples of goto statements and labels that are
 09
 10  PARA-2.
 11    ADD 3 TO VAL1.
-12    GO TO PARA-1.
+12    IF VAL IS LESS THAN 10 GO TO PARA-1.
 ```
 
-(`12 GO TO PARA-1` and `07 PARA-1` are siblings)
+(`12 IF VAL IS LESS THAN 10 GO TO PARA-1.` and `07 PARA-1` are siblings)
 
 The following code snippets show examples of goto statements and labels that are *not* siblings.
 
 ```cobol
 00 PROCEDURE DIVISION.
+01   IF VAL1 IS LESS THAN 100
+02     IF VAL1 IS LESS THAN 9
+03       GO TO PARA-1
+04     END-IF
+05   END-IF.
+06
+07 PARA-1.
+08   MULTIPLY 2 BY VAL1.
+```
+
+(The non-naked goto starting on line `02` is *not* a sibling of `07 PARA-1.` because it has level = 1 as a result of being nested inside `01 IF VAL1 IS LESS THAN 100`).
+
+```cobol
+00 PROCEDURE DIVISION.
 01  ADD 1 TO VAL1. 
 02  IF VAL1 IS EQUAL TO 9
-03    GO TO PARA-1.
-04  SUBTRACT 3 FROM VAL1.  
+03    SUBTRACT 3 FROM VAL1
+04    GO TO PARA-1.
 05
 06  PARA-1.
 07    MULTIPLY 2 BY VAL1.
 ```
 
-(`03 GO TO PARA-1` and `06 PARA-1` are *not* siblings because `03 GO TO PARA-1` has level = 1 as a result of being nested inside `02 IF VAL1 IS EQUAL TO 9`)
+(`04 GO TO PARA-1` and `06 PARA-1` are *not* siblings because `04 GO TO PARA-1` is naked and has level = 1 as a result of being nested inside `02 IF VAL1 IS EQUAL TO 9` with statement `03 SUBTRACT 3 FROM VAL1`)
 
 ```cobol
 00 PROCEDURE DIVISION.
@@ -107,12 +208,12 @@ The following code snippets show examples of goto statements and labels that are
 08    MULTIPLY 2 BY VAL1.
 09
 10  PARA-2.
-11    ADD 3 TO VAL1.
 12    IF VAL1 IS LESS THAN 99
-13      GO TO PARA-1.
+13      GO TO PARA-1
+11      ADD 3 TO VAL1.
 ```
 
-(`13 GO TO PARA-1` and `07 PARA-1` are *not* siblings because `13 GO TO PARA-1` has level = 1 as a result of being nested inside `12 IF VAL1 IS LESS THAN 9`)
+(`13 GO TO PARA-1` and `07 PARA-1` are *not* siblings because `13 GO TO PARA-1` is naked and has level = 1 as a result of being nested inside `12 IF VAL1 IS LESS THAN 9` along with statement `11 ADD 3 TO VAL1`.
 
 **Definition 3**: A label statement and a goto statement are *directly-related* if there exists some statement sequence, `stmt_1; ... ; stmt_n`, such that either the label or goto statements corresponds to some `stmt_i` and the matching goto or label statement is nested inside some `stmt_j` in the statement sequence.
 
@@ -128,6 +229,62 @@ If they are *siblings* then $$level(goto) = level(label) = 0$$
 Otherwise they will be *directly-related* with $$level(label) = 0 \textrm{ and } level(goto)>0$$ 
 
 Due to these restrictions to how COBOL handles goto statements and labels, only a subset of the transformations found in *TCF* are necessary. A discussion of the COBOL relevant transformations follows.
+
+### Naked Goto Statements
+As discussed above, a goto statement can be *naked* or *non-naked*. A non-naked goto is one in which it is nested inside the true branch of a conditional statement and that goto is the only statement nested inside that conditional. A naked goto is not a non-naked goto. That is, it is a goto that is not  nested inside a conditional or it is not the only statement nested inside the conditional in which it is nested. If a goto is non-naked, then we consider the goto and its nesting conditional as a single unit. 
+
+Because all the examples and transformations discussed in *TCF* assume the gotos are non-naked, we will quickly review a procedure to transform  any naked goto into a non-naked version. The transformation is simple:
+- For every naked goto found in a program, transform it into a non-naked goto by nesting it inside the true branch of a conditional statement in the form of `IF TRUE ... END-IF.`
+
+A trivial example is one in which there is a single goto and label:
+
+<table>
+<tr>
+<th>Original</th>
+<th>Transformed</th>
+</tr>
+<tr>
+<td>
+<pre>
+<span style="color:white">
+00 PROCEDURE DIVISION
+01   GO TO PARA-1
+02                                   
+03 PARA-1.
+04   ADD 1 TO VAL1.
+</span>
+</pre>
+</td>
+<td>
+<pre>
+<span style="color:white">
+00 PROCEDURE DIVISION
+01   IF TRUE
+01     GO TO PARA-1.
+02                                   
+03 PARA-1.
+04   ADD 1 TO VAL1.
+</span>
+</td>
+</tr>
+</table>
+
+```cobol
+00 PROCEDURE DIVISION.
+01   GO TO PARA-1
+02
+03 PARA-1.
+04   ADD 1 TO VAL1.
+
+==Transformed to non-naked goto==>
+
+00 PROCEDURE DIVISION.
+01   IF TRUE
+02     GO TO PARA-1.
+03
+04 PARA-1.
+05   ADD 1 TO VAL1.
+```
 
 ### Transformations
 There are two categories of transformations outlined in *TCF*, those that **eliminate the goto statement** and those that **move the goto statement** by unnesting it from other statements in preparation for elimination. We will begin our discussion with the latter.
@@ -521,7 +678,7 @@ Again, note that `cond_1` is negated in our created disjunction guard in the sta
 We have now completed the basic application of the *TCF* paper to COBOL. What follows is a discussion of specific issues that must be considered when applying *TCF* to our work at Phase Change. This includes specific design and implementation options and choices that must be made to easily transform the COBOL source code into a FOM representation. 
 
 ### Backward Goto Elimination Transformation Using Regular Loops and Statement Duplication.
-In the discussion of eliminating backward gotos, we used COBOL do-while construct, the `PERFORM ... UNITL ... WITH TEST AFTER`. While the semantics are slightly different from a usual do-while, the `PERFORM ... UNTIL .. WITH TEST AFTER` has the key feature of testing the guard expression after iterating through the loop body at least once. Unfortunately, FOM does not have a do-while statement. Thus, to best prepare the original COBOL program for FOM translation, we can use a regular `PERFORM ... UNTIL ...` loop and strategically duplicate statements from the created loop body. Consider our example from above:
+In the discussion of eliminating backward gotos, we used COBOL do-while construct, the `PERFORM ... UNTIL ... WITH TEST AFTER`. While the semantics are slightly different from a usual do-while, the `PERFORM ... UNTIL .. WITH TEST AFTER` has the key feature of testing the guard expression after iterating through the loop body at least once. Unfortunately, FOM does not have a do-while statement. Thus, to best prepare the original COBOL program for FOM translation, we can use a regular `PERFORM ... UNTIL ...` loop and strategically duplicate statements from the created loop body. Consider our example from above:
 
 ```cobol
 00 PROCEDURE DIVISION.
