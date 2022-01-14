@@ -132,7 +132,7 @@ The following code snippets show examples of goto statements and labels that are
 08    MULTIPLY 2 BY VAL1.
 ```
 
-(`04 IF VAL1 IS GREATER THAN 99 GO TO PARA-1.` and `07 PARA-1` are siblings)
+`04 IF VAL1 IS GREATER THAN 99 GO TO PARA-1.` and `07 PARA-1` are siblings.
 
 ```cobol
 00 PROCEDURE DIVISION.
@@ -149,7 +149,7 @@ The following code snippets show examples of goto statements and labels that are
 11    ADD 3 TO VAL1.
 ```
 
-(`04 IF VAL1 IS GREATER THAN 99 G0 TO PARA-2.` and `10 PARA-2` are siblings)
+`04 IF VAL1 IS GREATER THAN 99 G0 TO PARA-2.` and `10 PARA-2` are siblings.
 
 ```cobol
 00 PROCEDURE DIVISION.
@@ -166,7 +166,7 @@ The following code snippets show examples of goto statements and labels that are
 12    IF VAL IS LESS THAN 10 GO TO PARA-1.
 ```
 
-(`12 IF VAL IS LESS THAN 10 GO TO PARA-1.` and `07 PARA-1` are siblings)
+`12 IF VAL IS LESS THAN 10 GO TO PARA-1.` and `07 PARA-1` are siblings.
 
 The following code snippets show examples of goto statements and labels that are *not* siblings.
 
@@ -182,7 +182,7 @@ The following code snippets show examples of goto statements and labels that are
 08   MULTIPLY 2 BY VAL1.
 ```
 
-(The non-naked goto starting on line `02` is *not* a sibling of `07 PARA-1.` because it has level = 1 as a result of being nested inside `01 IF VAL1 IS LESS THAN 100`).
+The non-naked goto starting on line `02` is *not* a sibling of `07 PARA-1.` because it has level = 1 as a result of being nested inside `01 IF VAL1 IS LESS THAN 100`.
 
 ```cobol
 00 PROCEDURE DIVISION.
@@ -195,7 +195,7 @@ The following code snippets show examples of goto statements and labels that are
 07    MULTIPLY 2 BY VAL1.
 ```
 
-(`04 GO TO PARA-1` and `06 PARA-1` are *not* siblings because `04 GO TO PARA-1` is naked and has level = 1 as a result of being nested inside `02 IF VAL1 IS EQUAL TO 9` with statement `03 SUBTRACT 3 FROM VAL1`)
+`04 GO TO PARA-1` and `06 PARA-1` are *not* siblings because `04 GO TO PARA-1` is naked and has level = 1 as a result of being nested inside `02 IF VAL1 IS EQUAL TO 9` with statement `03 SUBTRACT 3 FROM VAL1`.
 
 ```cobol
 00 PROCEDURE DIVISION.
@@ -213,7 +213,7 @@ The following code snippets show examples of goto statements and labels that are
 11      ADD 3 TO VAL1.
 ```
 
-(`13 GO TO PARA-1` and `07 PARA-1` are *not* siblings because `13 GO TO PARA-1` is naked and has level = 1 as a result of being nested inside `12 IF VAL1 IS LESS THAN 9` along with statement `11 ADD 3 TO VAL1`.
+`13 GO TO PARA-1` and `07 PARA-1` are *not* siblings because `13 GO TO PARA-1` is naked and has level = 1 as a result of being nested inside `12 IF VAL1 IS LESS THAN 9` along with statement `11 ADD 3 TO VAL1`.
 
 **Definition 3**: A label statement and a goto statement are *directly-related* if there exists some statement sequence, `stmt_1; ... ; stmt_n`, such that either the label or goto statements corresponds to some `stmt_i` and the matching goto or label statement is nested inside some `stmt_j` in the statement sequence.
 
@@ -286,7 +286,83 @@ A trivial example is one in which there is a single goto and label:
 05   ADD 1 TO VAL1.
 ```
 
-### Transformations
+The following examples shows how the transformation works when the goto is already nested inside a conditional statement but other statements are also nested inside:
+
+```cobol
+00 PROCEDURE DIVISION.
+01   IF VAL1 IS LESS THAN 42
+02     ADD 2 TO VAL1
+03     GO TO PARA-1.
+04
+05 PARA-1.
+06   ADD 1 TO VAL1.
+
+==Transformed to non-naked goto==>
+
+00 PROCEDURE DIVISION.
+01   IF VAL1 IS LESS THAN 42
+02     ADD 2 TO VAL1
+03     IF TRUE GO TO PARA-1 END-IF
+04   END-IF.
+04
+05 PARA-1.
+06   ADD 1 TO VAL1.
+```
+
+and
+
+```cobol
+00 PROCEDURE DIVISION.
+01   IF VAL1 IS LESS THAN 42
+02     GO TO PARA-1
+03     ADD 2 TO VAL1.
+04
+05 PARA-1.
+06   ADD 1 TO VAL1.
+
+==Transformed to non-naked goto==>
+
+00 PROCEDURE DIVISION.
+01   IF VAL1 IS LESS THAN 42
+02     IF TRUE GO TO PARA-1 END-IF
+03     ADD 2 TO VAL1
+04   END-IF.
+05
+06 PARA-1.
+07   ADD 1 TO VAL1.
+
+```
+
+and 
+
+```cobol
+00 PROCEDURE DIVISION.
+01   IF VAL1 IS LESS THAN 42
+02     GO TO PARA-1
+03   ELSE
+04     ADD 2 TO VAL1
+05   END-IF.
+06
+07 PARA-1.
+08   ADD 1 TO VAL1.
+
+==Transformed to non-naked goto==>
+
+00 PROCEDURE DIVISION.
+01   IF VAL1 IS LESS THAN 42
+02     IF TRUE GO TO PARA-1 END-IF
+03   ELSE
+04     ADD 2 TO VAL1
+05   END-IF.
+06
+07 PARA-1.
+08   ADD 1 TO VAL1.
+
+```
+
+The naked goto transformation will be referenced below when discussing the transformations defined in *TCF*.
+
+### *TCF* Transformations
 There are two categories of transformations outlined in *TCF*, those that **eliminate the goto statement** and those that **move the goto statement** by unnesting it from other statements in preparation for elimination. We will begin our discussion with the latter.
 
 #### Moving Goto Statements by Unnesting
@@ -312,43 +388,102 @@ There are two basic statements from which gotos can be unnested and moved out to
 
 ##### Moving Goto Outside an IF Statement
 
-The same basic approach is used if the GOTO is nested inside an `IF ... ELSE ...` statement or `PERFORM ... UNTIL ...` statement:
-- identify the guard expression in the statement in which goto statement is nested,
+The same basic approach is used if the goto is nested inside an `IF ... ELSE ...` statement or `PERFORM ... UNTIL ...` statement:
+- identify the guard expression inside the non-naked goto or the conditional in which the non-naked goto is nested inside,
 - assign a boolean variable the value of that guard expression,
 - place this assignment statement right before the nesting statement, and
-- move the goto statement down one level by pulling it out of the statement it's nested in.
+- move the goto down one level by pulling it out of the statement it's nested in.
 
 A simple example follows.
 
 ```cobol
-00 PROCEDURE DIVISION.                00 PROCEDURE DIVISION.
-01   IF VAL1 IS LESS THAN 9           01   cond_1 = VAL1 IS LESS THAN 9.
-02     GO TO PARA-1.                  02   IF VAL1 IS LESS THAN 9
-03   COMPUTE VAL1 = VAL1 + 1.   ==>   03     GO TO PARA-1.
-04                                    04   COMPUTE VAL1 = VAL1 + 1.
-05 PARA-1.                            05
-06   MULTIPLY 2 BY VAL1.              06 PARA-1.
-                                      07   MULTIPLY 2 BY VAL1.             
+00 PROCEDURE DIVISION.
+01   IF VAL1 IS LESS THAN 100
+02     IF VAL1 IS LESS THAN 9
+03       GO TO PARA-1
+04     END-IF
+05   END-IF 
+06   COMPUTE VAL1 = VAL1 + 1.
+07
+08 PARA-1.                            
+09   MULTIPLY 2 BY VAL1.              
+                                                  
+==First create cond_1 on line 02 from the non-naked goto guard expression==> 
+
+00 PROCEDURE DIVISION.
+01   IF VAL1 IS LESS THAN 100
+02     cond_1 = VAL1 IS LESS THAN 9 
+03     IF cond_1 GO TO PARA-1 END-IF
+04   END-IF.
+05   COMPUTE VAL1 = VAL1 + 1.
+06                                   
+07 PARA-1.                            
+08   MULTIPLY 2 BY VAL1.              
+ 
 ```
 
-We can see that the `IF` statement on line `01` guards the goto statement on line `02`. The guard expression inside this statement is `VAL1 IS LESS THAN 9`. So we first create a boolean variable at line `01` on the right.
+We can see the non-naked goto starts on top line `02` and contains the guard expression `VAL1 IS LESS THAN 9`. So we first create a boolean variable `cond_1` at bottom line `02` and assign this expression.
 
-*Note that the introduction of this `cond_1` value is not valid COBOL. Here we used a simplified notation, but COBOL does not include boolean valued variables. Level 88 variables are often used to serve this function and the actual implementation of the outward-movement transformation will have to do something similar.* See the discussion below in **COBOL Does Not Have Boolean Valued Variables**
+**Note:** *The introduction of this `cond_1` value is not valid COBOL. Here we used a simplified notation, but COBOL does not include boolean valued variables. Level 88 variables are often used to serve this function and the actual implementation of the outward-movement transformation will have to do something similar.* See the discussion below in **COBOL Does Not Have Boolean Valued Variables**
 
-Once the value of the guard expression in the conditional in which the goto is nested is captured, we can move the goto statement outside the conditional:
+We can now move the non-naked goto outside the outer conditional by creating a similar boolean valued variable, assigning it the outer conditional's guard expression, conjuncting this boolean valued variable to the non-naked goto's guard expression, and moving the goto out one level:
 
 ```cobol
-00 PROCEDURE DIVISION.                    00 PROCEDURE DIVISION.
-01   cond_1 = VAL1 IS LESS THAN 9.        01   cond_1 = VAL1 IS LESS THAN 9.
-02   IF VAL1 IS LESS THAN 9               02   IF VAL1 IS LESS THAN 9.      
-03     GO TO PARA-1.                ==>   03   GO TO PARA-1.
-04   COMPUTE VAL1 = VAL1 + 1.             04   COMPUTE VAL1 = VAL1 + 1.
-05                                        05
-06 PARA-1.                                06 PARA-1.
-07   MULTIPLY 2 BY VAL1.                  07   MULTIPLY 2 BY VAL1.
+00 PROCEDURE DIVISION.
+01   IF VAL1 IS LESS THAN 100
+02     cond_1 = VAL1 IS LESS THAN 9 
+03     IF cond_1 GO TO PARA-1 END-IF
+04   END-IF.
+05   COMPUTE VAL1 = VAL1 + 1.
+06                                   
+07 PARA-1.                            
+08   MULTIPLY 2 BY VAL1.              
+                                                  
+==Now create cond_2 on line 01 and move out the goto==> 
+
+00 PROCEDURE DIVISION.                
+01   cond_2 = VAL1 IS LESS THAN 100 
+02   IF VAL1 IS LESS THAN 100
+03     cond_1 = VAL1 IS LESS THAN 9 
+04   END-IF
+05   IF cond_1 AND cond_2 GO TO PARA-1.
+06   COMPUTE VAL1 = VAL1 + 1.
+07                                   
+08 PARA-1.                            
+09   MULTIPLY 2 BY VAL1.              
+ 
 ```
 
-This concludes the steps involved in the outward-movement transformation of the goto included in this example. How we use the variable `cond_1` that we introduced or what we do with the statement on line `04` after the goto but before the label will be discussed when explaining the goto elimination transformations. Until then, let's look at another example that uses a  `PERFORM ... UNTIL ...` to nest a goto.
+Here we can see the original program on top with the equivalent version after completing the transformation on bottom:
+
+```cobol
+00 PROCEDURE DIVISION.
+01   IF VAL1 IS LESS THAN 100
+02     IF VAL1 IS LESS THAN 9
+03       GO TO PARA-1
+04     END-IF
+05   END-IF 
+06   COMPUTE VAL1 = VAL1 + 1.
+07
+08 PARA-1.                            
+09   MULTIPLY 2 BY VAL1.              
+                                                  
+==Fully transforms to==> 
+
+00 PROCEDURE DIVISION.                
+01   cond_2 = VAL1 IS LESS THAN 100 
+02   IF VAL1 IS LESS THAN 100
+03     cond_1 = VAL1 IS LESS THAN 9 
+04   END-IF
+05   IF cond_1 AND cond_2 GO TO PARA-1.
+06   COMPUTE VAL1 = VAL1 + 1.
+07                                   
+08 PARA-1.                            
+09   MULTIPLY 2 BY VAL1.              
+ 
+```
+
+This concludes the steps involved in the outward-movement transformation of the goto included in this example. How we use the variable `cond_1` and `cond_2` that we introduced or what we do with the statement on below line `06` after the goto but before the label will be discussed when explaining the goto elimination transformations. Until then, let's look at another example that uses a  `PERFORM ... UNTIL ...` to nest a goto.
 
 ##### Moving Goto Outside a PERFORM Statement
 
@@ -362,20 +497,56 @@ Consider the following example.
 04
 05 PARA-1.
 05   MULTIPLY 2 BY VAL1.                    
-  
+```
+
+Notice the goto on line `02` is naked. So lets first correct that:
+
+```cobol
+00 PROCEDURE DIVISION.
+01   PERFORM UNTIL VAL1 IS GREATER THAN 10
+02     GO TO PARA-1.
+03   COMPUTE VAL1 = VAL1 + 1.
+04
+05 PARA-1.
+05   MULTIPLY 2 BY VAL1.                    
+
+==Make naked goto non-naked==>
+
+00 PROCEDURE DIVISION.
+01   PERFORM UNTIL VAL1 IS GREATER THAN 10
+02     IF TRUE GO TO PARA-1 END-IF.
+03   COMPUTE VAL1 = VAL1 + 1.
+04
+05 PARA-1.
+05   MULTIPLY 2 BY VAL1.                    
+```
+
+Now apply the outward movement transformation to get:
+
+```cobol
+00 PROCEDURE DIVISION.
+01   PERFORM UNTIL VAL1 IS GREATER THAN 10
+02     IF TRUE GO TO PARA-1 END-IF.
+03   COMPUTE VAL1 = VAL1 + 1.
+04
+05 PARA-1.
+05   MULTIPLY 2 BY VAL1.                     
+
 ==Transforms to==>
   
 00 PROCEDURE DIVISION.
-01   cond_1 = VAL1 IS GREATER THAN 10.
-02   PERFORM UNTIL VAL1 IS GREATER THAN 10.
-03   GO TO PARA-1.
-04   COMPUTE VAL1 = VAL1 + 1.
-05
-06 PARA-1.
-07   MULTIPLY 2 BY VAL1.                      
+01   cond_2 = VAL1 IS GREATER THAN 10
+02   PERFORM UNTIL VAL1 IS GREATER THAN 10
+03     cond_1 = TRUE
+04   END-PERFORM.
+05   IF cond_1 AND NOT(cond_2) GO TO PARA-1 END-IF.
+06   COMPUTE VAL1 = VAL1 + 1.
+07
+08 PARA-1.
+09   MULTIPLY 2 BY VAL1.
 ```
 
-Just as in the `IF ... Else ...` statement, we identify the guard expression guarding the goto statement, assign to a boolean variable the value of that guard expression,  and move the goto outside the statement in which it was originally nested.
+Just as in the `IF ... Else ...` statement, we identify the guard expression guarding the goto statement, assign to a boolean variable the value of that guard expression, and move the goto outside the statement in which it was originally nested.
 
 #### Outward-movement Transformations for Multiple Levels of Nesting
 
