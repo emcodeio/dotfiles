@@ -179,10 +179,14 @@ alias c96="~/.dotfiles/scripts/convert_to_96_aac.sh . ~/Music/encoded"
 ## Shortcuts
 alias dev="cd ~/dev"
 alias dotfiles="cd ~/.dotfiles"
-alias rep="cd ~/dev/Representation"
-alias repwork="cd ~/dev/Representation/workspace"
-alias icgen="cd ~/dev/icGenerator"
-alias icgenviz="cd /Users/eerickson/dev/icGenerator/src/main/resources/tmp"
+alias rep="cd ~/dev/PhaseChangeProjects/Representation"
+alias repwork="cd ~/dev/PhaseChangeProjects/Representation/workspace"
+alias icgen="cd ~/dev/PhaseChangeProjects/icGenerator"
+alias icgenviz="cd /Users/eerickson/dev/PhaseChangeProjects/icGenerator/src/main/resources/tmp"
+alias gotosync="cp -a ~/.dotfiles/obsidian/GoTo\ Elimination/. ~/dev/fom/GraphNormaliztion/Goto\ Elimination\ Docs"
+alias pullrep="rep && ~/.dotfiles/scripts/mvOutVizCode.sh && git restore src/* && git pull && ~/.dotfiles/scripts/mvInVizCode.sh"
+alias moveoutrep="~/.dotfiles/scripts/mvOutVizCode.sh"
+alias moveinrep="~/.dotfiles/scripts/mvInVizCode.sh"
 
 ## Homebrew
 # alias brew="/opt/homebrew/bin/brew"

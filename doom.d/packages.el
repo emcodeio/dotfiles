@@ -61,3 +61,4 @@
 (package! cmake-ide)
 (package! browse-kill-ring)
 (package! intero)
+(package! mmm-mode)

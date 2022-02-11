@@ -4,28 +4,15 @@
     "type": "split",
     "children": [
       {
-        "id": "c20163f95fcd4566",
+        "id": "8be4dd55f239da3d",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "GoTo Elimination/Eliminating GoTos.md",
+            "file": "DOB Impact/Impact of DOB Removal.md",
             "mode": "source"
           }
-        },
-        "group": "c4236ca0fea7ec40"
-      },
-      {
-        "id": "7c156a0c8ad335a9",
-        "type": "leaf",
-        "state": {
-          "type": "markdown",
-          "state": {
-            "file": "GoTo Elimination/Eliminating GoTos.md",
-            "mode": "preview"
-          }
-        },
-        "group": "c4236ca0fea7ec40"
+        }
       }
     ],
     "direction": "vertical"
@@ -81,7 +68,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "GoTo Elimination/Eliminating GoTos.md",
+                "file": "DOB Impact/Impact of DOB Removal.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -99,12 +86,17 @@
     "width": 300,
     "collapsed": true
   },
-  "active": "c20163f95fcd4566",
+  "active": "8be4dd55f239da3d",
   "lastOpenFiles": [
+    "DOB Impact/Impact of DOB Removal.md",
     "GoTo Elimination/Eliminating GoTos.md",
-    "GoTo Elimination/goto.pdf",
-    "Untitled.md",
+    "GoTo Elimination/Decomposing GoTo Work.md",
     "GoTo Elimination/Eliminating GoTos.pdf",
-    "Untitled 1.md"
+    "GoTo Elimination/Rather than FOM break....md",
+    "GoTo Elimination/Rather than duplicating code... FOM has no do-while.md",
+    "GoTo Elimination/No Elimination Discussion.md",
+    "Abstract Model.md",
+    "GoTo Elimination/Rather than FOM break....pdf",
+    "GoTo Elimination/goto.pdf"
   ]
 }
