@@ -187,3 +187,9 @@ they are implemented.
 
 (setq projectile-project-search-path '("~/dev/"))
 #+END_SRC
+
+* LANGUAGE spacific SPACIFIC SETTINGS
+#+BEGIN_SRC emacs-lisp
+;; (when (executable-find "ipython")
+;;  (setq python-shell-interpreter "ipython"))
+#+END_SRC

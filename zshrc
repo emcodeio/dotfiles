@@ -188,6 +188,10 @@ alias pullrep="rep && ~/.dotfiles/scripts/mvOutVizCode.sh && git restore src/* &
 alias moveoutrep="~/.dotfiles/scripts/mvOutVizCode.sh"
 alias moveinrep="~/.dotfiles/scripts/mvInVizCode.sh"
 
+## Random Aliases
+alias python="python3"
+alias pip="pip3"
+
 ## Homebrew
 # alias brew="/opt/homebrew/bin/brew"
 alias brewupdate="echo 'Updating Homebrew and Casks' && brew cu -af && echo 'Upgrading Packages' && brew upgrade"

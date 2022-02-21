@@ -115,3 +115,6 @@ If SUBMODE is not provided, use `LANG-mode' by default."
       (:desc "Open in Finder" "z" #'reveal-in-osx-finder))
 
 (setq projectile-project-search-path '("~/dev/"))
+
+;; (when (executable-find "ipython")
+;;   (setq python-shell-interpreter "ipython"))
