@@ -1,7 +1,11 @@
 # Representation
 - Everything after SSA-CFG construction.
+- JCL-DOB?
 - `PipelineArtifactPopulator.java` class in `ai.phasechange.server`
 	- Serializes the artifacts created by Representation to make them available to other services. This will break if a DOB is not produced.
+- Meeting notes
+	- What about JCL-DOB?
+	- Serialization, can turn it off? Refactor to not require all objects be constructed.
 	
 # icGeneration
 - Builds OPUCs, FAUCs, and State Functions from DOBs
@@ -54,7 +58,11 @@
 		- The `build()` method gets passed a list of DOBs.
 	- `RepresentationControllerTest.java` class in `ai.phasechange.javatoprolog.application.controller`
 		- Uses different aspects of the DOB in many tests.
-	
+- Meeting notes
+	- FOM provides function information that the DOB captures
+	- Firm contract coming out of icGen. Can FOM provide everything in that contract?
+	- Source code builder. How to map back to source?
+	- JCL-DOB
 # Query
 - Does not use DOB directly. Uses DOB nodes to store executed nodes received from SE.
 - Code that instantiates `RepresentationController` or references DOB nodes.
@@ -63,10 +71,11 @@
 	- `RepresentationProvider.java` class in `ai.phasechange.query.client`
 		- Instantiates `RepresentationController` from `ReasoningCommons` but nowhere is `getDob()` called.
 	- `DependencyGraphBuilder.java` class in `ai.phasechange.query.groundprojection`
-		- Has several data structures and methods that use DOB nodes. For example the `buildDependencyGraph()` method uses the DOB nodes from the `mergedExecutionPath` data structure.
+		- THIS IS BIGGER (DRAGON): Has several data structures and methods that use DOB nodes. For example the `buildDependencyGraph()` method uses the DOB nodes from the `mergedExecutionPath` data structure.
 	- `TestHelper.java` in `ai.phasechange.query`
 		- Makes several references to PCIC's DOBs.
-	
+- Meeting notes
+	- Is DependencyGraphBuilder using any dependencies *between* DOB nodes.
 # LeastModel
 - ???: I think this only references state function information.
 
@@ -77,10 +86,14 @@
 - Uses the DOB directly to build source annotations.
 - Code associated with that functionality.
 	- `UiaInitCallBacks.java` class in `ai.phasechange.uiadapter.server`
-		- Instantiates `RepresentationControllerd` from `ReasoningCommons`. The `initializeApplication()` method to call the `getDobLookup()` method on this instance to pull in the DOB. Passes it to `SourceHndler` instance. 
+		- Instantiates `RepresentationControllerd` from `ReasoningCommons`. The `initializeApplication()` method to call the `getDobLookup()` method on this instance to pull in the DOB. Passes it to `SourceHandler` instance.
 	- `SourceHandler.java` class in `ai.phasechange.uiadapter.requesthandler.sources`
 		- Has a `DobLookup` class field that gets initialized in the class constructor and used in the `handleRequest()` method.
 	- `SourceBuilder.java` class in `ai.phasechange.uiadapter.requesthandler.sources.builder`
 		- Has a `DobLookup` class field that gets initialized in the class constructor. The `constructSourceLines()` method uses this field when called.
 	- `SourceAnnotationAdapter.java` class in `ai.phasechange.uiadapter.graphql.adapter.applications`
-		- Has a `List<Dob>` class field that gets initialized in the class constructor. This field is used throughout the methods of this class. 
+		- Has a `List<Dob>` class field that gets initialized in the class constructor. This field is used throughout the methods of this class.
+- Meeting notes
+	- Lots of dragons here.
+- General Notes
+	- List of requirements of FOM and icGen expanded concepts.

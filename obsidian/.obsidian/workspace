@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "DOB Impact/Impact of DOB Removal.md",
+            "file": "GoTo Elimination/Eliminating GoTos.md",
             "mode": "source"
           }
         }
@@ -69,7 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "DOB Impact/Impact of DOB Removal.md",
+                "file": "GoTo Elimination/Eliminating GoTos.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -89,8 +89,8 @@
   },
   "active": "8be4dd55f239da3d",
   "lastOpenFiles": [
-    "DOB Impact/Impact of DOB Removal.md",
     "GoTo Elimination/Eliminating GoTos.md",
+    "DOB Impact/Impact of DOB Removal.md",
     "GoTo Elimination/Decomposing GoTo Work.md",
     "GoTo Elimination/Eliminating GoTos.pdf",
     "GoTo Elimination/Rather than FOM break....md",
