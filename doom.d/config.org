@@ -50,6 +50,11 @@ Settings related to fonts within Doom Emacs:
 + 'font-lock-keyword-face' -- for keywords with special significance like 'setq' in elisp.
 + 'global-prettify-symbols-mode' -- change certain keywords to symbols, such as lambda!
 
+| COMMAND       | DESCRIPTION             | KEYBINDING |
+|---------------+-------------------------+------------|
+| doom-big-font | Increases the font size | SPC t b    |
+
+
 #+BEGIN_SRC emacs-lisp
 (setq doom-font (font-spec :family "Dank Mono" :size 14)
       doom-big-font (font-spec :family "Dank Mono" :size 24))
