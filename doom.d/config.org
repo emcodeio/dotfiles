@@ -188,8 +188,19 @@ they are implemented.
 (setq projectile-project-search-path '("~/dev/"))
 #+END_SRC
 
-* LANGUAGE spacific SPACIFIC SETTINGS
+* LANGUAGE SPECIFIC SETTINGS
 #+BEGIN_SRC emacs-lisp
-;; (when (executable-find "ipython")
-;;  (setq python-shell-interpreter "ipython"))
+(when (executable-find "ipython")
+  (setq python-shell-interpreter "ipython"))
+#+END_SRC
+
+Code to add hooks when opening a COBOL file. Turns on syntax highlightin with `cobol-mode` and enforces line length with `column-enforce-mode`
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'auto-mode-alist
+             '("\\.cob\\'" . (lambda ()
+                               ;; add major mode setting here, if needed, for example:
+                               ;; (text-mode)
+                               (cobol-mode)
+                               (column-enforce-mode))))
 #+END_SRC

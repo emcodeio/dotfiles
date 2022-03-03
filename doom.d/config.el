@@ -116,5 +116,12 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 
 (setq projectile-project-search-path '("~/dev/"))
 
-;; (when (executable-find "ipython")
-;;   (setq python-shell-interpreter "ipython"))
+(when (executable-find "ipython")
+  (setq python-shell-interpreter "ipython"))
+
+(add-to-list 'auto-mode-alist
+             '("\\.cob\\'" . (lambda ()
+                               ;; add major mode setting here, if needed, for example:
+                               ;; (text-mode)
+                               (cobol-mode)
+                               (column-enforce-mode))))
