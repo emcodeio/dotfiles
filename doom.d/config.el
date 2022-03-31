@@ -116,6 +116,21 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 
 (setq projectile-project-search-path '("~/dev/"))
 
+(defun org-mode-<>-syntax-fix (start end)
+  (when (eq major-mode 'org-mode)
+    (save-excursion
+      (goto-char start)
+      (while (re-search-forward "<\\|>" end t)
+    (when (get-text-property (point) 'src-block)
+      ;; This is a < or > in an org-src block
+      (put-text-property (point) (1- (point))
+                 'syntax-table (string-to-syntax "_")))))))
+
+(add-hook 'org-mode-hook
+      (lambda ()
+        (setq syntax-propertize-function 'org-mode-<>-syntax-fix)
+        (syntax-propertize (point-max))))
+
 (when (executable-find "ipython")
   (setq python-shell-interpreter "ipython"))
 
