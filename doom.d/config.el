@@ -131,8 +131,8 @@ If SUBMODE is not provided, use `LANG-mode' by default."
         (setq syntax-propertize-function 'org-mode-<>-syntax-fix)
         (syntax-propertize (point-max))))
 
-(when (executable-find "ipython")
-  (setq python-shell-interpreter "ipython"))
+;; (when (executable-find "ipython")
+;;  (setq python-shell-interpreter "ipython"))
 
 (add-to-list 'auto-mode-alist
              '("\\.cob\\'" . (lambda ()

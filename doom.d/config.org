@@ -210,8 +210,8 @@ they are implemented.
 
 * LANGUAGE SPECIFIC SETTINGS
 #+BEGIN_SRC emacs-lisp
-(when (executable-find "ipython")
-  (setq python-shell-interpreter "ipython"))
+;; (when (executable-find "ipython")
+;;  (setq python-shell-interpreter "ipython"))
 #+END_SRC
 
 Code to add hooks when opening a COBOL file. Turns on syntax highlightin with `cobol-mode` and enforces line length with `column-enforce-mode`

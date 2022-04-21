@@ -62,3 +62,4 @@
 (package! browse-kill-ring)
 (package! intero)
 (package! mmm-mode)
+(package! dap-mode)
