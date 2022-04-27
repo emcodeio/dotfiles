@@ -198,6 +198,8 @@ alias brewupdate="echo 'Updating Homebrew and Casks' && brew cu -af && echo 'Upg
 
 ## App Management
 alias updateapps="echo 'Updating Homebrew and Casks...' && brew cu -af && echo 'Upgrading Packages...' && brew upgrade && echo 'Updating Apps from App Store...' && mas upgrade && echo 'Updating Doom Emacs...' && doomupgrade && doomdoctor & doomsync"
+alias deletezsh="echo 'Delete ~/.oh-my-zsh/custom' && rm ~/.oh-my-zsh/custom && echo 'Updating ZSH' && exec zsh -l"
+alias linkzsh="echo 'Relink .oh-my-zsh/custom' && ~/.dotfiles/install && exec zsh"
 
 # Customize Prompt(s)
 

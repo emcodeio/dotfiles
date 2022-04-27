@@ -1,5 +1,9 @@
 ;; org-babel-load-file
 
+(map! :leader
+      (:prefix ("f" . "file")
+       :desc "Load org file" "b" #'org-babel-load-file))
+
 (setq user-full-name "Evan Erickson"
       user-mail-address "evan.erksn@gmail.com")
 
@@ -39,6 +43,12 @@
        :desc "Toggle line highlight in frame" "h" #'hl-line-mode
        :desc "Toggle line highlight globally" "H" #'global-hl-line-mode
        :desc "Toggle truncate lines" "t" #'toggle-truncate-lines))
+
+(setq display-line-numbers-type t)
+(map! :leader
+      (:prefix ("l" . "lsp")
+       :desc "Jump to method definition" "d" #'lsp-find-definition
+       :desc "Show method references" "r" #'lsp-find-references))
 
 (setq mmm-global-mode 'maybe)
 
@@ -140,3 +150,65 @@ If SUBMODE is not provided, use `LANG-mode' by default."
                                ;; (text-mode)
                                (cobol-mode)
                                (column-enforce-mode))))
+
+;; (dap-register-debug-template
+;;   "Python :: Run (test)"
+;;   (list :type "python"
+;;         :cwd (file-name-directory buffer-file-name)
+;;         :module "pytest"
+;;         :request "launch"
+;;         ;; :target-module (expand-file-name "~/src/myapp/.env/bin/myapp")
+;;         :debugger 'debugpy
+;;         :name "Python :: Run (test)"))
+
+;; (use-package python-mode
+;;   :ensure nil
+;;   :hook (python-mode . run-python)
+;;   :hook (python-mode . lsp-deferred)
+;;   :custom
+;;   (dap-python-debugger 'debugpy)
+;;   :config
+;;   (require 'dap-python))
+
+(map! :map dap-mode-map
+      :leader
+      :prefix ("d" . "dap")
+      ;; basics
+      :desc "dap next"          "n" #'dap-next
+      :desc "dap step in"       "i" #'dap-step-in
+      :desc "dap step out"      "o" #'dap-step-out
+      :desc "dap continue"      "c" #'dap-continue
+      :desc "dap hydra"         "h" #'dap-hydra
+      :desc "dap debug restart" "r" #'dap-debug-restart
+      :desc "dap debug"         "s" #'dap-debug
+
+      ;; debug
+      :prefix ("dd" . "Debug")
+      :desc "dap debug recent"  "r" #'dap-debug-recent
+      :desc "dap debug last"    "l" #'dap-debug-last
+
+      ;; eval
+      :prefix ("de" . "Eval")
+      :desc "eval"                "e" #'dap-eval
+      :desc "eval region"         "r" #'dap-eval-region
+      :desc "eval thing at point" "s" #'dap-eval-thing-at-point
+      :desc "add expression"      "a" #'dap-ui-expressions-add
+      :desc "remove expression"   "d" #'dap-ui-expressions-remove
+
+      :prefix ("db" . "Breakpoint")
+      :desc "dap breakpoint toggle"      "b" #'dap-breakpoint-toggle
+      :desc "dap breakpoint condition"   "c" #'dap-breakpoint-condition
+      :desc "dap breakpoint hit count"   "h" #'dap-breakpoint-hit-condition
+      :desc "dap breakpoint log message" "l" #'dap-breakpoint-log-message)
+
+;; (dap-register-debug-template
+;;   "Python :: Run file (test)"
+;;   (list :type "python"
+;;         :cwd (file-name-directory buffer-file-name)
+;;         :module "bar.py"
+;;         :program "bar.py"
+;;         :request "launch"
+;;         :name "Python :: Run file (test)"))
+
+;; (after! dap-mode
+;;   (setq dap-python-debugger 'debugpy))
