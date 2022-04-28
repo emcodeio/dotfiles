@@ -63,3 +63,4 @@
 (package! intero)
 (package! mmm-mode)
 (package! dap-mode)
+(package! gradle-mode)

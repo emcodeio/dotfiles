@@ -161,14 +161,27 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 ;;         :debugger 'debugpy
 ;;         :name "Python :: Run (test)"))
 
-;; (use-package python-mode
-;;   :ensure nil
-;;   :hook (python-mode . run-python)
-;;   :hook (python-mode . lsp-deferred)
-;;   :custom
-;;   (dap-python-debugger 'debugpy)
-;;   :config
-;;   (require 'dap-python))
+(use-package python-mode
+  :ensure nil
+  :hook (python-mode . run-python)
+  :hook (python-mode . lsp-deferred)
+  :custom
+  (dap-python-executable "python3")
+  (dap-python-debugger 'debugpy))
+
+(add-hook 'java-mode-hook '(lambda() (gradle-mode 1)))
+
+(defun build-and-run ()
+	(interactive)
+	(gradle-run "build run"))
+
+(map! :map gradle-mode-map
+      :leader
+      :prefix ("j" . "java")
+      ;; basics
+      :desc "Gradel Build Run"          "r" #'build-and-run)
+
+;; (define-key gradle-mode-map (kbd "C-c C-r") 'build-and-run)
 
 (map! :map dap-mode-map
       :leader
@@ -178,6 +191,7 @@ If SUBMODE is not provided, use `LANG-mode' by default."
       :desc "dap step in"       "i" #'dap-step-in
       :desc "dap step out"      "o" #'dap-step-out
       :desc "dap continue"      "c" #'dap-continue
+      :desc "dap disconnect"    "x" #'dap-disconnect
       :desc "dap hydra"         "h" #'dap-hydra
       :desc "dap debug restart" "r" #'dap-debug-restart
       :desc "dap debug"         "s" #'dap-debug
@@ -212,3 +226,15 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 
 ;; (after! dap-mode
 ;;   (setq dap-python-debugger 'debugpy))
+
+(map! :leader
+      (:prefix ("b" . "buffer")
+       :desc "Kill buffers macthing" "o" #'kill-matching-buffers))
+
+(set-fringe-style (quote (12 . 8)))
+
+(map! :leader
+      (:desc "Open Vterm" "v" #'vterm))
+
+(map! :leader
+      (:desc "Kill buffer" "k" #'kill-buffer))
