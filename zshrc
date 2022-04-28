@@ -160,8 +160,8 @@ alias l.='exa -a | egrep "^\."'
 ## yt-dlp
 alias yta-best="yt-dlp --extract-audio --audio-format best "
 alias ytv-best="yt-dlp -f bestvideo+bestaudio --merge-output-format mkv "
-alias yt-df="yt-dlp -f "
-alias yt-lf="yt-dlp -F "
+alias ytd="yt-dlp -f "
+alias ytl="yt-dlp -F "
 
 ## Open in Emacs
 alias doom-config="open -a emacs ~/.doom.d/config.org"
@@ -213,3 +213,6 @@ function mkcd() {
 # Use ZSH Plugins
 
 # ...and Other Suprises
+
+# To customize prompt, run `p10k configure` or edit ~/.dotfiles/p10k.zsh.
+[[ ! -f ~/.dotfiles/p10k.zsh ]] || source ~/.dotfiles/p10k.zsh

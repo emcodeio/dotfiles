@@ -326,15 +326,6 @@ Dap-mode for Python
       :desc "dap breakpoint hit count"   "h" #'dap-breakpoint-hit-condition
       :desc "dap breakpoint log message" "l" #'dap-breakpoint-log-message)
 
-;; (dap-register-debug-template
-;;   "Python :: Run file (test)"
-;;   (list :type "python"
-;;         :cwd (file-name-directory buffer-file-name)
-;;         :module "bar.py"
-;;         :program "bar.py"
-;;         :request "launch"
-;;         :name "Python :: Run file (test)"))
-
 ;; (after! dap-mode
 ;;   (setq dap-python-debugger 'debugpy))
 #+END_SRC
@@ -353,6 +344,4 @@ Dap-mode for Python
 
 (map! :leader
       (:desc "Kill buffer" "k" #'kill-buffer))
-
-
 #+END_SRC
