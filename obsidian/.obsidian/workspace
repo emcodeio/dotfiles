@@ -9,8 +9,8 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "About me/About Me 1.md",
-            "mode": "source"
+            "file": "GoTo Elimination/Eliminating GoTos.md",
+            "mode": "preview"
           }
         }
       }
@@ -68,7 +68,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "About me/About Me 1.md",
+                "file": "GoTo Elimination/Eliminating GoTos.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -88,15 +88,15 @@
   },
   "active": "651997fe3d8bea1e",
   "lastOpenFiles": [
+    "GoTo Elimination/Eliminating GoTos.md",
+    "GoTo Elimination/Eliminating GoTos.pdf",
+    "GoTo Elimination/Decomposing GoTo Work.md",
+    "GoTo Elimination/Backward GOTO - Current Approach.md",
+    "ExecuteOne/ExecuteOne Example 1.md",
     "About me/About Me 1.md",
     "About me/About Me.md",
     "ExecuteOneIssue.md",
     "SSA Discussion.md",
-    "Abstract Model.md",
-    "GoTo Elimination/Eliminating GoTos.md",
-    "DOB Impact/Impact of DOB Removal.md",
-    "GoTo Elimination/Decomposing GoTo Work.md",
-    "GoTo Elimination/Eliminating GoTos.pdf",
-    "GoTo Elimination/Rather than FOM break....md"
+    "Abstract Model.md"
   ]
 }

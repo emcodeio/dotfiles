@@ -14,6 +14,7 @@
     ~/.config/karabiner: ~/.dotfiles/karabiner
     ~/.ideavimrc:
     ~/dev/obsidian_vault: ~/.dotfiles/obsidian
+    /Applications: ~/.dotfiles/scripts/Flow\ -\ Start.app/
 
     # ~/.test:
 
