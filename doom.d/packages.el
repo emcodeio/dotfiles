@@ -64,3 +64,7 @@
 (package! mmm-mode)
 (package! dap-mode)
 (package! gradle-mode)
+;; (package! emacs-application-framework
+;;   :recipe (:host github
+;;            :repo "manateelazycat/emacs-application-framework"
+;;            :files ("eaf.el" "src/lisp/*.el")))

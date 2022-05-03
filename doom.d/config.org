@@ -345,3 +345,30 @@ Dap-mode for Python
 (map! :leader
       (:desc "Kill buffer" "k" #'kill-buffer))
 #+END_SRC
+
+* EMACS APPLICATION FRAMEWORK
+
+#+BEGIN_SRC emacs-lisp
+;; (require 'eaf-demo)
+;; (require 'eaf-file-sender)
+;; (require 'eaf-music-player)
+;; (require 'eaf-camera)
+;; (require 'eaf-rss-reader)
+;; (require 'eaf-terminal)
+;; (require 'eaf-image-viewer)
+;; (require 'eaf-vue-demo)
+;; (require 'eaf-pdf-viewer)
+;; (require 'eaf-browser)
+;; (require 'eaf-markdown-previewer)
+;; (require 'eaf-file-browser)
+;; (require 'eaf-mermaid)
+;; (require 'eaf-file-manager)
+;; (require 'eaf-mindmap)
+;; (require 'eaf-video-player)
+;; (require 'eaf-org-previewer)
+;; (require 'eaf-airshare)
+;; (require 'eaf-jupyter)
+;; (require 'eaf-netease-cloud-music)
+;; (require 'eaf-git)
+;; (require 'eaf-system-monitor)
+#+END_SRC

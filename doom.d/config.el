@@ -215,15 +215,6 @@ If SUBMODE is not provided, use `LANG-mode' by default."
       :desc "dap breakpoint hit count"   "h" #'dap-breakpoint-hit-condition
       :desc "dap breakpoint log message" "l" #'dap-breakpoint-log-message)
 
-;; (dap-register-debug-template
-;;   "Python :: Run file (test)"
-;;   (list :type "python"
-;;         :cwd (file-name-directory buffer-file-name)
-;;         :module "bar.py"
-;;         :program "bar.py"
-;;         :request "launch"
-;;         :name "Python :: Run file (test)"))
-
 ;; (after! dap-mode
 ;;   (setq dap-python-debugger 'debugpy))
 
@@ -238,3 +229,26 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 
 (map! :leader
       (:desc "Kill buffer" "k" #'kill-buffer))
+
+;; (require 'eaf-demo)
+;; (require 'eaf-file-sender)
+;; (require 'eaf-music-player)
+;; (require 'eaf-camera)
+;; (require 'eaf-rss-reader)
+;; (require 'eaf-terminal)
+;; (require 'eaf-image-viewer)
+;; (require 'eaf-vue-demo)
+;; (require 'eaf-pdf-viewer)
+;; (require 'eaf-browser)
+;; (require 'eaf-markdown-previewer)
+;; (require 'eaf-file-browser)
+;; (require 'eaf-mermaid)
+;; (require 'eaf-file-manager)
+;; (require 'eaf-mindmap)
+;; (require 'eaf-video-player)
+;; (require 'eaf-org-previewer)
+;; (require 'eaf-airshare)
+;; (require 'eaf-jupyter)
+;; (require 'eaf-netease-cloud-music)
+;; (require 'eaf-git)
+;; (require 'eaf-system-monitor)
