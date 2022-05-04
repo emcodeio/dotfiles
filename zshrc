@@ -87,6 +87,7 @@ source $ZSH/oh-my-zsh.sh
 export PATH=/usr/local/opt/llvm/bin:$PATH
 export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:~/bin:$PATH
 export PATH=/Users/eerickson/.local/bin:$PATH
+export PATH=$HOME/.emacs.d/bin/:$PATH
 
 # User configuration
 
@@ -187,6 +188,7 @@ alias gotosync="cp -a ~/.dotfiles/obsidian/GoTo\ Elimination/. ~/dev/fom/GraphNo
 alias pullrep="rep && ~/.dotfiles/scripts/mvOutVizCode.sh && git restore src/* && git pull && ~/.dotfiles/scripts/mvInVizCode.sh"
 alias moveoutrep="~/.dotfiles/scripts/mvOutVizCode.sh"
 alias moveinrep="~/.dotfiles/scripts/mvInVizCode.sh"
+alias rmdot="rm *.dot *.pdf"
 
 ## Random Aliases
 alias python="python3"
@@ -199,7 +201,7 @@ alias brewupdate="echo 'Updating Homebrew and Casks' && brew cu -af && echo 'Upg
 ## App Management
 alias updateapps="echo 'Updating Homebrew and Casks...' && brew cu -af && echo 'Upgrading Packages...' && brew upgrade && echo 'Updating Apps from App Store...' && mas upgrade && echo 'Updating Doom Emacs...' && doomupgrade && doomdoctor & doomsync"
 alias deletezsh="echo 'Delete ~/.oh-my-zsh/custom' && rm ~/.oh-my-zsh/custom && echo 'Updating ZSH' && exec zsh -l"
-alias linkzsh="echo 'Relink .oh-my-zsh/custom' && ~/.dotfiles/install && exec zsh"
+alias linkzsh="echo 'Relink .oh-my-zsh/custom' && ~/.dotfiles/install && sleep 1s && exec zsh"
 
 # Customize Prompt(s)
 

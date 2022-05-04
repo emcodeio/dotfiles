@@ -21,7 +21,6 @@ To compile this file run
        :desc "Load org file" "b" #'org-babel-load-file))
 #+END_SRC
 
-
 * PERSONAL INFORMATION
 
 #+BEGIN_SRC emacs-lisp
@@ -68,7 +67,7 @@ Settings related to fonts within Doom Emacs:
 
 
 #+BEGIN_SRC emacs-lisp
-(setq doom-font (font-spec :family "Dank Mono" :size 14)
+(setq doom-font (font-spec :family "Dank Mono" :size 15)
       doom-big-font (font-spec :family "Dank Mono" :size 24))
 (after! doom-themes
   (setq doom-themes-enable-bold t
@@ -293,6 +292,13 @@ Dap-mode for Python
 
 * DAP-MODE SETTINGS
 
+| COMMAND     | DESCRIPTION                  | KEYBINDING |
+|-------------+------------------------------+------------|
+| dap-next    | Dap debugger next breakpoint | SPC d n    |
+| dap-step-in | Dap debugger step into       | SPC d i    |
+| dap-step-in | Dap debugger step into       | SPC d i    |
+
+
 #+BEGIN_SRC emacs-lisp
 (map! :map dap-mode-map
       :leader
@@ -335,7 +341,7 @@ Dap-mode for Python
 #+BEGIN_SRC emacs-lisp
 (map! :leader
       (:prefix ("b" . "buffer")
-       :desc "Kill buffers macthing" "o" #'kill-matching-buffers))
+       :desc "Kill buffers matching" "o" #'kill-matching-buffers))
 
 (set-fringe-style (quote (12 . 8)))
 
@@ -371,4 +377,42 @@ Dap-mode for Python
 ;; (require 'eaf-netease-cloud-music)
 ;; (require 'eaf-git)
 ;; (require 'eaf-system-monitor)
+#+END_SRC
+
+* OPENWITH SETTINGS
+
+#+BEGIN_SRC emacs-lisp
+(require 'openwith nil 'noerror)
+(setq openwith-associations
+      (list
+       (list (openwith-make-extension-regexp
+              '("pdf" "heic" "mpg" "mpeg" "mp3" "mp4"
+                "avi" "wmv" "wav" "mov" "flv"
+                "ogm" "ogg" "mkv" "png" "jpg" "flac"))
+             "open"
+             '(file))
+       ;; (list (openwith-make-extension-regexp
+       ;;        '("xbm" "pbm" "pgm" "ppm" "pnm"
+       ;;          "png" "gif" "bmp" "tif" "jpeg" "jpg"))
+       ;;       "geeqie"
+       ;;       '(file))
+       ;; (list (openwith-make-extension-regexp
+       ;;        '("doc" "xls" "ppt" "odt" "ods" "odg" "odp"))
+       ;;       "libreoffice"
+       ;;       '(file))
+       ;; (list (openwith-make-extension-regexp
+       ;;        '("pdf"))
+       ;;       "open"
+       ;;       '(file))
+       ;; (list (openwith-make-extension-regexp
+       ;;        '("pdf" "ps" "ps.gz" "dvi"))
+       ;;       "okular"
+       ;;       '(file))
+       ))
+(openwith-mode 1)
+
+(setq large-file-warning-threshold nil)
+;; (require 'openwith)
+;; (openwith-mode t)
+;; (setq openwith-associations '(("\\.pdf\\'" "peview" (file))))
 #+END_SRC

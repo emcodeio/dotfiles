@@ -26,7 +26,7 @@
   ;;'(default :background "#000000")
   )
 
-(setq doom-font (font-spec :family "Dank Mono" :size 14)
+(setq doom-font (font-spec :family "Dank Mono" :size 15)
       doom-big-font (font-spec :family "Dank Mono" :size 24))
 (after! doom-themes
   (setq doom-themes-enable-bold t
@@ -220,7 +220,7 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 
 (map! :leader
       (:prefix ("b" . "buffer")
-       :desc "Kill buffers macthing" "o" #'kill-matching-buffers))
+       :desc "Kill buffers matching" "o" #'kill-matching-buffers))
 
 (set-fringe-style (quote (12 . 8)))
 
@@ -252,3 +252,37 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 ;; (require 'eaf-netease-cloud-music)
 ;; (require 'eaf-git)
 ;; (require 'eaf-system-monitor)
+
+(require 'openwith nil 'noerror)
+(setq openwith-associations
+      (list
+       (list (openwith-make-extension-regexp
+              '("pdf" "heic" "mpg" "mpeg" "mp3" "mp4"
+                "avi" "wmv" "wav" "mov" "flv"
+                "ogm" "ogg" "mkv" "png" "jpg" "flac"))
+             "open"
+             '(file))
+       ;; (list (openwith-make-extension-regexp
+       ;;        '("xbm" "pbm" "pgm" "ppm" "pnm"
+       ;;          "png" "gif" "bmp" "tif" "jpeg" "jpg"))
+       ;;       "geeqie"
+       ;;       '(file))
+       ;; (list (openwith-make-extension-regexp
+       ;;        '("doc" "xls" "ppt" "odt" "ods" "odg" "odp"))
+       ;;       "libreoffice"
+       ;;       '(file))
+       ;; (list (openwith-make-extension-regexp
+       ;;        '("pdf"))
+       ;;       "open"
+       ;;       '(file))
+       ;; (list (openwith-make-extension-regexp
+       ;;        '("pdf" "ps" "ps.gz" "dvi"))
+       ;;       "okular"
+       ;;       '(file))
+       ))
+(openwith-mode 1)
+
+(setq large-file-warning-threshold nil)
+;; (require 'openwith)
+;; (openwith-mode t)
+;; (setq openwith-associations '(("\\.pdf\\'" "peview" (file))))
