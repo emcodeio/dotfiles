@@ -253,36 +253,21 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 ;; (require 'eaf-git)
 ;; (require 'eaf-system-monitor)
 
-(require 'openwith nil 'noerror)
-(setq openwith-associations
+(use-package! openwith
+  :config
+    (setq openwith-associations
       (list
        (list (openwith-make-extension-regexp
               '("pdf" "heic" "mpg" "mpeg" "mp3" "mp4"
                 "avi" "wmv" "wav" "mov" "flv"
-                "ogm" "ogg" "mkv" "png" "jpg" "flac"))
+                "ogm" "ogg" "mkv" "png" "jpg" "flac"
+                "jpeg" "gif"))
              "open"
              '(file))
-       ;; (list (openwith-make-extension-regexp
-       ;;        '("xbm" "pbm" "pgm" "ppm" "pnm"
-       ;;          "png" "gif" "bmp" "tif" "jpeg" "jpg"))
-       ;;       "geeqie"
-       ;;       '(file))
-       ;; (list (openwith-make-extension-regexp
-       ;;        '("doc" "xls" "ppt" "odt" "ods" "odg" "odp"))
-       ;;       "libreoffice"
-       ;;       '(file))
-       ;; (list (openwith-make-extension-regexp
-       ;;        '("pdf"))
-       ;;       "open"
-       ;;       '(file))
-       ;; (list (openwith-make-extension-regexp
-       ;;        '("pdf" "ps" "ps.gz" "dvi"))
-       ;;       "okular"
-       ;;       '(file))
+       ;; '("\\.chm" "kchmviewer" (file))
        ))
-(openwith-mode 1)
+    )
 
 (setq large-file-warning-threshold nil)
-;; (require 'openwith)
-;; (openwith-mode t)
-;; (setq openwith-associations '(("\\.pdf\\'" "peview" (file))))
+
+(add-hook 'after-init-hook #'openwith-mode)
