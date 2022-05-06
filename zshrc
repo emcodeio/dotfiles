@@ -188,7 +188,7 @@ alias gotosync="cp -a ~/.dotfiles/obsidian/GoTo\ Elimination/. ~/dev/fom/GraphNo
 alias pullrep="rep && ~/.dotfiles/scripts/mvOutVizCode.sh && git restore src/* && git pull && ~/.dotfiles/scripts/mvInVizCode.sh"
 alias moveoutrep="~/.dotfiles/scripts/mvOutVizCode.sh"
 alias moveinrep="~/.dotfiles/scripts/mvInVizCode.sh"
-alias rmdot="rm *.dot *.pdf"
+alias dotclean="rm *.dot *.pdf"
 
 ## Random Aliases
 alias python="python3"
