@@ -71,3 +71,5 @@
 (package! openwith)
 ;; (package! dired-single)
 ;; (package! dired-open)
+(package! dired+)
+(package! dired-hide-dotfiles)

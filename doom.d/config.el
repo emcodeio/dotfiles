@@ -46,30 +46,35 @@
 
 (use-package! dired
     :commands (dired dired-jump)
-    :custom ((dired-listing-switches "-agho --si --time-style long-iso --group-directories-first"))
     :config
-    ;; (setq -arg "-agho --si --time-style long-iso --group-directories-first")
     (evil-collection-define-key 'normal 'dired-mode-map
       "h" 'dired-up-directory
       "l" 'dired-find-file
       "o" 'xah-dired-sort))
+
+(after! dired
+  (setq dired-listing-switches "-agho --si --time-style long-iso --group-directories-first"))
 
 (use-package! openwith
   :config
     (setq openwith-associations
       (list
        (list (openwith-make-extension-regexp
-              '("pdf" "heic" "mpg" "mpeg" "mp3" "mp4"
-                "avi" "wmv" "wav" "mov" "flv"
-                "ogm" "ogg" "mkv" "png" "jpg" "flac"
+              '("pdf" "heic" "png" "jpg" "flac"
                 "jpeg" "gif"))
              "open"
+             '(file))
+       (list (openwith-make-extension-regexp
+              '("mpg" "mpeg" "mp3" "mp4"
+                "avi" "wmv" "wav" "mov" "flv"
+                "ogm" "ogg" "mkv" "flac"))
+             "vlc"
              '(file))
        ;; '("\\.chm" "kchmviewer" (file))
        ))
     )
 
-(add-hook 'after-init-hook #'openwith-mode)
+(add-hook! 'after-init-hook #'openwith-mode)
 
 ;; (use-package dired-open
 ;;   :config
@@ -110,6 +115,34 @@
                  (match-string 1))))))
 
 (setq delete-by-moving-to-trash nil)
+
+;; (defun dired-switch-to-dir (path)
+;;   ;; Open Dired with specified path to a directory
+;;   (interactive)
+;;   (dired-jump :FILE-NAME (expand-file-name path)))
+
+(map! :leader
+      :prefix "o"
+      :desc "Dired at current location" "c" #'dired-jump
+      ;; :desc "Open $HOME in dired" "h" (λ! (dired-switch-to-dir "~/"))
+      ;; :desc "Open root in dired"  "r" (λ! (dired-switch-to-dir "/"))
+      )
+
+;; (after! vterm
+;;   (set-popup-rule! "*doom:vterm-popup:main" :size 0.25 :vslot -4 :select t :quit nil :ttl 0 :side 'right)
+;;   )
+
+(use-package! dired+
+  :config
+  (diredp-toggle-find-file-reuse-dir 1)
+  (setq diredp-hide-details-initially-flag nil)
+  (setq diredp-hide-details-propagate-flag nil))
+
+(use-package! dired-hide-dotfiles
+  :hook (dired-mode . dired-hide-dotfiles-mode)
+  :config
+  (evil-collection-define-key 'normal 'dired-mode-map
+    "f" 'dired-hide-dotfiles-mode))
 
 (setq display-line-numbers-type t)
 (map! :leader
