@@ -69,3 +69,5 @@
 ;;            :repo "manateelazycat/emacs-application-framework"
 ;;            :files ("eaf.el" "src/lisp/*.el")))
 (package! openwith)
+;; (package! dired-single)
+;; (package! dired-open)

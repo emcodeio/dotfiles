@@ -44,6 +44,73 @@
        :desc "Toggle line highlight globally" "H" #'global-hl-line-mode
        :desc "Toggle truncate lines" "t" #'toggle-truncate-lines))
 
+(use-package! dired
+    :commands (dired dired-jump)
+    :custom ((dired-listing-switches "-agho --si --time-style long-iso --group-directories-first"))
+    :config
+    ;; (setq -arg "-agho --si --time-style long-iso --group-directories-first")
+    (evil-collection-define-key 'normal 'dired-mode-map
+      "h" 'dired-up-directory
+      "l" 'dired-find-file
+      "o" 'xah-dired-sort))
+
+(use-package! openwith
+  :config
+    (setq openwith-associations
+      (list
+       (list (openwith-make-extension-regexp
+              '("pdf" "heic" "mpg" "mpeg" "mp3" "mp4"
+                "avi" "wmv" "wav" "mov" "flv"
+                "ogm" "ogg" "mkv" "png" "jpg" "flac"
+                "jpeg" "gif"))
+             "open"
+             '(file))
+       ;; '("\\.chm" "kchmviewer" (file))
+       ))
+    )
+
+(add-hook 'after-init-hook #'openwith-mode)
+
+;; (use-package dired-open
+;;   :config
+;;   (setq dired-open-extensions
+;;         '(("heic" . "open")
+;;           ("pdf" . "open")
+;;           ("png" . "open")
+;;           ("jpg" . "open")
+;;           ("jpeg" . "open"))
+;;         ))
+
+(setq large-file-warning-threshold nil)
+
+(defun xah-dired-sort ()
+  "Sort dired dir listing in different ways.
+   Prompt for a choice.
+   URL `http://ergoemacs.org/emacs/dired_sort.html'
+   Version 2015-07-30"
+  (interactive)
+  (let (-sort-by -arg)
+    (setq -sort-by (ido-completing-read "Sort by:" '( "date" "size" "name" "dir")))
+    (cond
+     ((equal -sort-by "name") (setq -arg "-agho --si --time-style long-iso "))
+     ((equal -sort-by "date") (setq -arg "-agho --si --time-style long-iso -t"))
+     ((equal -sort-by "size") (setq -arg "-agho --si --time-style long-iso -S"))
+     ((equal -sort-by "dir") (setq -arg "-agho --si --time-style long-iso --group-directories-first"))
+     (t (error "logic error 09535" )))
+    (dired-sort-other -arg )))
+
+(defun dired-get-size ()
+ (interactive)
+ (let ((files (dired-get-marked-files)))
+   (with-temp-buffer
+     (apply 'call-process "/usr/bin/du" nil t nil "-sch" files)
+     (message "Size of all marked files: %s"
+              (progn
+                (re-search-backward "\\(^[0-9.,]+[A-Za-z]+\\).*total$")
+                 (match-string 1))))))
+
+(setq delete-by-moving-to-trash nil)
+
 (setq display-line-numbers-type t)
 (map! :leader
       (:prefix ("l" . "lsp")
@@ -252,22 +319,3 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 ;; (require 'eaf-netease-cloud-music)
 ;; (require 'eaf-git)
 ;; (require 'eaf-system-monitor)
-
-(use-package! openwith
-  :config
-    (setq openwith-associations
-      (list
-       (list (openwith-make-extension-regexp
-              '("pdf" "heic" "mpg" "mpeg" "mp3" "mp4"
-                "avi" "wmv" "wav" "mov" "flv"
-                "ogm" "ogg" "mkv" "png" "jpg" "flac"
-                "jpeg" "gif"))
-             "open"
-             '(file))
-       ;; '("\\.chm" "kchmviewer" (file))
-       ))
-    )
-
-(setq large-file-warning-threshold nil)
-
-(add-hook 'after-init-hook #'openwith-mode)
