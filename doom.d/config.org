@@ -1,14 +1,27 @@
 #+TITLE: EE's Doom Emacs Config
 #+AUTHOR: Evan Erickson (EE)
 #+STARTUP: showeverything
+#+PROPERTY: header-args:emacs-lisp :tangle ./config.el
 
 * ABOUT THIS CONFIG
-This is my personal Doom Emacs config.  Doom Emacs is a distribution of Emacs that uses the "evil" keybindings (Vim keybindings) and includes a number of nice extensions and a bit of configuration out of the box.
+This is my personal Doom Emacs config. Doom Emacs is a distribution of Emacs that uses the "evil" keybindings (Vim keybindings) and includes a number of nice extensions and a bit of configuration out of the box.
 
-To compile this file run
+Code to auto-tangle this config.org file whenever it is saved to automatically produce the config.el file.
+
+#+begin_src emacs-lisp
+(defun efs/org-babel-tangle-config ()
+  (when (string-equal (buffer-file-name)
+                      (expand-file-name "~/.dotfiles/doom.d/config.org"))
+    (let ((org-confirm-babel-evaluate nil))
+      (org-babel-tangle))))
+
+(add-hook 'org-mode-hook (λ! (add-hook 'after-save-hook #'efs/org-babel-tangle-config)))
+#+end_src
+
+To compile this file run directly:
+
 #+BEGIN_SRC emacs-lisp
 ;; org-babel-load-file
-
 #+END_SRC
 
 | COMMAND             | DESCRIPTION            | KEYBINDING |
@@ -44,12 +57,6 @@ There are two ways to load a theme. Both assume the theme is installed and avail
   '(default :background "#151515")
   ;;'(default :background "#000000")
   )
-
-(custom-theme-set-faces! 'doom-xcode
-  ;;'(default :background "#1C1C1C")
-  '(default :background "#151515")
-  ;;'(default :background "#000000")
-  )
 #+END_SRC
 
 * FONTS
@@ -64,7 +71,6 @@ Settings related to fonts within Doom Emacs:
 | COMMAND       | DESCRIPTION             | KEYBINDING |
 |---------------+-------------------------+------------|
 | doom-big-font | Increases the font size | SPC t b    |
-
 
 #+BEGIN_SRC emacs-lisp
 (setq doom-font (font-spec :family "Dank Mono" :size 15)
@@ -99,8 +105,9 @@ I set comment-line to 'SPC TAB TAB' which is a rather comfortable keybinding for
        :desc "Toggle truncate lines" "t" #'toggle-truncate-lines))
 #+END_SRC
 
-* FILE management
+* FILE MANAGEMENT
 ** DIRED
+
 #+begin_src  emacs-lisp
 (use-package! dired
     :commands (dired dired-jump)
@@ -159,10 +166,10 @@ I set comment-line to 'SPC TAB TAB' which is a rather comfortable keybinding for
    Version 2015-07-30"
   (interactive)
   (let (-sort-by -arg)
-    (setq -sort-by (ido-completing-read "Sort by:" '( "date" "size" "name" "dir")))
+    (setq -sort-by (ido-completing-read "Sort by:" '( "time" "size" "name" "dir")))
     (cond
      ((equal -sort-by "name") (setq -arg "-agho --si --time-style long-iso "))
-     ((equal -sort-by "date") (setq -arg "-agho --si --time-style long-iso -t"))
+     ((equal -sort-by "time") (setq -arg "-agho --si --time-style long-iso -t"))
      ((equal -sort-by "size") (setq -arg "-agho --si --time-style long-iso -S"))
      ((equal -sort-by "dir") (setq -arg "-agho --si --time-style long-iso --group-directories-first"))
      (t (error "logic error 09535" )))
@@ -277,12 +284,10 @@ they are implemented.
 
 #+BEGIN_SRC emacs-lisp
 (use-package! ace-window
-  :ensure t
   :config
     (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
 (use-package! key-chord
-  :ensure t
   :config
     (key-chord-mode 1)
     (setq key-chord-two-keys-delay 0.05)
@@ -297,8 +302,22 @@ they are implemented.
         (width . 143)
         (height . 55)))
 
+(defun org-mode-<>-syntax-fix (start end)
+  (when (eq major-mode 'org-mode)
+    (save-excursion
+      (goto-char start)
+      (while (re-search-forward "<\\|>" end t)
+    (when (get-text-property (point) 'src-block)
+      ;; This is a < or > in an org-src block
+      (put-text-property (point) (1- (point))
+                 'syntax-table (string-to-syntax "_")))))))
+
 (after! org
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+  (add-hook 'org-mode-hook (λ! (org-bullets-mode 1)))
+  (add-hook 'org-mode-hook
+      (λ!
+        (setq syntax-propertize-function 'org-mode-<>-syntax-fix)
+        (syntax-propertize (point-max))))
   (setq org-directory "~/Org/"
         org-agenda-files '("~/Org/agenda.org")
         org-default-notes-file (expand-file-name "notes.org" org-directory)
@@ -331,21 +350,6 @@ they are implemented.
       (:desc "Open in Finder" "z" #'reveal-in-osx-finder))
 
 (setq projectile-project-search-path '("~/dev/"))
-
-(defun org-mode-<>-syntax-fix (start end)
-  (when (eq major-mode 'org-mode)
-    (save-excursion
-      (goto-char start)
-      (while (re-search-forward "<\\|>" end t)
-    (when (get-text-property (point) 'src-block)
-      ;; This is a < or > in an org-src block
-      (put-text-property (point) (1- (point))
-                 'syntax-table (string-to-syntax "_")))))))
-
-(add-hook 'org-mode-hook
-      (lambda ()
-        (setq syntax-propertize-function 'org-mode-<>-syntax-fix)
-        (syntax-propertize (point-max))))
 #+END_SRC
 
 * LANGUAGE SPECIFIC SETTINGS
@@ -381,7 +385,6 @@ Dap-mode for Python
 ;;         :name "Python :: Run (test)"))
 
 (use-package python-mode
-  :ensure nil
   :hook (python-mode . run-python)
   :hook (python-mode . lsp-deferred)
   :custom
@@ -411,7 +414,6 @@ Dap-mode for Python
 | dap-next    | Dap debugger next breakpoint | SPC d n    |
 | dap-step-in | Dap debugger step into       | SPC d i    |
 | dap-step-in | Dap debugger step into       | SPC d i    |
-
 
 #+BEGIN_SRC emacs-lisp
 (map! :map dap-mode-map
@@ -491,4 +493,17 @@ Dap-mode for Python
 ;; (require 'eaf-netease-cloud-music)
 ;; (require 'eaf-git)
 ;; (require 'eaf-system-monitor)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(require 'org-tempo)
+(add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+#+END_SRC
+
+* OPEN KEYBINDINGS
+
+#+BEGIN_SRC emacs-lisp
+(map! :leader
+      (:prefix ("o" . "open")
+       :desc "View Calendar" "g" #'calendar))
 #+END_SRC

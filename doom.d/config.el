@@ -1,3 +1,11 @@
+(defun efs/org-babel-tangle-config ()
+  (when (string-equal (buffer-file-name)
+                      (expand-file-name "~/.dotfiles/doom.d/config.org"))
+    (let ((org-confirm-babel-evaluate nil))
+      (org-babel-tangle))))
+
+(add-hook 'org-mode-hook (λ! (add-hook 'after-save-hook #'efs/org-babel-tangle-config)))
+
 ;; org-babel-load-file
 
 (map! :leader
@@ -15,12 +23,6 @@
   )
 
 (custom-theme-set-faces! 'doom-palenight
-  ;;'(default :background "#1C1C1C")
-  '(default :background "#151515")
-  ;;'(default :background "#000000")
-  )
-
-(custom-theme-set-faces! 'doom-xcode
   ;;'(default :background "#1C1C1C")
   '(default :background "#151515")
   ;;'(default :background "#000000")
@@ -95,10 +97,10 @@
    Version 2015-07-30"
   (interactive)
   (let (-sort-by -arg)
-    (setq -sort-by (ido-completing-read "Sort by:" '( "date" "size" "name" "dir")))
+    (setq -sort-by (ido-completing-read "Sort by:" '( "time" "size" "name" "dir")))
     (cond
      ((equal -sort-by "name") (setq -arg "-agho --si --time-style long-iso "))
-     ((equal -sort-by "date") (setq -arg "-agho --si --time-style long-iso -t"))
+     ((equal -sort-by "time") (setq -arg "-agho --si --time-style long-iso -t"))
      ((equal -sort-by "size") (setq -arg "-agho --si --time-style long-iso -S"))
      ((equal -sort-by "dir") (setq -arg "-agho --si --time-style long-iso --group-directories-first"))
      (t (error "logic error 09535" )))
@@ -171,12 +173,10 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 (my-mmm-markdown-auto-class "shell" 'shell-script-mode)
 
 (use-package! ace-window
-  :ensure t
   :config
     (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
 (use-package! key-chord
-  :ensure t
   :config
     (key-chord-mode 1)
     (setq key-chord-two-keys-delay 0.05)
@@ -191,8 +191,22 @@ If SUBMODE is not provided, use `LANG-mode' by default."
         (width . 143)
         (height . 55)))
 
+(defun org-mode-<>-syntax-fix (start end)
+  (when (eq major-mode 'org-mode)
+    (save-excursion
+      (goto-char start)
+      (while (re-search-forward "<\\|>" end t)
+    (when (get-text-property (point) 'src-block)
+      ;; This is a < or > in an org-src block
+      (put-text-property (point) (1- (point))
+                 'syntax-table (string-to-syntax "_")))))))
+
 (after! org
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+  (add-hook 'org-mode-hook (λ! (org-bullets-mode 1)))
+  (add-hook 'org-mode-hook
+      (λ!
+        (setq syntax-propertize-function 'org-mode-<>-syntax-fix)
+        (syntax-propertize (point-max))))
   (setq org-directory "~/Org/"
         org-agenda-files '("~/Org/agenda.org")
         org-default-notes-file (expand-file-name "notes.org" org-directory)
@@ -226,21 +240,6 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 
 (setq projectile-project-search-path '("~/dev/"))
 
-(defun org-mode-<>-syntax-fix (start end)
-  (when (eq major-mode 'org-mode)
-    (save-excursion
-      (goto-char start)
-      (while (re-search-forward "<\\|>" end t)
-    (when (get-text-property (point) 'src-block)
-      ;; This is a < or > in an org-src block
-      (put-text-property (point) (1- (point))
-                 'syntax-table (string-to-syntax "_")))))))
-
-(add-hook 'org-mode-hook
-      (lambda ()
-        (setq syntax-propertize-function 'org-mode-<>-syntax-fix)
-        (syntax-propertize (point-max))))
-
 ;; (when (executable-find "ipython")
 ;;  (setq python-shell-interpreter "ipython"))
 
@@ -262,7 +261,6 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 ;;         :name "Python :: Run (test)"))
 
 (use-package python-mode
-  :ensure nil
   :hook (python-mode . run-python)
   :hook (python-mode . lsp-deferred)
   :custom
@@ -352,3 +350,10 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 ;; (require 'eaf-netease-cloud-music)
 ;; (require 'eaf-git)
 ;; (require 'eaf-system-monitor)
+
+(require 'org-tempo)
+(add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+
+(map! :leader
+      (:prefix ("o" . "open")
+       :desc "View Calendar" "g" #'calendar))
