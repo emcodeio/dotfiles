@@ -6,8 +6,6 @@
 
 (add-hook 'org-mode-hook (λ! (add-hook 'after-save-hook #'efs/org-babel-tangle-config)))
 
-;; org-babel-load-file
-
 (map! :leader
       (:prefix ("f" . "file")
        :desc "Load org file" "b" #'org-babel-load-file))
@@ -23,6 +21,12 @@
   )
 
 (custom-theme-set-faces! 'doom-monokai-classic
+  ;;'(default :background "#1C1C1C")
+  '(default :background "#151515")
+  ;;'(default :background "#000000")
+  )
+
+(custom-theme-set-faces! 'doom-dracula
   ;;'(default :background "#1C1C1C")
   '(default :background "#151515")
   ;;'(default :background "#000000")
@@ -59,11 +63,11 @@
       "h" 'dired-up-directory
       "l" 'dired-find-file
       "o" 'xah-dired-sort))
-
 (after! dired
   (setq dired-listing-switches "-agho --si --time-style long-iso --group-directories-first"))
-
 (setq global-auto-revert-non-file-buffers t)
+(setq delete-by-moving-to-trash nil)
+(setq large-file-warning-threshold nil)
 
 (use-package! openwith
   :config
@@ -83,20 +87,7 @@
        ;; '("\\.chm" "kchmviewer" (file))
        ))
     )
-
 (add-hook! 'after-init-hook #'openwith-mode)
-
-;; (use-package dired-open
-;;   :config
-;;   (setq dired-open-extensions
-;;         '(("heic" . "open")
-;;           ("pdf" . "open")
-;;           ("png" . "open")
-;;           ("jpg" . "open")
-;;           ("jpeg" . "open"))
-;;         ))
-
-(setq large-file-warning-threshold nil)
 
 (defun xah-dired-sort ()
   "Sort dired dir listing in different ways.
@@ -124,24 +115,6 @@
                 (re-search-backward "\\(^[0-9.,]+[A-Za-z]+\\).*total$")
                  (match-string 1))))))
 
-(setq delete-by-moving-to-trash nil)
-
-;; (defun dired-switch-to-dir (path)
-;;   ;; Open Dired with specified path to a directory
-;;   (interactive)
-;;   (dired-jump :FILE-NAME (expand-file-name path)))
-
-(map! :leader
-      :prefix "o"
-      :desc "Dired at current location" "c" #'dired-jump
-      ;; :desc "Open $HOME in dired" "h" (λ! (dired-switch-to-dir "~/"))
-      ;; :desc "Open root in dired"  "r" (λ! (dired-switch-to-dir "/"))
-      )
-
-;; (after! vterm
-;;   (set-popup-rule! "*doom:vterm-popup:main" :size 0.25 :vslot -4 :select t :quit nil :ttl 0 :side 'right)
-;;   )
-
 (use-package! dired+
   :config
   (diredp-toggle-find-file-reuse-dir 1)
@@ -153,6 +126,13 @@
   :config
   (evil-collection-define-key 'normal 'dired-mode-map
     "f" 'dired-hide-dotfiles-mode))
+
+;; (map! :leader
+;;       :prefix "o"
+;;       :desc "Dired at current location" "c" #'dired-jump
+;;       ;; :desc "Open $HOME in dired" "h" (λ! (dired-switch-to-dir "~/"))
+;;       ;; :desc "Open root in dired"  "r" (λ! (dired-switch-to-dir "/"))
+;;       )
 
 (setq display-line-numbers-type t)
 (map! :leader
@@ -254,7 +234,7 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 ;;  (setq python-shell-interpreter "ipython"))
 
 (add-to-list 'auto-mode-alist
-             '("\\.cob\\'" . (lambda ()
+             '("\\.cob\\'" . (λ! ()
                                ;; add major mode setting here, if needed, for example:
                                ;; (text-mode)
                                (cobol-mode)
