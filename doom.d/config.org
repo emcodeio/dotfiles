@@ -38,15 +38,21 @@ To compile this file run directly:
 
 #+BEGIN_SRC emacs-lisp
 (setq user-full-name "Evan Erickson"
-      user-mail-address "evan.erksn@gmail.com")
+      user-mail-address "evan@emcode.io")
 #+END_SRC
 
 * DOOM THEME
-There are two ways to load a theme. Both assume the theme is installed and available. You can either set `doom-theme' or manually load a theme with the`load-theme' function. This is the default:
+There are two ways to load a theme. Both assume the theme is installed and available. You can either set `doom-theme' or manually load a theme with the `load-theme` function. This is the default:
 
 #+BEGIN_SRC emacs-lisp
 (setq doom-theme 'doom-xcode)
 (custom-theme-set-faces! 'doom-xcode
+  ;;'(default :background "#1C1C1C")
+  '(default :background "#151515")
+  ;;'(default :background "#000000")
+  )
+
+(custom-theme-set-faces! 'doom-monokai-classic
   ;;'(default :background "#1C1C1C")
   '(default :background "#151515")
   ;;'(default :background "#000000")
@@ -119,6 +125,8 @@ I set comment-line to 'SPC TAB TAB' which is a rather comfortable keybinding for
 
 (after! dired
   (setq dired-listing-switches "-agho --si --time-style long-iso --group-directories-first"))
+
+(setq global-auto-revert-non-file-buffers t)
 #+end_src
 
 #+begin_src  emacs-lisp
@@ -352,6 +360,11 @@ they are implemented.
 (setq projectile-project-search-path '("~/dev/"))
 #+END_SRC
 
+Turn on global auto-revert buffer
+#+BEGIN_SRC emacs-lisp
+(global-auto-revert-mode 1)
+#+END_SRC
+
 * LANGUAGE SPECIFIC SETTINGS
 #+BEGIN_SRC emacs-lisp
 ;; (when (executable-find "ipython")
@@ -459,10 +472,24 @@ Dap-mode for Python
       (:prefix ("b" . "buffer")
        :desc "Kill buffers matching" "o" #'kill-matching-buffers))
 
+(map! :leader
+      (:prefix ("b" . "buffer")
+       :desc "Switch workspace buffer" "B" #'+vertico/switch-workspace-buffer))
+
+(map! :leader
+      (:prefix ("b" . "buffer")
+       :desc "Switch buffer" "b" #'switch-to-buffer))
+
 (set-fringe-style (quote (12 . 8)))
 
 (map! :leader
       (:desc "Open Vterm" "v" #'vterm))
+
+(map! :leader
+      (:desc "Switch workspace buffer" "<" #'+vertico/switch-workspace-buffer))
+
+(map! :leader
+      (:desc "Switch buffer" "," #'switch-to-buffer))
 
 (map! :leader
       (:desc "Kill buffer" "k" #'kill-buffer))

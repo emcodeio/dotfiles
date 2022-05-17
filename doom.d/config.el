@@ -13,10 +13,16 @@
        :desc "Load org file" "b" #'org-babel-load-file))
 
 (setq user-full-name "Evan Erickson"
-      user-mail-address "evan.erksn@gmail.com")
+      user-mail-address "evan@emcode.io")
 
 (setq doom-theme 'doom-xcode)
 (custom-theme-set-faces! 'doom-xcode
+  ;;'(default :background "#1C1C1C")
+  '(default :background "#151515")
+  ;;'(default :background "#000000")
+  )
+
+(custom-theme-set-faces! 'doom-monokai-classic
   ;;'(default :background "#1C1C1C")
   '(default :background "#151515")
   ;;'(default :background "#000000")
@@ -56,6 +62,8 @@
 
 (after! dired
   (setq dired-listing-switches "-agho --si --time-style long-iso --group-directories-first"))
+
+(setq global-auto-revert-non-file-buffers t)
 
 (use-package! openwith
   :config
@@ -240,6 +248,8 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 
 (setq projectile-project-search-path '("~/dev/"))
 
+(global-auto-revert-mode 1)
+
 ;; (when (executable-find "ipython")
 ;;  (setq python-shell-interpreter "ipython"))
 
@@ -320,10 +330,24 @@ If SUBMODE is not provided, use `LANG-mode' by default."
       (:prefix ("b" . "buffer")
        :desc "Kill buffers matching" "o" #'kill-matching-buffers))
 
+(map! :leader
+      (:prefix ("b" . "buffer")
+       :desc "Switch workspace buffer" "B" #'+vertico/switch-workspace-buffer))
+
+(map! :leader
+      (:prefix ("b" . "buffer")
+       :desc "Switch buffer" "b" #'switch-to-buffer))
+
 (set-fringe-style (quote (12 . 8)))
 
 (map! :leader
       (:desc "Open Vterm" "v" #'vterm))
+
+(map! :leader
+      (:desc "Switch workspace buffer" "<" #'+vertico/switch-workspace-buffer))
+
+(map! :leader
+      (:desc "Switch buffer" "," #'switch-to-buffer))
 
 (map! :leader
       (:desc "Kill buffer" "k" #'kill-buffer))
