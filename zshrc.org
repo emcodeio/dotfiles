@@ -3,6 +3,24 @@
 #+STARTUP: showeverything
 #+PROPERTY: header-args:shell :tangle ./zshrc
 
+* TABLE OF CONTENTS :toc:
+- [[#about-this-config][ABOUT THIS CONFIG]]
+- [[#powerlevel10k-settings][POWERLEVEL10K SETTINGS]]
+- [[#aliases][ALIASES]]
+  - [[#changing-ls-to-exa][Changing "ls" to "exa"]]
+  - [[#yt-dlp][yt-dlp]]
+  - [[#open-in-emacs][Open in Emacs]]
+  - [[#scripts][Scripts]]
+  - [[#shortcuts][Shortcuts]]
+  - [[#random-aliases][Random Aliases]]
+  - [[#homebrew][Homebrew]]
+  - [[#app-management][App Management]]
+- [[#customize-prompts][Customize Prompt(s)]]
+
+* ABOUT THIS CONFIG
+This files is used to configure my zshrc
+
+* POWERLEVEL10K SETTINGS
 Enable Powerlevel10k instant prompt. Should stay close to the top of $HOME/.zshrc.
 Initialization code that may require console input (password prompts, [y/n]
 confirmations, etc.) must go above this block; everything else may go below.
@@ -18,6 +36,8 @@ If you come from bash you might have to change your $PATH.
 #+begin_src shell
 # export PATH=$HOME/bin:/opt/homebrew/bin:/usr/local/bin:$PATH
 #+end_src
+
+#+RESULTS:
 
 Path to your oh-my-zsh installation.
 
