@@ -361,3 +361,11 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 (map! :leader
       (:prefix ("o" . "open")
        :desc "View Calendar" "g" #'calendar))
+
+(defun efs/org-babel-tangle-zshrc ()
+  (when (string-equal (buffer-file-name)
+                      (expand-file-name "~/.dotfiles/zshrc.org"))
+    (let ((org-confirm-babel-evaluate nil))
+      (org-babel-tangle))))
+
+(add-hook 'org-mode-hook (λ! (add-hook 'after-save-hook #'efs/org-babel-tangle-zshrc)))
