@@ -223,10 +223,19 @@ If SUBMODE is not provided, use `LANG-mode' by default."
              "DONE(d)"           ; Task has been completed
              "CANCELLED(c)" )))) ; Task has been cancelled
 
+(setq org-latex-listings 'minted
+      org-latex-packages-alist '(("" "minted"))
+      org-latex-pdf-process
+      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
 (map! :leader
       (:desc "Open in Finder" "z" #'reveal-in-osx-finder))
 
 (setq projectile-project-search-path '("~/dev/"))
+(setq org-latex-caption-above nil)
+;; (setq org-src-fontify-natively t)
 
 (global-auto-revert-mode 1)
 
