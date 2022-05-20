@@ -73,3 +73,4 @@
 ;; (package! dired-open)
 (package! dired+)
 (package! dired-hide-dotfiles)
+(package! transmission)

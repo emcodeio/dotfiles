@@ -128,6 +128,11 @@ alias updateapps="echo 'Updating Homebrew and Casks...' && brew cu -af && echo '
 alias deletezsh="echo 'Delete $HOME/.oh-my-zsh/custom' && rm $HOME/.oh-my-zsh/custom && echo 'Updating ZSH' && exec zsh -l"
 alias linkzsh="echo 'Relink .oh-my-zsh/custom' && $HOME/.dotfiles/install && sleep 1s && exec zsh"
 
+alias mv4k="echo 'Moving 4K movies to server...' && mv $HOME/inbox/00_movies_4k_to_transfer/* /Volumes/files/plex/movies_4k/"
+alias mvmovies="echo 'Moving movies to server...' && mv $HOME/inbox/00_movies_to_transfer/* /Volumes/files/plex/movies/"
+alias mvporn="echo 'Moving porn to server...' && mv $HOME/inbox/00_porn_to_transfer/* /Volumes/files/plex/videos/"
+alias mvfiles="mv4k && mvmovies && mvporn"
+
 function mkcd() {
   mkdir -p "$@" && cd "$_";
 }

@@ -19,7 +19,7 @@
     # ~/.test:
 
 - create:
-    - ~/inbox/transfer
+    - ~/inbox/
     # - ~/downloads
     # - ~/.vim/undo-history
 
