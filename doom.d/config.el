@@ -341,6 +341,10 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 (map! :leader
       (:desc "Kill buffer" "k" #'kill-buffer))
 
+(map! :leader
+      (:prefix ("s" . "search")
+       :desc "Search Kill Ring" "k" #'consult-yank-pop))
+
 ;; (require 'eaf-demo)
 ;; (require 'eaf-file-sender)
 ;; (require 'eaf-music-player)
