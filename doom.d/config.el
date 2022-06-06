@@ -171,6 +171,14 @@ If SUBMODE is not provided, use `LANG-mode' by default."
     (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
     (key-chord-define-global "vv" 'ace-window))
 
+(use-package! evil
+  :config
+  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+
+  ;; Use visual line motions even outside of visual-line-mode buffers
+  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+  (evil-global-set-key 'motion "k" 'evil-previous-visual-line))
+
 ;;(add-to-list 'initial-frame-alist '(fullscreen . maximized))
 (setq initial-frame-alist
       '(
@@ -266,7 +274,7 @@ If SUBMODE is not provided, use `LANG-mode' by default."
   (dap-python-executable "python3")
   (dap-python-debugger 'debugpy))
 
-(add-hook 'java-mode-hook '(lambda() (gradle-mode 1)))
+(add-hook 'java-mode-hook #'(lambda() (gradle-mode 1)))
 
 (defun build-and-run ()
 	(interactive)
