@@ -1,11 +1,3 @@
-(defun efs/org-babel-tangle-config ()
-  (when (string-equal (buffer-file-name)
-                      (expand-file-name "~/.dotfiles/doom.d/config.org"))
-    (let ((org-confirm-babel-evaluate nil))
-      (org-babel-tangle))))
-
-(add-hook 'org-mode-hook (λ! (add-hook 'after-save-hook #'efs/org-babel-tangle-config)))
-
 (map! :leader
       (:prefix ("f" . "file")
        :desc "Load org file" "b" #'org-babel-load-file))
@@ -134,6 +126,34 @@
 ;;       ;; :desc "Open root in dired"  "r" (λ! (dired-switch-to-dir "/"))
 ;;       )
 
+(after! org
+  (setq org-ellipsis " ▽"
+        org-superstar-headline-bullets-list '("◉" "●" "○" "◆" "●" "○" "◆")
+        org-superstar-item-bullet-alist '((?+ . ?‣) (?- . ?∙)) ; changes +/- symbols in item lists
+        ))
+
+(custom-set-faces
+  '(org-level-1 ((t (:inherit outline-1 :height 1.4))))
+  '(org-level-2 ((t (:inherit outline-2 :height 1.3))))
+  '(org-level-3 ((t (:inherit outline-3 :height 1.2))))
+  '(org-level-4 ((t (:inherit outline-4 :height 1.1))))
+  '(org-level-5 ((t (:inherit outline-5 :height 1.0))))
+)
+
+(defun efs/org-mode-visual-fill ()
+  (setq visual-fill-column-width 120
+        visual-fill-column-center-text t)
+  (visual-fill-column-mode 1))
+
+(use-package! visual-fill-column
+  :hook (org-mode . efs/org-mode-visual-fill))
+
+(use-package! org-auto-tangle
+  :defer t
+  :hook (org-mode . org-auto-tangle-mode)
+  :config
+  (setq org-auto-tangle-default t))
+
 (setq display-line-numbers-type t)
 (map! :leader
       (:prefix ("l" . "lsp")
@@ -195,39 +215,44 @@ If SUBMODE is not provided, use `LANG-mode' by default."
       (put-text-property (point) (1- (point))
                  'syntax-table (string-to-syntax "_")))))))
 
-(after! org
-  (add-hook 'org-mode-hook (λ! (org-bullets-mode 1)))
-  (add-hook 'org-mode-hook
-      (λ!
-        (setq syntax-propertize-function 'org-mode-<>-syntax-fix)
-        (syntax-propertize (point-max))))
-  (setq org-directory "~/Org/"
-        org-agenda-files '("~/Org/agenda.org")
-        org-default-notes-file (expand-file-name "notes.org" org-directory)
-        org-ellipsis " ▼ "
-        org-log-done 'time
-        org-journal-dir "~/Org/journal/"
-        org-journal-date-format "%B %d, %Y (%A) "
-        org-journal-file-format "%Y-%m-%d.org"
-        org-hide-emphasis-markers t
-        ;; ex. of org-link-abbrev-alist in action
-        ;; [[arch-wiki:Name_of_Page][Description]]
-        org-link-abbrev-alist    ; This overwrites the default Doom org-link-abbrev-list
-          '(("google" . "http://www.google.com/search?q=")
-            ("arch-wiki" . "https://wiki.archlinux.org/index.php/")
-            ("ddg" . "https://duckduckgo.com/?q=")
-            ("wiki" . "https://en.wikipedia.org/wiki/"))
-        org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
-          '((sequence
-             "TODO(t)"           ; A task that is ready to be tackled
-             "BLOG(b)"           ; Blog writing assignments
-             "GYM(g)"            ; Things to accomplish at the gym
-             "PROJ(p)"           ; A project that contains other tasks
-             "VIDEO(v)"          ; Video assignments
-             "WAIT(w)"           ; Something is holding up this task
-             "|"                 ; The pipe necessary to separate "active" states and "inactive" states
-             "DONE(d)"           ; Task has been completed
-             "CANCELLED(c)" )))) ; Task has been cancelled
+;; (font-lock-add-keywords 'org-mode
+;;                         '(("^ *\\([-]\\) "
+;;                            (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "‣"))))))
+
+;; (after! org
+;;   (add-hook 'org-mode-hook (λ! (org-bullets-mode 1)))
+;;   (add-hook 'org-mode-hook
+;;       (λ!
+;;         (setq syntax-propertize-function 'org-mode-<>-syntax-fix)
+;;         (syntax-propertize (point-max))))
+;;   (setq org-directory "~/Org/"
+;;         org-agenda-files '("~/Org/agenda.org")
+;;         org-default-notes-file (expand-file-name "notes.org" org-directory)
+;;         org-ellipsis " ∇"
+;;         org-log-done 'time
+;;         org-journal-dir "~/Org/journal/"
+;;         org-journal-date-format "%B %d, %Y (%A) "
+;;         org-journal-file-format "%Y-%m-%d.org"
+;;         ;; org-hide-emphasis-markers nil
+;;         ;; ex. of org-link-abbrev-alist in action
+;;         ;; [[arch-wiki:Name_of_Page][Description]]
+;;         org-link-abbrev-alist    ; This overwrites the default Doom org-link-abbrev-list
+;;           '(("google" . "http://www.google.com/search?q=")
+;;             ("arch-wiki" . "https://wiki.archlinux.org/index.php/")
+;;             ("ddg" . "https://duckduckgo.com/?q=")
+;;             ("wiki" . "https://en.wikipedia.org/wiki/"))
+;;         org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
+;;           '((sequence
+;;              "TODO(t)"           ; A task that is ready to be tackled
+;;              "BLOG(b)"           ; Blog writing assignments
+;;              "GYM(g)"            ; Things to accomplish at the gym
+;;              "PROJ(p)"           ; A project that contains other tasks
+;;              "VIDEO(v)"          ; Video assignments
+;;              "WAIT(w)"           ; Something is holding up this task
+;;              "|"                 ; The pipe necessary to separate "active" states and "inactive" states
+;;              "DONE(d)"           ; Task has been completed
+;;              "CANCELLED(c)" ))
+;;         org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿"))) ; Task has been cancelled
 
 (setq org-latex-listings 'minted
       org-latex-packages-alist '(("" "minted"))
@@ -381,10 +406,10 @@ If SUBMODE is not provided, use `LANG-mode' by default."
       (:prefix ("o" . "open")
        :desc "View Calendar" "g" #'calendar))
 
-(defun efs/org-babel-tangle-zshrc ()
-  (when (string-equal (buffer-file-name)
-                      (expand-file-name "~/.dotfiles/zshrc.org"))
-    (let ((org-confirm-babel-evaluate nil))
-      (org-babel-tangle))))
+;; (defun efs/org-babel-tangle-zshrc ()
+;;   (when (string-equal (buffer-file-name)
+;;                       (expand-file-name "~/.dotfiles/zshrc.org"))
+;;     (let ((org-confirm-babel-evaluate nil))
+;;       (org-babel-tangle))))
 
-(add-hook 'org-mode-hook (λ! (add-hook 'after-save-hook #'efs/org-babel-tangle-zshrc)))
+;; (add-hook 'org-mode-hook (λ! (add-hook 'after-save-hook #'efs/org-babel-tangle-zshrc)))

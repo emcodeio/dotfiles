@@ -74,3 +74,4 @@
 (package! dired+)
 (package! dired-hide-dotfiles)
 (package! transmission)
+(package! org-auto-tangle)
