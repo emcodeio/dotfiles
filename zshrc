@@ -48,6 +48,9 @@ export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/.emacs.d/bin/:$PATH
 
+export PATH="/Library/Java/JavaVirtualMachines/graalvm-ce-java11-22.1.0/Contents/Home/bin:$PATH"
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/graalvm-ce-java11-22.1.0/Contents/Home"
+
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # export LANG=en_US.UTF-8
@@ -114,9 +117,10 @@ alias icgen="cd $HOME/dev/PhaseChangeProjects/icGenerator"
 alias icgenviz="cd $HOME/dev/PhaseChangeProjects/icGenerator/src/main/resources/tmp"
 alias gotosync="cp -a $HOME/.dotfiles/obsidian/GoTo\ Elimination/. $HOME/dev/fom/GraphNormaliztion/Goto\ Elimination\ Docs"
 alias pullrep="rep && $HOME/.dotfiles/scripts/mvOutVizCode.sh && git restore src/* && git pull && $HOME/.dotfiles/scripts/mvInVizCode.sh"
-alias moveoutrep="$HOME/.dotfiles/scripts/mvOutVizCode.sh"
-alias moveinrep="$HOME/.dotfiles/scripts/mvInVizCode.sh"
+alias mvoutrep="$HOME/.dotfiles/scripts/mvOutVizCode.sh"
+alias mvinrep="$HOME/.dotfiles/scripts/mvInVizCode.sh"
 alias dotclean="rm *.dot *.pdf"
+alias mkcobol="$HOME/.dotfiles/scripts/make-cobol.sh"
 
 alias python="python3"
 alias pip="pip3"
