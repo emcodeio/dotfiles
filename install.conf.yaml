@@ -10,18 +10,29 @@
     ~/.doom.d:
     ~/.oh-my-zsh/custom: ~/.dotfiles/oh-my-zsh
     ~/.p10k.zsh:
+    ~/.mbsyncrc:
+    ~/.msmtprc:
     ~/.wallpaper:
     ~/.config/karabiner: ~/.dotfiles/karabiner
     ~/.ideavimrc:
     ~/dev/obsidian_vault: ~/.dotfiles/obsidian
+    ~/.dotfiles/org: /Users/eerickson/Library/Mobile\ Documents/iCloud\~com\~appsonthemove\~beorg/Documents/org
     /Applications: ~/.dotfiles/scripts/Flow\ -\ Start.app/
-
-    # ~/.test:
 
 - create:
     - ~/inbox/
+    - ~/.maildir/
+    - ~/.maildir/icloud/
+    - ~/.maildir/evan.erksn-gmail/
+    - ~/.maildir/ericenna-gmail/
+    - ~/.maildir/work/
     # - ~/downloads
     # - ~/.vim/undo-history
 
-# - shell:
-#   - [git submodule update --init --recursive, Installing submodules]
+- shell:
+    - [brew install mu]
+    - [brew install isync]
+    - [brew install msmtp]
+    - [mbsync -aV]
+    - [mu init -m ~/.maildir --my-address evan_e@icloud.com --my-address evan@emcode.io --my-address evan.erksn@gmail.com --my-address ericenna@gmail.com --my-address eerickson@phasechange.ai]
+    - [mu index]

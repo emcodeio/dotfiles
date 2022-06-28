@@ -121,6 +121,7 @@ alias mvoutrep="$HOME/.dotfiles/scripts/mvOutVizCode.sh"
 alias mvinrep="$HOME/.dotfiles/scripts/mvInVizCode.sh"
 alias dotclean="rm *.dot *.pdf"
 alias mkcobol="$HOME/.dotfiles/scripts/make-cobol.sh"
+alias newvlc="open -n /Applications/VLC.app"
 
 alias python="python3"
 alias pip="pip3"

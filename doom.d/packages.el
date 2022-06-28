@@ -75,3 +75,8 @@
 (package! dired-hide-dotfiles)
 (package! transmission)
 (package! org-auto-tangle)
+(package! mu4e-dashboard
+  :recipe (:host github
+           :repo "rougier/mu4e-dashboard"))
+(package! org-mime)
+(package! dashboard)

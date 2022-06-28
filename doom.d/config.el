@@ -48,6 +48,30 @@
        :desc "Toggle line highlight globally" "H" #'global-hl-line-mode
        :desc "Toggle truncate lines" "t" #'toggle-truncate-lines))
 
+;; (use-package dashboard
+;;   :init      ;; tweak dashboard config before loading it
+;;   (setq dashboard-set-heading-icons t)
+;;   (setq dashboard-set-file-icons t)
+;;   (setq dashboard-banner-logo-title "\nKEYBINDINGS:\
+;; \nFind file               (SPC .)     \
+;; Open buffer list    (SPC b i)\
+;; \nFind recent files       (SPC f r)   \
+;; Open the eshell     (SPC e s)\
+;; \nOpen dired file manager (SPC d d)   \
+;; List of keybindings (SPC h b b)")
+;;   ;;(setq dashboard-startup-banner 'logo) ;; use standard emacs logo as banner
+;;   (setq dashboard-startup-banner "~/.config/doom/doom-emacs-dash.png")  ;; use custom image as banner
+;;   (setq dashboard-center-content nil) ;; set to 't' for centered content
+;;   (setq dashboard-items '((recents . 5)
+;;                           (agenda . 5 )
+;;                           (bookmarks . 5)
+;;                           (projects . 5)
+;;                           (registers . 5)))
+;;   :config
+;;   (dashboard-setup-startup-hook)
+;;   (dashboard-modify-heading-icons '((recents . "file-text")
+;;                                     (bookmarks . "book"))))
+
 (use-package! dired
     :commands (dired dired-jump)
     :config
@@ -57,11 +81,15 @@
       "o" 'xah-dired-sort))
 (after! dired
   (setq dired-listing-switches "-agho --si --time-style long-iso --group-directories-first"))
+
 (setq global-auto-revert-non-file-buffers t)
 (setq delete-by-moving-to-trash nil)
 (setq large-file-warning-threshold nil)
 
 (use-package! openwith
+  :init
+  ;; Prevents openwith from messing up email attachments
+  (require 'mm-util)
   :config
     (setq openwith-associations
       (list
@@ -78,8 +106,9 @@
              '(file))
        ;; '("\\.chm" "kchmviewer" (file))
        ))
-    )
-(add-hook! 'after-init-hook #'openwith-mode)
+    (add-hook! 'after-init-hook #'openwith-mode)
+    ;; Prevents openwith from messing up email attachments
+    (add-to-list 'mm-inhibit-file-name-handlers 'openwith-file-handler))
 
 (defun xah-dired-sort ()
   "Sort dired dir listing in different ways.
@@ -127,18 +156,30 @@
 ;;       )
 
 (after! org
-  (setq org-ellipsis " ▽"
+  (setq org-directory "~/Documents/org/"
+        org-agenda-files
+        (list
+         "inbox.org"
+         "projects.org")
+        org-ellipsis " ▽ "
         org-superstar-headline-bullets-list '("◉" "●" "○" "◆" "●" "○" "◆")
         org-superstar-item-bullet-alist '((?+ . ?‣) (?- . ?∙)) ; changes +/- symbols in item lists
-        ))
+        org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
+        '((sequence
+           "TODO(t)"           ; A task that is ready to be tackled
+           "NEXT(n)"           ; A task that is ready to be tackled
+           "PROJ(p)"           ; A project that contains other tasks
+           "WAIT(w)"           ; Something is holding up this task
+           "|"                 ; The pipe necessary to separate "active" states and "inactive" states
+           "DONE(d)"           ; Task has been completed
+           "CANCELLED(c)" )))) ; Task has been cancelled
 
 (custom-set-faces
   '(org-level-1 ((t (:inherit outline-1 :height 1.4))))
   '(org-level-2 ((t (:inherit outline-2 :height 1.3))))
   '(org-level-3 ((t (:inherit outline-3 :height 1.2))))
   '(org-level-4 ((t (:inherit outline-4 :height 1.1))))
-  '(org-level-5 ((t (:inherit outline-5 :height 1.0))))
-)
+  '(org-level-5 ((t (:inherit outline-5 :height 1.0)))))
 
 (defun efs/org-mode-visual-fill ()
   (setq visual-fill-column-width 120
@@ -148,11 +189,285 @@
 (use-package! visual-fill-column
   :hook (org-mode . efs/org-mode-visual-fill))
 
+(after! org-capture
+  (setq org-capture-templates
+        `(("i" "Inbox" entry (file "inbox.org")
+           "* TODO %?\n %U")
+           ("d" "DONE" entry (file "projects.org")
+            "* DONE %a" :empty-lines 1)
+          ("d")
+          ("e" "Inbox [mu4e]" entry (file "inbox.org")
+           "* TODO Process \"%a\" %?\n %U")
+          ;; ("n" "Note" entry (file "inbox.org")
+          ;;  ,(concat "* Note (%a)\n"
+          ;;           "%U\n" "%?"))
+          ("p" "Project" entry (file "projects.org")
+           ,(concat "* PROJ %^{Project title} [\/]\n"
+                    ":PROPERTIES:\n"
+                    ":CATEGORY:\n"
+                    ":VISIBILITY: hide\n"
+                    ":COOKIE_DATA: recursive todo\n"
+                    ":END:\n"
+                    "** Why?\n"
+                          ":PROPERTIES:\n"
+                          ":VISIBILITY: hide\n"
+                          ":END:\n"
+                    "** Information\n"
+                          ":PROPERTIES:\n"
+                          ":VISIBILITY: hide\n"
+                          ":END:\n"
+                    "** Notes\n"
+                          ":PROPERTIES:\n"
+                          ":VISIBILITY: hide\n"
+                          ":END:\n"
+                    "** Tasks\n"
+                          ":PROPERTIES:\n"
+                          ":VISIBILITY: content\n"
+                          ":END:\n"))))
+  (regexp-opt '("Tasks" "Notes"))
+  (setq org-refile-targets
+        '(("projects.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")))
+  (setq org-refile-use-outline-path 'file)
+  (setq org-outline-path-complete-in-steps nil))
+
+(after! org-agenda
+  (setq org-agenda-custom-commands
+        '(("n" "Next Tasks"
+           ((todo "NEXT"
+                  ((org-agenda-overriding-header "Next Tasks")))))
+          ("g" "Get Things Done (GTD)"
+           ((agenda ""
+                    ((org-agenda-skip-function
+                      '(org-agenda-skip-entry-if 'deadline))
+                     (org-deadline-warning-days 0)))
+            (todo "NEXT"
+                  ((org-agenda-skip-function
+                    '(org-agenda-skip-entry-if 'deadline))
+                   (org-agenda-prefix-format "  %i %-12:c [%e] ")
+                   (org-agenda-overriding-header "\nTasks\n")))
+            (agenda nil
+                    ((org-agenda-entry-types '(:deadline))
+                     (org-agenda-format-date "")
+                     (org-deadline-warning-days 7)
+                     (org-agenda-skip-function
+                      '(org-agenda-skip-entry-if 'notregexp "\\* NEXT"))
+                     (org-agenda-overriding-header "\nDeadlines")))
+            (tags-todo "inbox"
+                       ((org-agenda-prefix-format "  %?-12t% s")
+                        (org-agenda-overriding-header "\nInbox\n")))
+            (tags "CLOSED>=\"<today>\""
+                  ((org-agenda-overriding-header "\nCompleted today\n"))))))))
+
 (use-package! org-auto-tangle
   :defer t
   :hook (org-mode . org-auto-tangle-mode)
   :config
   (setq org-auto-tangle-default t))
+
+(use-package! mu4e
+  :load-path "/opt/homebrew/opt/mu/share/emacs/site-lisp/mu/mu4e"
+  :config
+  (require 'smtpmail)
+  ;; installed this with homebrew
+  (setq mu4e-mu-binary (executable-find "mu"))
+  ;; mu4e mail directory:
+  (setq mu4e-maildir "~/.maildir")
+  ;; this command is called to sync imap servers:
+  (setq mu4e-get-mail-command (concat (executable-find "mbsync") " -a"))
+  ;; how often to call it in seconds:
+  (setq mu4e-update-interval (* 5 60))
+  ;; save attachment to ~/inbox by default
+  (setq mu4e-attachment-dir "~/inbox")
+  ;; rename files when moving - needed for mbsync:
+  (setq mu4e-change-filenames-when-moving t)
+  ;; list of email adresses:
+  (setq mu4e-user-mail-address-list '("evan_e@icloud.com"
+                                      "evan@emcode.io"
+                                      "evan.erksn@gmail.com"
+                                      "ericenna@gmail.com"
+                                      "eerickson@phasechange.ai"))
+
+  ;; make bookmarks
+  (add-to-list 'mu4e-bookmarks
+               (make-mu4e-bookmark
+                :name "Inbox - Work"
+                :query "maildir:/work/INBOX"
+                :key ?w))
+  (add-to-list 'mu4e-bookmarks
+               (make-mu4e-bookmark
+                :name "Inbox - Spam"
+                :query "maildir:/ericenna-gmail/INBOX"
+                :key ?s))
+  (add-to-list 'mu4e-bookmarks
+               (make-mu4e-bookmark
+                :name "Inbox - Gamil"
+                :query "maildir:/evan.erksn-gmail/INBOX"
+                :key ?g))
+  (add-to-list 'mu4e-bookmarks
+               (make-mu4e-bookmark
+                :name "Inbox - iCloud"
+                :query "maildir:/icloud/INBOX"
+                :key ?a))
+  (add-to-list 'mu4e-bookmarks
+               (make-mu4e-bookmark
+                :name "All Inboxes"
+                :query "m:/icloud/INBOX or m:/evan.erksn-gmail/INBOX or m:/ericenna-gmail/INBOX or m:/work/INBOX"
+                :key ?i))
+
+  ;; creating contexts
+  (setq mu4e-contexts
+         (list
+          ;; Emcode account
+          (make-mu4e-context
+           :name "Emcode"
+           :match-func
+           (lambda (msg)
+             (when msg
+               (string-prefix-p "/icloud" (mu4e-message-field msg :maildir))))
+           :vars '((user-mail-address . "evan@emcode.io" )
+                   (user-full-name . "Evan Erickson")
+                   (mu4e-drafts-folder . "/icloud/Drafts")
+                   (mu4e-refile-folder . "/icloud/Archive")
+                   (mu4e-sent-folder . "/icloud/Sent Messages")
+                   (mu4e-trash-folder . "/icloud/Deleted Messages")))
+          ;; iCloud acount
+          (make-mu4e-context
+           :name "iCloud"
+           :match-func
+           (lambda (msg)
+             (when msg
+               (string-prefix-p "/icloud" (mu4e-message-field msg :maildir))))
+           :vars '((user-mail-address  . "evan_e@icloud.com" )
+                   (user-full-name     . "Evan Erickson")
+                   (mu4e-drafts-folder . "/icloud/Drafts")
+                   (mu4e-refile-folder . "/icloud/Archive")
+                   (mu4e-sent-folder   . "/icloud/Sent Messages")
+                   (mu4e-trash-folder  . "/icloud/Deleted Messages")))
+          ;; Gmail account
+          (make-mu4e-context
+           :name "Gmail"
+           :match-func
+           (lambda (msg)
+             (when msg
+               (string-prefix-p "/evan.erksn-gmail" (mu4e-message-field msg :maildir))))
+           :vars '((user-mail-address  . "evan.erksn@gmail.com")
+                   (user-full-name     . "Evan Erickson")
+                   (mu4e-drafts-folder . "/evan.erksn-gmail/[Gmail]/Drafts")
+                   (mu4e-sent-folder   . "/evan.erksn-gmail/[Gmail]/Sent Mail")
+                   (mu4e-refile-folder . "/evan.erksn-gmail/[Gmail]/All Mail")
+                   (mu4e-trash-folder  . "/evan.erksn-gmail/[Gmail]/Trash")))
+          ;; Spam gmail account
+          (make-mu4e-context
+           :name "Spam"
+           :match-func
+           (lambda (msg)
+             (when msg
+               (string-prefix-p "/ericenna-gmail" (mu4e-message-field msg :maildir))))
+           :vars '((user-mail-address  . "ericenna@gmail.com")
+                   (user-full-name     . "Evan Erickson")
+                   (mu4e-drafts-folder . "/ericenna-gmail/[Gmail]/Drafts")
+                   (mu4e-sent-folder   . "/ericenna-gmail/[Gmail]/Sent Mail")
+                   (mu4e-refile-folder . "/ericenna-gmail/[Gmail]/All Mail")
+                   (mu4e-trash-folder  . "/ericenna-gmail/[Gmail]/Trash")))
+          ;; Work account
+          (make-mu4e-context
+           :name "Work"
+           :match-func
+           (lambda (msg)
+             (when msg
+               (string-prefix-p "/work" (mu4e-message-field msg :maildir))))
+           ;; :name "Work"
+           ;; :enter-func
+           ;; (lambda () (mu4e-message "Enter eerickson@phasechange.ai context"))
+           ;; :leave-func
+           ;; (lambda () (mu4e-message "Leave eerickson@phasechange.ai context"))
+           ;; :match-func
+           ;; (lambda (msg)
+           ;;   (when msg
+           ;;     (or (mu4e-message-contact-field-matches msg
+           ;;                                             :to "eerickson@phasechange.ai")
+           ;;         (mu4e-message-contact-field-matches msg
+           ;;                                             :to "company@phasechange.ai"))))
+           :vars '((user-mail-address  . "eerickson@phasechange.ai")
+                   (user-full-name     . "Evan Erickson")
+                   (mu4e-drafts-folder . "/work/Drafts")
+                   (mu4e-sent-folder   . "/work/Sent Items")
+                   (mu4e-refile-folder . "/work/Archive")
+                   (mu4e-trash-folder  . "/work/Trash")))))
+
+  (setq mu4e-context-policy 'pick-first) ;; start with the first (default) context;
+  (setq mu4e-compose-context-policy 'ask) ;; ask for context if no context matches;
+
+  ;; SENDING SETTINGS
+  ;; gpg encryptiom & decryption:
+  ;; this can be left alone
+  (require 'epa-file)
+  (epa-file-enable)
+  (setq epa-pinentry-mode 'loopback)
+  (auth-source-forget-all-cached)
+
+  ;; don't keep message compose buffers around after sending:
+  (setq message-kill-buffer-on-exit t)
+  ;; send function:
+  ;; (setq send-mail-function 'sendmail-send-it)
+  (setq send-mail-function 'sendmail-send-it
+        message-send-mail-function 'sendmail-send-it
+        ;; send program:
+        sendmail-program (executable-find "msmtp")
+        ;; select the right sender email from the context.
+        mail-specify-envelope-from t
+        mail-envelope-from 'header
+        message-sendmail-envelope-from 'header)
+
+  ;; Turn off Org-msg-mode by default
+  (setq mu4e-compose--org-msg-toggle-next nil)
+
+  ;; mu4e cc & bcc
+  (add-hook 'mu4e-compose-mode-hook
+            (defun timu/add-cc-and-bcc ()
+              "My Function to automatically add Cc & Bcc: headers.
+               This is in the mu4e compose mode."
+              (save-excursion (message-add-header "Cc:\n"))
+              (save-excursion (message-add-header "Bcc:\n"))))
+  ;; mu4e address completion
+  (add-hook 'mu4e-compose-mode-hook 'company-mode)
+
+  ;; COSMETICS
+  (setq +mu4e-main-bullet "‣")
+  (setq mu4e-headers-thread-child-prefix '("├>" . "├─➤ ")
+        mu4e-headers-thread-last-child-prefix '("└>" . "└─➤ ")
+        mu4e-headers-thread-orphan-prefix '("┬>" . "┬─➤ ")
+        mu4e-headers-thread-single-orphan-prefix '("─>" . "──➤ ")
+        ;; The following two should have the same width.
+        mu4e-headers-thread-connection-prefix '("│" . "│ ")
+        mu4e-headers-thread-blank-prefix '(" " . " ")))
+
+;; (defun em/send ()
+;;   "Prompt user for email type"
+;;   (interactive)
+;;   (let (n)
+;;     (setq n ())))
+
+(use-package! org-mime
+  :config
+  (setq org-mime-export-options '(:section-numbers nil
+                                  :with-author nil
+                                  :with-toc nil))
+  (add-hook 'message-send-hook 'org-mime-confirm-when-no-multipart)
+  ;; (add-hook 'org-mime-html-hook
+  ;;           (lambda ()
+  ;;             (org-mime-change-element-style
+  ;;              "pre" (format "background-color %s; padding: 0.5em;"
+  ;;                            "#232323"))))
+  )
+
+(map! :leader
+      (:desc "Compose email" "e" #'+mu4e/compose))
+
+(map! :map mu4e-compose-mode-map
+      :localleader
+      :desc "convert to html email" "h" #'org-mime-htmlize
+      :desc "edit email in org buffer" "o" #'org-mime-edit-mail-in-org-mode)
 
 (setq display-line-numbers-type t)
 (map! :leader
@@ -303,7 +618,8 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 	(interactive)
 	(gradle-run "build run"))
 
-(map! :map gradle-mode-map
+(map! :after java
+      :map gradle-mode-map
       :leader
       :prefix ("j" . "java")
       ;; basics
@@ -363,6 +679,15 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 
 (map! :leader
       (:desc "Open Vterm" "v" #'vterm))
+
+(map! :leader
+      (:desc "Org Capture" "SPC" #'org-capture))
+
+(map! :leader
+      (:desc "Find file in project" "x" #'projectile-find-file))
+
+(map! :leader
+      (:desc "Find file in project" "X" #'doom/open-scratch-buffer))
 
 (map! :leader
       (:desc "Switch workspace buffer" "<" #'+vertico/switch-workspace-buffer))
