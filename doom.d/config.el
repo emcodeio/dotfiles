@@ -189,44 +189,52 @@
 (use-package! visual-fill-column
   :hook (org-mode . efs/org-mode-visual-fill))
 
+(defvar my-org-capture-filename nil
+  "File name for org capture template.")
+
+(defun my-org-capture ()
+  "Read file name to capture to."
+  (interactive)
+  (setq my-org-capture-filename
+        (read-file-name "Capture to: " "~/Documents/org"
+                        nil t "inbox.org"))
+  (call-interactively #'org-capture))
+
 (after! org-capture
   (setq org-capture-templates
         `(("i" "Inbox" entry (file "inbox.org")
-           "* TODO %?\n %U")
-           ("d" "DONE" entry (file "projects.org")
-            "* DONE %a" :empty-lines 1)
-          ("d")
-          ("e" "Inbox [mu4e]" entry (file "inbox.org")
-           "* TODO Process \"%a\" %?\n %U")
-          ;; ("n" "Note" entry (file "inbox.org")
-          ;;  ,(concat "* Note (%a)\n"
-          ;;           "%U\n" "%?"))
-          ("p" "Project" entry (file "projects.org")
-           ,(concat "* PROJ %^{Project title} [\/]\n"
-                    ":PROPERTIES:\n"
-                    ":CATEGORY:\n"
-                    ":VISIBILITY: hide\n"
-                    ":COOKIE_DATA: recursive todo\n"
-                    ":END:\n"
-                    "** Why?\n"
-                          ":PROPERTIES:\n"
-                          ":VISIBILITY: hide\n"
-                          ":END:\n"
-                    "** Information\n"
-                          ":PROPERTIES:\n"
-                          ":VISIBILITY: hide\n"
-                          ":END:\n"
-                    "** Notes\n"
-                          ":PROPERTIES:\n"
-                          ":VISIBILITY: hide\n"
-                          ":END:\n"
-                    "** Tasks\n"
-                          ":PROPERTIES:\n"
-                          ":VISIBILITY: content\n"
-                          ":END:\n"))))
+           "* TODO %?")
+           ("e" "Inbox [mu4e]" entry (file "inbox.org")
+            "* TODO Email: \"%a\" %?")
+           ;; ("n" "Note" entry (file "inbox.org")
+           ;;  ,(concat "* Note (%a)\n"
+           ;;           "%U\n" "%?"))
+           ("p" "Project" entry (file "projects.org")
+            ,(concat "* PROJ %^{Project title} [\/]\n"
+                     ":PROPERTIES:\n"
+                     ":CATEGORY:\n"
+                     ":VISIBILITY: hide\n"
+                     ":COOKIE_DATA: recursive todo\n"
+                     ":END:\n"
+                     "** Why?\n"
+                           ":PROPERTIES:\n"
+                           ":VISIBILITY: hide\n"
+                           ":END:\n"
+                     "** Notes\n"
+                           ":PROPERTIES:\n"
+                           ":VISIBILITY: hide\n"
+                           ":END:\n"
+                     "** Tasks\n"
+                           ":PROPERTIES:\n"
+                           ":VISIBILITY: content\n"
+                           ":END:\n"))))
   (regexp-opt '("Tasks" "Notes"))
   (setq org-refile-targets
-        '(("projects.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")))
+        '(("projects.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
+         ;;  ("inbox.org" :maxlevel . 3)
+          ("projects.org" :regexp . "PERSONAL")
+          ("projects.org" :regexp . "WORK")
+          ))
   (setq org-refile-use-outline-path 'file)
   (setq org-outline-path-complete-in-steps nil))
 
