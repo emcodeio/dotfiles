@@ -1,0 +1,143 @@
+IMAPAccount icloud
+Host imap.mail.me.com
+User evan_e@icloud.com
+PassCmd "security find-generic-password -s mu4e-icloud-gen -a evan_e@icloud.com -w"
+Port 993
+SSLType IMAPS
+SSLVersions TLSv1.2
+AuthMechs PLAIN
+SystemCertificates no
+CertificateFile ~/.maildir/certificates/root-certificates.pem
+
+IMAPStore icloud-remote
+Account icloud
+
+MaildirStore icloud-local
+SubFolders Verbatim
+Path ~/.maildir/icloud/
+Inbox ~/.maildir/icloud/INBOX
+
+Channel icloud
+Far :icloud-remote:
+Near :icloud-local:
+Patterns *
+Create Both
+Sync All
+Expunge Both
+SyncState *
+
+# =====================================================================
+
+IMAPAccount evan.erksn-gmail
+Host imap.gmail.com
+User evan.erksn@gmail.com
+PassCmd "security find-generic-password -s mu4e-evan.erksn-gen -a evan.erksn@gmail.com -w"
+Port 993
+SSLType IMAPS
+SSLVersions TLSv1.2
+AuthMechs PLAIN
+SystemCertificates no
+CertificateFile ~/.maildir/certificates/root-certificates.pem
+
+IMAPStore evan.erksn-gmail-remote
+Account evan.erksn-gmail
+
+MaildirStore evan.erksn-gmail-local
+SubFolders Verbatim
+Path ~/.maildir/evan.erksn-gmail/
+Inbox ~/.maildir/evan.erksn-gmail/INBOX
+
+Channel evan.erksn-gmail
+Far :evan.erksn-gmail-remote:
+Near :evan.erksn-gmail-local:
+Patterns *
+Create Both
+Sync All
+Expunge Both
+SyncState *
+
+# =====================================================================
+
+IMAPAccount ericenna-gmail
+Host imap.gmail.com
+User ericenna@gmail.com
+PassCmd "security find-generic-password -s mu4e-ericenna-gen -a ericenna@gmail.com -w"
+Port 993
+SSLType IMAPS
+SSLVersions TLSv1.2
+AuthMechs PLAIN
+SystemCertificates no
+CertificateFile ~/.maildir/certificates/root-certificates.pem
+
+IMAPStore ericenna-gmail-remote
+Account ericenna-gmail
+
+MaildirStore ericenna-gmail-local
+SubFolders Verbatim
+Path ~/.maildir/ericenna-gmail/
+Inbox ~/.maildir/ericenna-gmail/INBOX
+
+Channel ericenna-gmail
+Far :ericenna-gmail-remote:
+Near :ericenna-gmail-local:
+Patterns *
+Create Both
+Sync All
+Expunge Both
+SyncState *
+
+# =====================================================================
+
+IMAPAccount work
+Host localhost
+Port 1143
+Timeout 120
+User eerickson@phasechange.ai
+AuthMechs LOGIN
+SSLType None
+PassCmd  "security find-generic-password -s mu4e-work-davmail -a eerickson@phasechange.ai -w"
+
+IMAPStore work-remote
+Account work
+
+MaildirStore work-local
+SubFolders Verbatim
+Path ~/.maildir/work/
+Inbox ~/.maildir/work/INBOX
+
+Channel work
+Far :work-remote:
+Near :work-local:
+Patterns *
+Create Both
+Sync All
+Expunge Both
+SyncState *
+
+
+# IMAPAccount work
+# Host outlook.office365.com
+# User eerickson@phasechange.ai
+# PassCmd "security find-generic-password -s mu4e-work -a eerickson@phasechange.ai -w"
+# Port 993
+# SSLType IMAPS
+# SSLVersions TLSv1.2
+# SystemCertificates no
+# CertificateFile ~/.maildir/certificates/root-certificates.pem
+
+# IMAPStore work-remote
+# Account work
+
+# MaildirStore work-local
+# SubFolders Verbatim
+# Path ~/.maildir/work/
+# Inbox ~/.maildir/work/INBOX
+
+# Channel work
+# Far :work-remote:
+# Near :work-local:
+# Patterns *
+# Create Both
+# Sync All
+# Expunge Both
+# SyncState *
