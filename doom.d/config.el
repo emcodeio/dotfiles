@@ -213,7 +213,6 @@
             ,(concat "* PROJ %^{Project title} [\/]\n"
                      ":PROPERTIES:\n"
                      ":CATEGORY:\n"
-                     ":VISIBILITY: hide\n"
                      ":COOKIE_DATA: recursive todo\n"
                      ":END:\n"
                      "** Why?\n"
