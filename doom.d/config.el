@@ -174,6 +174,8 @@
            "DONE(d)"           ; Task has been completed
            "CANCELLED(c)" )))) ; Task has been cancelled
 
+(advice-add 'org-refile :after 'org-save-all-org-buffers)
+
 (custom-set-faces
   '(org-level-1 ((t (:inherit outline-1 :height 1.4))))
   '(org-level-2 ((t (:inherit outline-2 :height 1.3))))
@@ -205,12 +207,33 @@
         `(("i" "Inbox" entry (file "inbox.org")
            "* TODO %?")
            ("e" "Inbox [mu4e]" entry (file "inbox.org")
-            "* TODO Email: \"%a\" %?")
+            "* TODO Email: \"%a\"\n%i%?"
+            :immediate-finish t)
            ;; ("n" "Note" entry (file "inbox.org")
            ;;  ,(concat "* Note (%a)\n"
            ;;           "%U\n" "%?"))
-           ("p" "Project" entry (file "projects.org")
-            ,(concat "* PROJ %^{Project title} [\/]\n"
+           ("p" "Project")
+           ("pp" "Personal Project" entry (file+olp "projects.org" "PERSONAL")
+            ;; replace %? with %^{Project title} to be prompted
+            ,(concat "* PROJ %? [\/]\n"
+                     ":PROPERTIES:\n"
+                     ":CATEGORY:\n"
+                     ":COOKIE_DATA: recursive todo\n"
+                     ":END:\n"
+                     "** Why?\n"
+                           ":PROPERTIES:\n"
+                           ":VISIBILITY: hide\n"
+                           ":END:\n"
+                     "** Notes\n"
+                           ":PROPERTIES:\n"
+                           ":VISIBILITY: hide\n"
+                           ":END:\n"
+                     "** Tasks\n"
+                           ":PROPERTIES:\n"
+                           ":VISIBILITY: content\n"
+                           ":END:\n"))
+           ("pw" "Personal Project" entry (file+olp "projects.org" "WORK")
+            ,(concat "* PROJ %? [\/]\n"
                      ":PROPERTIES:\n"
                      ":CATEGORY:\n"
                      ":COOKIE_DATA: recursive todo\n"
@@ -231,45 +254,101 @@
   (setq org-refile-targets
         '(("projects.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
          ;;  ("inbox.org" :maxlevel . 3)
-          ("projects.org" :regexp . "PERSONAL")
-          ("projects.org" :regexp . "WORK")
+          ("projects.org" :regexp . "Single Personal Tasks")
+          ("projects.org" :regexp . "Single Work Tasks")
           ))
   (setq org-refile-use-outline-path 'file)
   (setq org-outline-path-complete-in-steps nil))
+
+(defun eme/org-create-header-string (&optional org-element)
+  "Returns a formated string. Abbreviated if it is over a certain length. Original otherwise."
+  (let ((str (car (cdr (org-get-outline-path org-element)))))
+    (if (< (length str) 20)
+        (concat "[Project: " str "]")
+      (concat "[Project: " (substring str 0 19) "...]"))))
 
 (after! org-agenda
   (setq org-agenda-custom-commands
         '(("n" "Next Tasks"
            ((todo "NEXT"
                   ((org-agenda-overriding-header "Next Tasks")))))
-          ("g" "Get Things Done (GTD)"
+          ("g" . "Get Things Done (GTD)")
+          ("gw" "Work"
            ((agenda ""
                     ((org-agenda-skip-function
                       '(org-agenda-skip-entry-if 'deadline))
                      (org-deadline-warning-days 0)))
-            (todo "NEXT"
+            ;; (agenda nil
+            ;;         ((org-agenda-entry-types '(:deadline))
+            ;;          (org-agenda-format-date "")
+            ;;          (org-deadline-warning-days 7)
+            ;;          (org-agenda-skip-function
+            ;;           '(org-agenda-skip-entry-if 'notregexp "\\* NEXT"))
+            ;;          (org-agenda-overriding-header "\nDeadlines")))
+            (
+             ;; todo "NEXT"
+             tags-todo "+work/!NEXT"
                   ((org-agenda-skip-function
                     '(org-agenda-skip-entry-if 'deadline))
-                   (org-agenda-prefix-format "  %i %-12:c [%e] ")
+                   (org-agenda-prefix-format
+                    "        %-41(eme/org-create-header-string)")
+                   ;; (org-agenda-prefix-format "  %i %-12:c [%e] ")
                    (org-agenda-overriding-header "\nTasks\n")))
-            (agenda nil
-                    ((org-agenda-entry-types '(:deadline))
-                     (org-agenda-format-date "")
-                     (org-deadline-warning-days 7)
-                     (org-agenda-skip-function
-                      '(org-agenda-skip-entry-if 'notregexp "\\* NEXT"))
-                     (org-agenda-overriding-header "\nDeadlines")))
-            (tags-todo "inbox"
+
+            (tags-todo "+inbox"
                        ((org-agenda-prefix-format "  %?-12t% s")
                         (org-agenda-overriding-header "\nInbox\n")))
-            (tags "CLOSED>=\"<today>\""
-                  ((org-agenda-overriding-header "\nCompleted today\n"))))))))
+            ;; (tags "CLOSED>=\"<today>\""
+            ;;       ((org-agenda-overriding-header "\nCompleted today\n")))
+            ))
+          ("gp" "Personal"
+           ((agenda ""
+                    ((org-agenda-skip-function
+                      '(org-agenda-skip-entry-if 'deadline))
+                     (org-deadline-warning-days 0)))
+            ;; (agenda nil
+            ;;         ((org-agenda-entry-types '(:deadline))
+            ;;          (org-agenda-format-date "")
+            ;;          (org-deadline-warning-days 7)
+            ;;          (org-agenda-skip-function
+            ;;           '(org-agenda-skip-entry-if 'notregexp "\\* NEXT"))
+            ;;          (org-agenda-overriding-header "\nDeadlines")))
+            (tags-todo "+personal/!NEXT"
+                  ((org-agenda-skip-function
+                    '(org-agenda-skip-entry-if 'deadline))
+                   (org-agenda-prefix-format
+                    "        %-41(eme/org-create-header-string)")
+                   ;; (org-agenda-prefix-format "  %i %-12:c [%e] ")
+                   (org-agenda-overriding-header "\nTasks\n")))
+            (tags-todo "+inbox"
+                       ((org-agenda-prefix-format "  %?-12t% s")
+                        (org-agenda-overriding-header "\nInbox\n")))
+            ;; (tags "CLOSED>=\"<today>\""
+            ;;       ((org-agenda-overriding-header "\nCompleted today\n")))
+            )))))
 
 (use-package! org-auto-tangle
   :defer t
   :hook (org-mode . org-auto-tangle-mode)
   :config
   (setq org-auto-tangle-default t))
+
+(defun eme/capture-mail-headers (msg)
+  (interactive)
+  (call-interactively 'org-store-link)
+  (org-capture nil "e")
+  (mu4e-headers-mark-for-refile))
+
+(defun eme/capture-mail-view (msg)
+  (interactive)
+  (call-interactively 'org-store-link)
+  (org-capture nil "e")
+  (mu4e-view-mark-for-refile))
+
+(defun eme/store-link-to-mu4e-query ()
+  (interactive)
+  (let ((mu4e-org-link-query-in-headers-mode t))
+    (call-interactively 'org-store-link)))
 
 (use-package! mu4e
   :load-path "/opt/homebrew/opt/mu/share/emacs/site-lisp/mu/mu4e"
@@ -287,12 +366,20 @@
   (setq mu4e-attachment-dir "~/inbox")
   ;; rename files when moving - needed for mbsync:
   (setq mu4e-change-filenames-when-moving t)
+  ;; Make sure plain text mails flow correctly for recipients
+  (setq mu4e-compose-format-flowed t)
   ;; list of email adresses:
   (setq mu4e-user-mail-address-list '("evan_e@icloud.com"
                                       "evan@emcode.io"
                                       "evan.erksn@gmail.com"
                                       "ericenna@gmail.com"
                                       "eerickson@phasechange.ai"))
+
+  ;; Add custom actions for our capture templates
+  (add-to-list 'mu4e-headers-actions
+               '("org capture" . eme/capture-mail-headers) t)
+  (add-to-list 'mu4e-view-actions
+               '("org capture" . eme/capture-mail-view) t)
 
   ;; make bookmarks
   (add-to-list 'mu4e-bookmarks
