@@ -176,6 +176,7 @@
            "CANCELLED(c)" )))) ; Task has been cancelled
 
 (advice-add 'org-refile :after 'org-save-all-org-buffers)
+(advice-add 'org-agenda-kill :after 'org-save-all-org-buffers)
 
 (custom-set-faces
   '(org-level-1 ((t (:inherit outline-1 :height 1.4))))
