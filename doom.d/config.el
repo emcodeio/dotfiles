@@ -160,6 +160,7 @@
         org-agenda-files
         (list
          "inbox.org"
+         "events.org"
          "projects.org")
         org-ellipsis " ▽ "
         org-superstar-headline-bullets-list '("◉" "●" "○" "◆" "●" "○" "◆")
@@ -206,50 +207,56 @@
   (setq org-capture-templates
         `(("i" "Inbox" entry (file "inbox.org")
            "* TODO %?")
-           ("e" "Inbox [mu4e]" entry (file "inbox.org")
-            "* TODO Email: \"%a\"\n%i%?"
-            :immediate-finish t)
+          ("e" "Event" entry (file+datetree "events.org")
+           ,(concat "* %?\n"
+             "<%<%Y-%m-%d %a %^{Time}>>")
+           :time-prompt t)
+          ("m" "Inbox [mu4e]" entry (file "inbox.org")
+           "* TODO Email: \"%a\"\n%i%?"
+           :immediate-finish t)
            ;; ("n" "Note" entry (file "inbox.org")
            ;;  ,(concat "* Note (%a)\n"
            ;;           "%U\n" "%?"))
-           ("p" "Project")
-           ("pp" "Personal Project" entry (file+olp "projects.org" "PERSONAL")
-            ;; replace %? with %^{Project title} to be prompted
-            ,(concat "* PROJ %? [\/]\n"
-                     ":PROPERTIES:\n"
-                     ":CATEGORY:\n"
-                     ":COOKIE_DATA: recursive todo\n"
-                     ":END:\n"
-                     "** Why?\n"
-                           ":PROPERTIES:\n"
-                           ":VISIBILITY: hide\n"
-                           ":END:\n"
-                     "** Notes\n"
-                           ":PROPERTIES:\n"
-                           ":VISIBILITY: hide\n"
-                           ":END:\n"
-                     "** Tasks\n"
-                           ":PROPERTIES:\n"
-                           ":VISIBILITY: content\n"
-                           ":END:\n"))
-           ("pw" "Personal Project" entry (file+olp "projects.org" "WORK")
-            ,(concat "* PROJ %? [\/]\n"
-                     ":PROPERTIES:\n"
-                     ":CATEGORY:\n"
-                     ":COOKIE_DATA: recursive todo\n"
-                     ":END:\n"
-                     "** Why?\n"
-                           ":PROPERTIES:\n"
-                           ":VISIBILITY: hide\n"
-                           ":END:\n"
-                     "** Notes\n"
-                           ":PROPERTIES:\n"
-                           ":VISIBILITY: hide\n"
-                           ":END:\n"
-                     "** Tasks\n"
-                           ":PROPERTIES:\n"
-                           ":VISIBILITY: content\n"
-                           ":END:\n"))))
+          ("j" "Journal" checkitem (file+olp "projects.org" "SINGLES" "Journaling Ideas")
+           "+ [ ] %?")
+          ("p" "Project")
+          ("pp" "Personal Project" entry (file+olp "projects.org" "PERSONAL")
+           ;; replace %? with %^{Project title} to be prompted
+           ,(concat "* PROJ %? [\/]\n"
+                    ":PROPERTIES:\n"
+                    ":CATEGORY:\n"
+                    ":COOKIE_DATA: recursive todo\n"
+                    ":END:\n"
+                    "** Why?\n"
+                          ":PROPERTIES:\n"
+                          ":VISIBILITY: hide\n"
+                          ":END:\n"
+                    "** Notes\n"
+                          ":PROPERTIES:\n"
+                          ":VISIBILITY: hide\n"
+                          ":END:\n"
+                    "** Tasks\n"
+                          ":PROPERTIES:\n"
+                          ":VISIBILITY: content\n"
+                          ":END:\n"))
+          ("pw" "Personal Project" entry (file+olp "projects.org" "WORK")
+           ,(concat "* PROJ %? [\/]\n"
+                    ":PROPERTIES:\n"
+                    ":CATEGORY:\n"
+                    ":COOKIE_DATA: recursive todo\n"
+                    ":END:\n"
+                    "** Why?\n"
+                          ":PROPERTIES:\n"
+                          ":VISIBILITY: hide\n"
+                          ":END:\n"
+                    "** Notes\n"
+                          ":PROPERTIES:\n"
+                          ":VISIBILITY: hide\n"
+                          ":END:\n"
+                    "** Tasks\n"
+                          ":PROPERTIES:\n"
+                          ":VISIBILITY: content\n"
+                          ":END:\n"))))
   (regexp-opt '("Tasks" "Notes"))
   (setq org-refile-targets
         '(("projects.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
@@ -336,13 +343,13 @@
 (defun eme/capture-mail-headers (msg)
   (interactive)
   (call-interactively 'org-store-link)
-  (org-capture nil "e")
+  (org-capture nil "m")
   (mu4e-headers-mark-for-refile))
 
 (defun eme/capture-mail-view (msg)
   (interactive)
   (call-interactively 'org-store-link)
-  (org-capture nil "e")
+  (org-capture nil "m")
   (mu4e-view-mark-for-refile))
 
 (defun eme/store-link-to-mu4e-query ()
