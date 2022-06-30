@@ -275,6 +275,11 @@
         (concat "[Project: " str "]")
       (concat "[Project: " (substring str 0 19) "...]"))))
 
+(defun org-archive-done (&optional arg)
+  (org-todo 'done))
+
+(advice-add 'org-archive-subtree :before 'org-archive-done)
+
 (after! org-agenda
   (setq org-agenda-custom-commands
         '(("n" "Next Tasks"
@@ -308,6 +313,11 @@
                         (org-agenda-overriding-header "\nInbox\n")))
             ;; (tags "CLOSED>=\"<today>\""
             ;;       ((org-agenda-overriding-header "\nCompleted today\n")))
+            (tags-todo "+work/!WAIT"
+                  ((org-agenda-prefix-format
+                    "        %-41(eme/org-create-header-string)")
+                   ;; (org-agenda-prefix-format "  %i %-12:c [%e] ")
+                   (org-agenda-overriding-header "\nWaiting\n")))
             ))
           ("gp" "Personal"
            ((agenda ""
@@ -333,6 +343,11 @@
                         (org-agenda-overriding-header "\nInbox\n")))
             ;; (tags "CLOSED>=\"<today>\""
             ;;       ((org-agenda-overriding-header "\nCompleted today\n")))
+            (tags-todo "+personal/!WAIT"
+                  ((org-agenda-prefix-format
+                    "        %-41(eme/org-create-header-string)")
+                   ;; (org-agenda-prefix-format "  %i %-12:c [%e] ")
+                   (org-agenda-overriding-header "\nWaiting\n")))
             )))))
 
 (use-package! org-auto-tangle
