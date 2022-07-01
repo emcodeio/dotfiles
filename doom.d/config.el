@@ -212,14 +212,16 @@
            ,(concat "* %?\n"
              "<%<%Y-%m-%d %a %^{Time}>>")
            :time-prompt t)
+          ("j" "Journal" checkitem (file+olp "projects.org" "SINGLES" "Journaling Ideas")
+           "+ [ ] %?")
           ("m" "Inbox [mu4e]" entry (file "inbox.org")
            "* TODO Email: \"%a\"\n%i%?"
            :immediate-finish t)
            ;; ("n" "Note" entry (file "inbox.org")
            ;;  ,(concat "* Note (%a)\n"
            ;;           "%U\n" "%?"))
-          ("j" "Journal" checkitem (file+olp "projects.org" "SINGLES" "Journaling Ideas")
-           "+ [ ] %?")
+          ("n" "Next" entry (file "inbox.org")
+           "* NEXT %?")
           ("p" "Project")
           ("pp" "Personal Project" entry (file+olp "projects.org" "PERSONAL")
            ;; replace %? with %^{Project title} to be prompted
@@ -349,6 +351,15 @@
                    ;; (org-agenda-prefix-format "  %i %-12:c [%e] ")
                    (org-agenda-overriding-header "\nWaiting\n")))
             )))))
+
+(map! :leader
+      (:prefix ("n" . "notes")
+       :desc "View GTD Work" "w" #'(lambda ()
+                                      (interactive)
+                                      (org-agenda nil "gw"))
+       :desc "View GTD Personal" "p" #'(lambda ()
+                                      (interactive)
+                                      (org-agenda nil "gp"))))
 
 (use-package! org-auto-tangle
   :defer t
