@@ -61,7 +61,6 @@
 (package! cmake-ide)
 (package! browse-kill-ring)
 (package! intero)
-(package! mmm-mode)
 (package! dap-mode)
 (package! gradle-mode)
 ;; (package! emacs-application-framework
@@ -80,3 +79,4 @@
            :repo "rougier/mu4e-dashboard"))
 (package! org-mime)
 (package! dashboard)
+(package! mu4e-alert :disable t)
