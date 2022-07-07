@@ -869,7 +869,7 @@
 ;;   (setq dap-python-debugger 'debugpy))
 
 (add-to-list 'auto-mode-alist
-             '("\\.cob\\'" . (lambda! ()
+             '("\\.cob\\'" . (lambda ()
                                ;; add major mode setting here, if needed, for example:
                                ;; (text-mode)
                                (cobol-mode)
@@ -882,7 +882,7 @@
   (dap-python-executable "python3")
   (dap-python-debugger 'debugpy))
 
-(add-hook! 'java-mode-hook #'(lambda! ()
+(add-hook! 'java-mode-hook #'(lambda ()
                                (gradle-mode 1)))
 
 (defun build-and-run ()
