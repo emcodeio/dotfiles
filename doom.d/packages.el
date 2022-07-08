@@ -79,4 +79,4 @@
            :repo "rougier/mu4e-dashboard"))
 (package! org-mime)
 (package! dashboard)
-(package! mu4e-alert :disable t)
+;; (package! mu4e-alert :disable t)

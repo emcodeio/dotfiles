@@ -178,8 +178,9 @@
 
        :email
        (mu4e
-       ;; +org               ; org-msg
-        +gmail)
+        ;; +org            ; org-msg
+        ;; +gmail
+        )
        ;;notmuch
        ;;(wanderlust +gmail)
 
