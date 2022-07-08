@@ -482,8 +482,6 @@
       mu4e-change-filenames-when-moving t
       ;; Make sure plain text mails flow correctly for recipients
       mu4e-compose-format-flowed t
-      ;; don't consider up-to-date dirs
-      mu4e-index-lazy-check t
       ;; list of email adresses:
       mu4e-user-mail-address-list '("evan_e@icloud.com"
                                     "evan@emcode.io"
