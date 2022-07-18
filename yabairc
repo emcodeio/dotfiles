@@ -82,6 +82,7 @@ yabai -m rule --add label="Transmission" app="^Transmission$" title="(Co(py|nnec
 yabai -m rule --add label="Digital Color Meter" app="^Digital Color Meter$" manage=off
 yabai -m rule --add label="Drop" app="^Drop$" manage=off
 yabai -m rule --add label="Karabiner-Elements" app="^Karabiner-Elements$" manage=off
+yabai -m rule --add label="yEd" app="^yEd$" title="(Properties)" manage=off
 
 # ===== Signals ================================
 

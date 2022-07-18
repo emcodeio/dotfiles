@@ -224,7 +224,8 @@
         (list
          "inbox.org"
          "events.org"
-         "projects.org")
+         "projects.org"
+         "db.org")
         org-ellipsis " ▽ "
         org-superstar-headline-bullets-list '("◉" "●" "○" "◆" "●" "○" "◆")
         org-superstar-item-bullet-alist '((?+ . ?‣) (?- . ?∙)) ; changes +/- symbols in item lists
@@ -370,23 +371,32 @@
             (
              ;; todo "NEXT"
              tags-todo "+work/!NEXT"
-                  ((org-agenda-skip-function
-                    '(org-agenda-skip-entry-if 'deadline))
-                   (org-agenda-prefix-format
-                    "        %-41(eme/org-create-header-string)")
-                   ;; (org-agenda-prefix-format "  %i %-12:c [%e] ")
-                   (org-agenda-overriding-header "\nTasks\n")))
-
+             ((org-agenda-skip-function
+               '(org-agenda-skip-entry-if 'deadline))
+              (org-agenda-prefix-format
+               "        %-41(eme/org-create-header-string)")
+              ;; (org-agenda-prefix-format "  %i %-12:c [%e] ")
+              (org-agenda-overriding-header "\nNext Tasks\n")))
             (tags-todo "+inbox"
                        ((org-agenda-prefix-format "  %?-12t% s")
                         (org-agenda-overriding-header "\nInbox\n")))
             ;; (tags "CLOSED>=\"<today>\""
             ;;       ((org-agenda-overriding-header "\nCompleted today\n")))
+            (
+             ;; todo "NEXT"
+             tags-todo "+work/!TODO"
+             ((org-agenda-skip-function
+               '(org-agenda-skip-entry-if 'deadline))
+              (org-agenda-prefix-format
+               "        %-41(eme/org-create-header-string)")
+              ;; (org-agenda-prefix-format "  %i %-12:c [%e] ")
+              (org-agenda-overriding-header "\nTodos\n")))
+
             (tags-todo "+work/!WAIT"
-                  ((org-agenda-prefix-format
-                    "        %-41(eme/org-create-header-string)")
-                   ;; (org-agenda-prefix-format "  %i %-12:c [%e] ")
-                   (org-agenda-overriding-header "\nWaiting\n")))
+                       ((org-agenda-prefix-format
+                         "        %-41(eme/org-create-header-string)")
+                        ;; (org-agenda-prefix-format "  %i %-12:c [%e] ")
+                        (org-agenda-overriding-header "\nWaiting\n")))
             ))
           ("gp" "Personal"
            ((agenda ""
@@ -401,22 +411,31 @@
             ;;           '(org-agenda-skip-entry-if 'notregexp "\\* NEXT"))
             ;;          (org-agenda-overriding-header "\nDeadlines")))
             (tags-todo "+personal/!NEXT"
-                  ((org-agenda-skip-function
-                    '(org-agenda-skip-entry-if 'deadline))
-                   (org-agenda-prefix-format
-                    "        %-41(eme/org-create-header-string)")
-                   ;; (org-agenda-prefix-format "  %i %-12:c [%e] ")
-                   (org-agenda-overriding-header "\nTasks\n")))
+                       ((org-agenda-skip-function
+                         '(org-agenda-skip-entry-if 'deadline))
+                        (org-agenda-prefix-format
+                         "        %-41(eme/org-create-header-string)")
+                        ;; (org-agenda-prefix-format "  %i %-12:c [%e] ")
+                        (org-agenda-overriding-header "\nTasks\n")))
             (tags-todo "+inbox"
                        ((org-agenda-prefix-format "  %?-12t% s")
                         (org-agenda-overriding-header "\nInbox\n")))
             ;; (tags "CLOSED>=\"<today>\""
             ;;       ((org-agenda-overriding-header "\nCompleted today\n")))
+            (
+             ;; todo "NEXT"
+             tags-todo "+personal/!TODO"
+             ((org-agenda-skip-function
+               '(org-agenda-skip-entry-if 'deadline))
+              (org-agenda-prefix-format
+               "        %-41(eme/org-create-header-string)")
+              ;; (org-agenda-prefix-format "  %i %-12:c [%e] ")
+              (org-agenda-overriding-header "\nTodos\n")))
             (tags-todo "+personal/!WAIT"
-                  ((org-agenda-prefix-format
-                    "        %-41(eme/org-create-header-string)")
-                   ;; (org-agenda-prefix-format "  %i %-12:c [%e] ")
-                   (org-agenda-overriding-header "\nWaiting\n")))
+                       ((org-agenda-prefix-format
+                         "        %-41(eme/org-create-header-string)")
+                        ;; (org-agenda-prefix-format "  %i %-12:c [%e] ")
+                        (org-agenda-overriding-header "\nWaiting\n")))
             )))))
 
 (defun org-archive-done (&optional arg)
