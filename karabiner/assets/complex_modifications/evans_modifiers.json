@@ -4838,33 +4838,32 @@
         }
       ]
     },
+
     {
-      "description": "Yabai Keybindings [F as Trigger Key]",
-      "manipulators": [{
-        "type": "basic",
-        "from": {
-          "key_code": "f",
-          "modifiers": {
-            "optional": [
-              "caps_lock"
+      "description": "F held down to Option",
+      "manipulators": [
+        {
+            "type": "basic",
+            "from": {
+                "key_code": "f",
+                "modifiers": {
+                    "optional": ["any"]
+                }
+            },
+            "parameters": {
+               "basic.to_if_held_down_threshold_milliseconds": 50
+            },
+            "to_if_alone": [
+                {
+                    "key_code": "f"
+                }
+            ],
+            "to_if_held_down": [
+                {
+                    "key_code": "left_option"
+                }
             ]
-          }
-        },
-        "to": [{
-          "set_variable": {
-            "name": "switch_mode",
-            "value": 1
-          }
-        }],
-        "to_if_alone": [{
-          "key_code": "f"
-        }],
-        "to_after_key_up": [{
-          "set_variable": {
-            "name": "switch_mode",
-            "value": 0
-          }
-        }]}
+        }
         // {
         //   "type": "basic",
         //   "from": {
