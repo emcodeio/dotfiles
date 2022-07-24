@@ -515,56 +515,56 @@
 (add-to-list 'mu4e-view-actions
              '("org capture" . eme/capture-mail-view) t)
 
-(add-to-list 'mu4e-bookmarks
-             (make-mu4e-bookmark
-              :name "Inbox - Work"
-              :query "maildir:/work/INBOX"
-              :key ?w))
-(add-to-list 'mu4e-bookmarks
-             (make-mu4e-bookmark
-              :name "Inbox - Spam"
-              :query "maildir:/ericenna-gmail/INBOX"
-              :key ?s))
-(add-to-list 'mu4e-bookmarks
-             (make-mu4e-bookmark
-              :name "Inbox - Gamil"
-              :query "maildir:/evan.erksn-gmail/INBOX"
-              :key ?g))
-(add-to-list 'mu4e-bookmarks
-             (make-mu4e-bookmark
-              :name "Inbox - iCloud"
-              :query "maildir:/icloud/INBOX"
-              :key ?a))
-(add-to-list 'mu4e-bookmarks
-             (make-mu4e-bookmark
-              :name "All Inboxes"
-              :query (concat
-                      "m:/icloud/INBOX "
-                      "or m:/evan.erksn-gmail/INBOX "
-                      "or m:/ericenna-gmail/INBOX "
-                      "or m:/work/INBOX")
-              :key ?i))
+;; (add-to-list 'mu4e-bookmarks
+;;              (make-mu4e-bookmark
+;;               :name "Inbox - Work"
+;;               :query "maildir:/work/INBOX"
+;;               :key ?w))
+;; (add-to-list 'mu4e-bookmarks
+;;              (make-mu4e-bookmark
+;;               :name "Inbox - Spam"
+;;               :query "maildir:/ericenna-gmail/INBOX"
+;;               :key ?s))
+;; (add-to-list 'mu4e-bookmarks
+;;              (make-mu4e-bookmark
+;;               :name "Inbox - Gamil"
+;;               :query "maildir:/evan.erksn-gmail/INBOX"
+;;               :key ?g))
+;; (add-to-list 'mu4e-bookmarks
+;;              (make-mu4e-bookmark
+;;               :name "Inbox - iCloud"
+;;               :query "maildir:/icloud/INBOX"
+;;               :key ?a))
+;; (add-to-list 'mu4e-bookmarks
+;;              (make-mu4e-bookmark
+;;               :name "All Inboxes"
+;;               :query (concat
+;;                       "m:/icloud/INBOX "
+;;                       "or m:/evan.erksn-gmail/INBOX "
+;;                       "or m:/ericenna-gmail/INBOX "
+;;                       "or m:/work/INBOX")
+;;               :key ?i))
 
-;; (add-to-list 'mu4e-bookmarks
-;;              '(:name "Inbox - Work"
-;;                :query "maildir:/work/INBOX"
-;;                :key ?w))
-;; (add-to-list 'mu4e-bookmarks
-;;              '(:name "Inbox - Spam"
-;;                :query "maildir:/ericenna-gmail/INBOX"
-;;                :key ?s))
-;; (add-to-list 'mu4e-bookmarks
-;;              '(:name "Inbox - Gamil"
-;;                :query "maildir:/evan.erksn-gmail/INBOX"
-;;                :key ?g))
-;; (add-to-list 'mu4e-bookmarks
-;;              '(:name "Inbox - iCloud"
-;;                :query "maildir:/icloud/INBOX"
-;;                :key ?a))
-;; (add-to-list 'mu4e-bookmarks
-;;              '(:name "All Inboxes"
-;;                :query "m:/icloud/INBOX or m:/evan.erksn-gmail/INBOX or m:/ericenna-gmail/INBOX or m:/work/INBOX"
-;;                :key ?i))
+(add-to-list 'mu4e-bookmarks
+             '(:name "Inbox - Work"
+               :query "maildir:/work/INBOX"
+               :key ?w))
+(add-to-list 'mu4e-bookmarks
+             '(:name "Inbox - Spam"
+               :query "maildir:/ericenna-gmail/INBOX"
+               :key ?s))
+(add-to-list 'mu4e-bookmarks
+             '(:name "Inbox - Gamil"
+               :query "maildir:/evan.erksn-gmail/INBOX"
+               :key ?g))
+(add-to-list 'mu4e-bookmarks
+             '(:name "Inbox - iCloud"
+               :query "maildir:/icloud/INBOX"
+               :key ?a))
+(add-to-list 'mu4e-bookmarks
+             '(:name "All Inboxes"
+               :query "m:/icloud/INBOX or m:/evan.erksn-gmail/INBOX or m:/ericenna-gmail/INBOX or m:/work/INBOX"
+               :key ?i))
 
 (setq mu4e-contexts
       (list
