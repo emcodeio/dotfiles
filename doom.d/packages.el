@@ -80,3 +80,4 @@
 (package! org-mime)
 (package! dashboard)
 ;; (package! mu4e-alert :disable t)
+(package! org-present)

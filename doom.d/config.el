@@ -27,10 +27,14 @@
   )
 
 (setq doom-font (font-spec :family "Dank Mono" :size 15)
-      doom-big-font (font-spec :family "Dank Mono" :size 24))
+      doom-big-font (font-spec :family "Dank Mono" :size 24)
+      doom-variable-pitch-font (font-spec :family "Iosevka Aile" :weight 'light :size 15)
+      doom-serif-font (font-spec :family "Iosevka Etoile" :weight 'light :size 15))
+
 (after! doom-themes
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t))
+
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
   '(font-lock-keyword-face :slant italic))
@@ -466,6 +470,52 @@
           "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
 
+(require 'org-present)
+
+(defun my/org-present-prepare-slide ()
+  (org-overview)
+  (org-show-entry)
+  (org-show-children))
+
+(defun my/org-present-hook ()
+  (setq-local face-remapping-alist '((header-line (:height 4.0) variable-pitch)))
+  (setq org-hide-emphasis-markers t)
+  (setq header-line-format " ")
+  (display-line-numbers-mode -1)
+  (mixed-pitch-mode 1)
+  (doom-big-font-mode 1)
+  (org-display-inline-images)
+  (my/org-present-prepare-slide))
+
+(defun my/org-present-quit-hook ()
+  (setq org-hide-emphasis-markers nil)
+  (setq header-line-format nil)
+  (display-line-numbers-mode 1)
+  (mixed-pitch-mode -1)
+  (doom-big-font-mode -1)
+  ;; (org-present-small)
+  (org-remove-inline-images))
+
+(defun my/org-present-prev ()
+  (interactive)
+  (org-present-prev)
+  (my/org-present-prepare-slide))
+
+(defun my/org-present-next ()
+  (interactive)
+  (org-present-next)
+  (my/org-present-prepare-slide))
+
+(add-hook 'org-present-mode-hook #'my/org-present-hook)
+(add-hook 'org-present-mode-quit-hook #'my/org-present-quit-hook)
+(bind-keys :package org-present :map org-present-mode-keymap
+           ("C-j" . org-present-next)
+           ("C-k" . org-present-prev))
+
+(map! :map org-mode-map
+      :localleader
+      :desc "start org present" "v" #'org-present)
+
 (defun eme/capture-mail-headers (msg)
   (interactive)
   (call-interactively 'org-store-link)
@@ -668,7 +718,8 @@
       mail-envelope-from 'header
       message-sendmail-envelope-from 'header
       ;; turn off Org-msg-mode by default
-      mu4e-compose--org-msg-toggle-next nil)
+      mu4e-compose--org-msg-toggle-next nil
+      mu4e-compose-format-flowed t)
 
 ;; mu4e cc & bcc
 (add-hook! 'mu4e-compose-mode-hook
@@ -679,6 +730,7 @@
     (save-excursion (message-add-header "Bcc:\n"))))
 ;; mu4e address completion
 (add-hook! 'mu4e-compose-mode-hook 'company-mode)
+(add-hook! 'mu4e-compose-mode-hook (lambda () (use-hard-newlines -1)))
 
 (setq mu4e-alert-interesting-mail-query
       (concat
