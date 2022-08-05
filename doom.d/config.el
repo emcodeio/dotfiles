@@ -122,6 +122,11 @@
       (:prefix ("o" . "open")
        :desc "View Calendar" "g" #'calendar))
 
+(global-set-key (kbd "C-s-'") 'evil-window-decrease-height)
+(global-set-key (kbd "C-s-;") 'evil-window-increase-height)
+(global-set-key (kbd "C-s-/") 'evil-window-decrease-width)
+(global-set-key (kbd "C-s-.") 'evil-window-increase-width)
+
 ;; (map! :leader
 ;;       (:desc "Open in Finder" "z" #'reveal-in-osx-finder))
 
@@ -455,6 +460,15 @@
        :desc "View GTD Personal" "p" #'(lambda ()
                                       (interactive)
                                       (org-agenda nil "gp"))))
+
+(defun eme/renew-org-buffer ()
+  (interactive)
+  (dolist (buffer (buffer-list))
+    (with-current-buffer buffer
+      (when (derived-mode-p 'org-agenda-mode)
+    (org-agenda-maybe-redo)))))
+
+(run-with-timer 3 (* 3 60) #'eme/renew-org-buffer)
 
 (add-hook! 'org-mode-hook #'org-auto-tangle-mode)
 
