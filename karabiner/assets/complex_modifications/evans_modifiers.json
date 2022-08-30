@@ -93,94 +93,6 @@
       ]
     },
     {
-      "description": "Activate Safari <command + control + n>",
-      "manipulators": [
-        {
-          "type": "basic",
-          "from": {
-            "key_code": "n",
-            "modifiers": {
-              "mandatory": [
-                "control",
-                "command"
-              ]
-            }
-          },
-          "to": [
-            {
-              "shell_command": "osascript -e 'tell application \"Safari\" to activate'"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "description": "Activate terminal <left shift + left command + spacebar>",
-      "manipulators": [
-        {
-          "type": "basic",
-          "from": {
-            "key_code": "spacebar",
-            "modifiers": {
-              "mandatory": [
-                "left_shift",
-                "left_command"
-              ]
-            }
-          },
-          "to": [
-            {
-              "shell_command": "osascript -e 'tell application \"terminal\" to activate'"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "description": "Activate IntelliJ <command + control + i>",
-      "manipulators": [
-        {
-          "type": "basic",
-          "from": {
-            "key_code": "i",
-            "modifiers": {
-              "mandatory": [
-                "control",
-                "command"
-              ]
-            }
-          },
-          "to": [
-            {
-              "shell_command": "osascript -e 'tell application \"IntelliJ IDEA CE\" to activate'"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "description": "Activate Emacs <command + control + spacebar>",
-      "manipulators": [
-        {
-          "type": "basic",
-          "from": {
-            "key_code": "spacebar",
-            "modifiers": {
-              "mandatory": [
-                "control",
-                "command"
-              ]
-            }
-          },
-          "to": [
-            {
-              "shell_command": "osascript -e 'tell application \"Emacs\" to activate'"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "description": "Empty trash <control + delete_or_backspace>",
       "manipulators": [
         {
@@ -331,7 +243,7 @@
           },
           "to": [
             {
-              "shell_command": "chmod +x ~/Documents/dev/scripts/hidden_files.sh && ~/Documents/dev/scripts/hidden_files.sh"
+              "shell_command": "chmod +x ~/.dotfiles/scripts/hidden_files.sh && ~/.dotfiles/scripts/hidden_files.sh"
             }
           ]
         }
@@ -847,6 +759,9 @@
             }
           ]
         },
+
+        // D+F for Yabi navigation
+
         {
           "type": "basic",
           "from": {
@@ -859,7 +774,7 @@
           },
           "to": [
             {
-              "key_code": "fn"
+              "key_code": "left_option"
             }
           ],
           "conditions": [
@@ -4839,60 +4754,36 @@
       ]
     },
 
+    // Unfinished
+
     {
       "description": "F held down to Option",
       "manipulators": [
         {
-            "type": "basic",
-            "from": {
-                "key_code": "f",
-                "modifiers": {
-                    "optional": ["any"]
-                }
-            },
-            "parameters": {
-               "basic.to_if_held_down_threshold_milliseconds": 50
-            },
-            "to_if_alone": [
-                {
-                    "key_code": "f"
-                }
-            ],
-            "to_if_held_down": [
-                {
-                    "key_code": "left_option"
-                }
-            ]
-        }
-        // {
-        //   "type": "basic",
-        //   "from": {
-        //     "key_code": "left_arrow",
-        //     "modifiers": {
-        //       "optional": [
-        //         "caps_lock"
-        //       ]
-        //     }
-        //   },
-        //   "to": [{
-        //     "shell_command": "yabai -m window --resize right:-50:0 ; yabai -m window --resize left:-50:0"
-        //   }]
-        // },
-        // {
-        //   "type": "basic",
-        //   "from": {
-        //     "key_code": "right_arrow",
-        //     "modifiers": {
-        //       "optional": [
-        //         "caps_lock"
-        //       ]
-        //     }
-        //   },
-        //   "to": [{
-        //     "shell_command": "yabai -m window --resize right:50:0 ; yabai -m window --resize left:50:0"
-        //   }]
-        // }
+        "type": "basic",
+        "from": {
+          "key_code": "f",
+          "modifiers": {
+            "optional": ["any"]
+          }
+        },
+        "parameters": {
+          "basic.to_if_held_down_threshold_milliseconds": 1
+        }, "to_if_alone": [
+          {
+          "key_code": "f"
+          }
+        ],
+        "to_if_held_down": [
+          {
+          "key_code": "left_option"
+          }
+        ]
+      }
       ]
     }
+
+  // End of rule
+
   ]
 }
