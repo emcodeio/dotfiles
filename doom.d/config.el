@@ -153,8 +153,18 @@
   :commands (dired dired-jump))
 
 (setq global-auto-revert-non-file-buffers t)
-(setq delete-by-moving-to-trash nil)
+(setq delete-by-moving-to-trash t)
 (setq large-file-warning-threshold nil)
+
+(map! :leader
+      (:prefix ("d" . "dired")
+       :desc "Open dired" "d" #'dired
+       :desc "Dired jump to current" "j" #'dired-jump)
+      ;; (:after dired
+      ;;  (:map dired-mode-map
+      ;;   :desc "Peep-dired image previews" "d p" #'peep-dired
+      ;;   :desc "Dired view file" "d v" #'dired-view-file))
+      )
 
 (after! dired
   (evil-collection-define-key 'normal 'dired-mode-map
@@ -789,7 +799,7 @@
 
 (map! :map dap-mode-map
       :leader
-      :prefix ("d" . "dap")
+      :prefix ("D" . "dap")
       ;; basics
       :desc "dap next"          "n" #'dap-next
       :desc "dap step in"       "i" #'dap-step-in
@@ -801,23 +811,23 @@
       :desc "dap debug"         "s" #'dap-debug
 
       ;; debug
-      :prefix ("dd" . "Debug")
+      :prefix ("Dd" . "Debug")
       :desc "dap debug recent"  "r" #'dap-debug-recent
       :desc "dap debug last"    "l" #'dap-debug-last
 
       ;; eval
-      :prefix ("de" . "Eval")
+      :prefix ("De" . "Eval")
       :desc "eval"                "e" #'dap-eval
       :desc "eval region"         "r" #'dap-eval-region
       :desc "eval thing at point" "s" #'dap-eval-thing-at-point
       :desc "add expression"      "a" #'dap-ui-expressions-add
       :desc "remove expression"   "d" #'dap-ui-expressions-remove
 
-      :prefix ("db" . "Breakpoint")
+      :prefix ("Db" . "Breakpoint")
       :desc "dap breakpoint toggle"      "b" #'dap-breakpoint-toggle
       :desc "dap breakpoint condition"   "c" #'dap-breakpoint-condition
       :desc "dap breakpoint delete all"  "d" #'dap-breakpoint-delete-all
-      :desc "dap breakpoint hit count"   "h" #'dap-breakpoint-hit-condition
+
       :desc "dap breakpoint log message" "l" #'dap-breakpoint-log-message)
 
 ;; (after! dap-mode
