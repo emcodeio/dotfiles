@@ -178,7 +178,7 @@
 
        :email
        (mu4e
-        ;; +org            ; org-msg
+        +org               ; org-msg
         ;; +gmail
         )
        ;;notmuch

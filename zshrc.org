@@ -158,8 +158,17 @@ export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/.emacs.d/bin/:$PATH
 
-export PATH="/Library/Java/JavaVirtualMachines/graalvm-ce-java11-22.1.0/Contents/Home/bin:$PATH"
-export JAVA_HOME="/Library/Java/JavaVirtualMachines/graalvm-ce-java11-22.1.0/Contents/Home"
+# export PATH="/Library/Java/JavaVirtualMachines/graalvm-ce-java11-22.2.0/Contents/Home/bin:$PATH"
+# export JAVA_HOME="/Library/Java/JavaVirtualMachines/graalvm-ce-java11-22.2.0/Contents/Home"
+
+export DEFAULT_MVN_VERSION=3.6.3
+
+# export PATH="/usr/local/opt/openjdk@11/bin:$PATH"
+# export JAVA_HOME="/Library/Java/JavaVirtualMachines/openjdk-11.jdk/Contents/Home"
+
+export PATH="/Library/Java/JavaVirtualMachines/jdk-11.0.8.jdk/Contents/Home/bin:$PATH"
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk-11.0.8.jdk/Contents/Home"
+
 #+end_src
 
 User configuration

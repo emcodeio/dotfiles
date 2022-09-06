@@ -4781,7 +4781,37 @@
         ]
       }
       ]
+    },
+
+    // Unfinished
+
+    {
+      "description": "V held down to Option",
+      "manipulators": [
+        {
+        "type": "basic",
+        "from": {
+          "key_code": "v",
+          "modifiers": {
+            "optional": ["any"]
+          }
+        },
+        "parameters": {
+          "basic.to_if_held_down_threshold_milliseconds": 1
+        }, "to_if_alone": [
+          {
+          "key_code": "v"
+          }
+        ],
+        "to_if_held_down": [
+          {
+          "key_code": "left_option"
+          }
+        ]
+      }
+      ]
     }
+
 
   // End of rule
 
