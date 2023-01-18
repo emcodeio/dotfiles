@@ -7,7 +7,7 @@ fi
 #export ZSH="/Users/eerickson/.oh-my-zsh"
 export ZSH="$HOME/.oh-my-zsh"
 
-# eval "$(/opt/homebrew/bin/brew shellenv)"
+# eval "$(/opt/homebrew/bin/brew shenv)"
 
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
@@ -119,10 +119,10 @@ alias c96="$HOME/.dotfiles/scripts/convert_to_96_aac.sh . $HOME/Music/encoded"
 
 alias dev="cd $HOME/dev"
 alias dotfiles="cd $HOME/.dotfiles"
-alias rep="cd $HOME/dev/PhaseChangeProjects/Representation"
-alias repwork="cd $HOME/dev/PhaseChangeProjects/Representation/workspace"
-alias icgen="cd $HOME/dev/PhaseChangeProjects/icGenerator"
-alias icgenviz="cd $HOME/dev/PhaseChangeProjects/icGenerator/src/main/resources/tmp"
+alias rep="cd $HOME/dev/colleague/Representation"
+alias repwork="cd $HOME/dev/colleague/Representation/workspace"
+alias icgen="cd $HOME/dev/colleague/icGenerator"
+alias icgenviz="cd $HOME/dev/colleague/icGenerator/src/main/resources/tmp"
 alias gotosync="cp -a $HOME/.dotfiles/obsidian/GoTo\ Elimination/. $HOME/dev/fom/GraphNormaliztion/Goto\ Elimination\ Docs"
 alias pullrep="rep && $HOME/.dotfiles/scripts/mvOutVizCode.sh && git restore src/* && git pull && $HOME/.dotfiles/scripts/mvInVizCode.sh"
 alias mvoutrep="$HOME/.dotfiles/scripts/mvOutVizCode.sh"
@@ -137,7 +137,7 @@ alias pip="pip3"
 # alias brew="/opt/homebrew/bin/brew"
 alias brewupdate="echo 'Updating Homebrew and Casks' && brew cu -af && echo 'Upgrading Packages' && brew upgrade"
 
-alias updateapps="echo 'Updating Homebrew and Casks...' && brew cu -af && echo 'Upgrading Packages...' && brew upgrade && echo 'Updating Apps from App Store...' && mas upgrade && echo 'Updating Doom Emacs...' && doomupgrade && doomdoctor && doomsync"
+alias updateapps="echo 'Updating Homebrew and Casks...' && brew cu -af && echo 'Upgrading Packages...' && brew upgrade && echo 'Updating Apps from App Store...' && mas upgrade && echo 'Updating Doom Emacs...' && doomupgrade"
 alias deletezsh="echo 'Delete $HOME/.oh-my-zsh/custom' && rm $HOME/.oh-my-zsh/custom && echo 'Updating ZSH' && exec zsh -l"
 alias linkzsh="echo 'Relink .oh-my-zsh/custom' && $HOME/.dotfiles/install && sleep 1s && exec zsh"
 

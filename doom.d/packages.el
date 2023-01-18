@@ -81,3 +81,4 @@
 (package! dashboard)
 ;; (package! mu4e-alert :disable t)
 (package! org-present)
+(package! graphviz-dot-mode)

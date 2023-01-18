@@ -64,5 +64,5 @@ shift + alt - x : yabai -m space --mirror x-axis
 shift + alt - y : yabai -m space --mirror y-axis
 
 # make window native fullscreen
-alt - f         : yabai -m window --toggle zoom-fullscreen
+alt - b         : yabai -m window --toggle zoom-fullscreen
 shift + alt - f : yabai -m window --toggle native-fullscreen

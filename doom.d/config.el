@@ -26,10 +26,10 @@
   ;;'(default :background "#000000")
   )
 
-(setq doom-font (font-spec :family "Dank Mono" :size 15)
-      doom-big-font (font-spec :family "Dank Mono" :size 24)
-      doom-variable-pitch-font (font-spec :family "Iosevka Aile" :weight 'light :size 15)
-      doom-serif-font (font-spec :family "Iosevka Etoile" :weight 'light :size 15))
+(setq doom-font (font-spec :family "Dank Mono" :size 13)
+      doom-big-font (font-spec :family "Dank Mono" :size 18)
+      doom-variable-pitch-font (font-spec :family "Iosevka Aile" :weight 'light :size 13)
+      doom-serif-font (font-spec :family "Iosevka Etoile" :weight 'light :size 13))
 
 (after! doom-themes
   (setq doom-themes-enable-bold t
@@ -115,6 +115,9 @@
       (:desc "Kill buffer" "k" #'kill-buffer))
 
 (map! :leader
+      (:desc "Quick Calculator" "C" #'quick-calc))
+
+(map! :leader
       (:prefix ("s" . "search")
        :desc "Search Kill Ring" "k" #'consult-yank-pop))
 
@@ -166,11 +169,16 @@
       ;;   :desc "Dired view file" "d v" #'dired-view-file))
       )
 
-(after! dired
-  (evil-collection-define-key 'normal 'dired-mode-map
-    "h" 'dired-up-directory
-    "l" 'dired-find-file
-    "o" 'xah-dired-sort))
+;; (after! dired
+;;   (evil-collection-define-key 'normal 'dired-mode-map
+;;     "h" 'dired-up-directory
+;;     "l" 'dired-find-file
+;;     "o" 'xah-dired-sort))
+
+(evil-define-key 'normal dired-mode-map
+  (kbd "h") 'dired-up-directory
+  (kbd "l") 'dired-find-file
+  (kbd "o") 'xah-dired-sort)
 
 (after! dired
   (setq dired-listing-switches "-agho --si --time-style long-iso --group-directories-first"))
@@ -833,6 +841,23 @@
 ;; (after! dap-mode
 ;;   (setq dap-python-debugger 'debugpy))
 
+(map! :map clojure-mode-map
+      :localleader
+      :desc "Slurp foward" "s" #'paredit-forward-slurp-sexp
+      :desc "Slurp backward" "S" #'paredit-backward-slurp-sexp
+      :desc "Barf backward" "b" #'paredit-forward-barf-sexp
+      :desc "Barf backward" "B" #'paredit-backward-barf-sexp
+      :desc "Kill parens" "k" #'paredit-kill)
+
+(map! :map cider-repl-mode-map
+      :localleader
+      :desc "cider-repl-history" "h" #'cider-repl-history
+      :desc "Slurp foward" "s" #'paredit-forward-slurp-sexp
+      :desc "Slurp backward" "S" #'paredit-backward-slurp-sexp
+      :desc "Barf backward" "b" #'paredit-forward-barf-sexp
+      :desc "Barf backward" "B" #'paredit-backward-barf-sexp
+      :desc "Kill parens" "k" #'paredit-kill)
+
 (add-to-list 'auto-mode-alist
              '("\\.cob\\'" . (lambda ()
                                ;; add major mode setting here, if needed, for example:
@@ -860,3 +885,9 @@
       :prefix ("j" . "java")
       ;; basics
       :desc "Gradel Build Run" "r" #'build-and-run)
+
+(add-to-list 'auto-mode-alist
+             '("\\.fom\\'" . (lambda ()
+                               ;; add major mode setting here, if needed, for example:
+                               ;; (text-mode)
+                               (json-mode))))

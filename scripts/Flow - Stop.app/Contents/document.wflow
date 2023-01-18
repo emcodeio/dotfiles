@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>AMApplicationBuild</key>
-	<string>492</string>
+	<string>509</string>
 	<key>AMApplicationVersion</key>
 	<string>2.10</string>
 	<key>AMDocumentVersion</key>
@@ -20,24 +20,19 @@
 					<key>Optional</key>
 					<true/>
 					<key>Types</key>
-					<array/>
+					<array>
+						<string>com.apple.applescript.object</string>
+					</array>
 				</dict>
 				<key>AMActionVersion</key>
 				<string>1.0.2</string>
 				<key>AMApplication</key>
 				<array>
-					<string>Finder</string>
+					<string>Automator</string>
 				</array>
 				<key>AMParameterProperties</key>
 				<dict>
-					<key>application</key>
-					<dict>
-						<key>isPathPopUp</key>
-						<true/>
-						<key>variableUUIDsInMenu</key>
-						<array/>
-					</dict>
-					<key>saveChanges</key>
+					<key>source</key>
 					<dict/>
 				</dict>
 				<key>AMProvides</key>
@@ -45,27 +40,25 @@
 					<key>Container</key>
 					<string>List</string>
 					<key>Types</key>
-					<array/>
+					<array>
+						<string>com.apple.applescript.object</string>
+					</array>
 				</dict>
-				<key>AMRequiredResources</key>
-				<array/>
 				<key>ActionBundlePath</key>
-				<string>/System/Library/Automator/Quit Application.action</string>
+				<string>/System/Library/Automator/Run AppleScript.action</string>
 				<key>ActionName</key>
-				<string>Quit Application</string>
+				<string>Run AppleScript</string>
 				<key>ActionParameters</key>
 				<dict>
-					<key>application</key>
-					<string>/Applications/Flow.app</string>
-					<key>saveChanges</key>
-					<false/>
+					<key>source</key>
+					<string>quit application "Flow"</string>
 				</dict>
 				<key>BundleIdentifier</key>
-				<string>com.apple.Automator.QuitApplication</string>
+				<string>com.apple.Automator.RunScript</string>
 				<key>CFBundleVersion</key>
 				<string>1.0.2</string>
 				<key>CanShowSelectedItemsWhenRun</key>
-				<true/>
+				<false/>
 				<key>CanShowWhenRun</key>
 				<true/>
 				<key>Category</key>
@@ -73,60 +66,53 @@
 					<string>AMCategoryUtilities</string>
 				</array>
 				<key>Class Name</key>
-				<string>AMQuitApplicationAction</string>
+				<string>RunScriptAction</string>
 				<key>InputUUID</key>
-				<string>2982DB43-F7EB-4DF9-A969-B184383EF973</string>
+				<string>D5D1452D-0D6F-4499-ADAD-9F0DEE53B884</string>
 				<key>Keywords</key>
 				<array>
-					<string>File</string>
-					<string>Quit</string>
+					<string>Run</string>
 				</array>
 				<key>OutputUUID</key>
-				<string>3B9CE57B-ECD9-4C1B-9C06-C5B23F4CDEF6</string>
+				<string>1633BD3B-0106-4957-82C4-70BA2C858C80</string>
 				<key>UUID</key>
-				<string>1B9B543A-E643-4769-AD39-57497489B19D</string>
+				<string>0942ACA8-8AC4-47A5-ADEF-3E42C0DBADF9</string>
 				<key>UnlocalizedApplications</key>
 				<array>
-					<string>Finder</string>
+					<string>Automator</string>
 				</array>
 				<key>arguments</key>
 				<dict>
 					<key>0</key>
 					<dict>
 						<key>default value</key>
-						<string>/System/Applications/Contacts.app</string>
+						<string>on run {input, parameters}
+	
+	(* Your script goes here *)
+	
+	return input
+end run</string>
 						<key>name</key>
-						<string>application</string>
+						<string>source</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
 						<string>0</string>
 						<key>uuid</key>
 						<string>0</string>
-					</dict>
-					<key>1</key>
-					<dict>
-						<key>default value</key>
-						<true/>
-						<key>name</key>
-						<string>saveChanges</string>
-						<key>required</key>
-						<string>0</string>
-						<key>type</key>
-						<string>0</string>
-						<key>uuid</key>
-						<string>1</string>
 					</dict>
 				</dict>
+				<key>conversionLabel</key>
+				<integer>0</integer>
 				<key>isViewVisible</key>
-				<true/>
+				<integer>1</integer>
 				<key>location</key>
-				<string>309.000000:173.000000</string>
+				<string>258.000000:315.000000</string>
 				<key>nibPath</key>
-				<string>/System/Library/Automator/Quit Application.action/Contents/Resources/Base.lproj/main.nib</string>
+				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
-			<true/>
+			<integer>1</integer>
 		</dict>
 	</array>
 	<key>connectors</key>
