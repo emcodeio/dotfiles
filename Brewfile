@@ -57,7 +57,7 @@ mas "1Focus", id: 969210610
 mas "AdGuard for Safari", id: 1440147259
 mas "Dark Reader for Safari", id: 1438243180
 mas "Flow", id: 1423210932
-mas "Focus for Youtube", id: 1447962180
+mas "Focus for YouTube", id: 1514703160
 mas "Ghostery Lite", id: 1436953057
 mas "Hush", id: 1544743900
 mas "Irvue", id: 1039633667

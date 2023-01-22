@@ -26,8 +26,8 @@
   ;;'(default :background "#000000")
   )
 
-(setq doom-font (font-spec :family "Dank Mono" :size 13)
-      doom-big-font (font-spec :family "Dank Mono" :size 18)
+(setq doom-font (font-spec :family "Dank Mono" :size 15)
+      doom-big-font (font-spec :family "Dank Mono" :size 20)
       doom-variable-pitch-font (font-spec :family "Iosevka Aile" :weight 'light :size 13)
       doom-serif-font (font-spec :family "Iosevka Etoile" :weight 'light :size 13))
 
@@ -764,14 +764,16 @@
 (add-hook! 'mu4e-compose-mode-hook 'company-mode)
 (add-hook! 'mu4e-compose-mode-hook (lambda () (use-hard-newlines -1)))
 
-(setq mu4e-alert-interesting-mail-query
-      (concat
-       "flag:unread"
-       " and m:/icloud/INBOX"
-       " or m:/evan.erksn-gmail/INBOX"
-       " or m:/ericenna-gmail/INBOX"
-       " or m:/work/INBOX"))
-(add-hook! 'after-init-hook #'mu4e-alert-enable-mode-line-display)
+;; This is breaking some Emacs on some machines but not others...
+
+;; (setq mu4e-alert-interesting-mail-query
+;;       (concat
+;;        "flag:unread"
+;;        " and m:/icloud/INBOX"
+;;        " or m:/evan.erksn-gmail/INBOX"
+;;        " or m:/ericenna-gmail/INBOX"
+;;        " or m:/work/INBOX"))
+;; (add-hook! 'after-init-hook #'mu4e-alert-enable-mode-line-display)
 
 (require 'org-mime)
 (setq org-mime-export-options
@@ -791,6 +793,9 @@
 
 (map! :leader
       (:desc "Compose email" "e" #'+mu4e/compose))
+(map! :leader
+      (:prefix ("o" . "open")
+       :desc "Email" "m" #'mu4e))
 
 (map! :map mu4e-compose-mode-map
       :localleader

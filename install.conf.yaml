@@ -22,23 +22,23 @@
     # ~/.dotfiles/org: /Users/eerickson/Library/Mobile\ Documents/iCloud\~com\~appsonthemove\~beorg/Documents/org
     # /Applications: ~/.dotfiles/scripts/Flow\ -\ Start.app/
 
-- create:
-    - ~/inbox/
-    - ~/.maildir/
-    - ~/.maildir/icloud/
-    - ~/.maildir/evan.erksn-gmail/
-    - ~/.maildir/ericenna-gmail/
-    - ~/.maildir/work/
-    # - ~/downloads
-    # - ~/.vim/undo-history
-
-- shell:
-    - command: ./setup-homebrew.zsh
-      stdout: true
-      stderr: true
-    - command: ./setup-doom.zsh
-      stdout: true
-      stderr: true
-    # - command: ./setup-mu4e.zsh
-    #   stdout: true
-    #   stderr: true
+# - create:
+#     - ~/inbox/
+#     - ~/.maildir/
+#     - ~/.maildir/icloud/
+#     - ~/.maildir/evan.erksn-gmail/
+#     - ~/.maildir/ericenna-gmail/
+#     - ~/.maildir/work/
+#     # - ~/downloads
+#     # - ~/.vim/undo-history
+# 
+# - shell:
+#     - command: ./setup-homebrew.zsh
+#       stdout: true
+#       stderr: true
+#     # - command: ./setup-doom.zsh
+#     #  stdout: true
+#     #  stderr: true
+#     - command: ./setup-mu4e.zsh
+#       stdout: true
+#       stderr: true
