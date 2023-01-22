@@ -1,0 +1,15 @@
+function exists() {
+  command -v $1 >/dev/null 2>&1
+}
+
+# export PATH=/Library/Java/JavaVirtualMachines/graalvm-ce-java11-21.1.0/Contents/Home/bin:$PATH
+# export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_301.jdk/Contents/Home/
+# export JDK7=/Library/Java/JavaVirtualMachines/jdk1.7.0_80.jdk/Contents/Home
+# export LLVM_TOOLCHAIN=$(lli --print-toolchain-path)
+# PATH="/Applications/CMake.app/Contents/bin":"$PATH"
+# PATH="/Users/eerickson/dev/temp/JLang/bin":"$PATH"
+# alias clang-clt='/Library/Developer/CommandLineTools/usr/bin/clang'
+# export PATH=/Users/eerickson/Applications/Emacs.app:$PATH
+# export PATH=$HOME/.emacs.d/bin:$PATH
+# export DYLD_LIBRARY_PATH=$HOME/dev/z3/build
+# export PATH=$DYLD_LIBRARY_PATH:$PATH

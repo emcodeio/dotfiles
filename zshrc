@@ -47,6 +47,7 @@ export PATH=/usr/local/opt/llvm/bin:$PATH
 export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/.emacs.d/bin/:$PATH
+export HOMEBREW_CASK_OPTS="--no-quarantine"
 
 # export PATH="/Library/Java/JavaVirtualMachines/graalvm-ce-java11-22.2.0/Contents/Home/bin:$PATH"
 # export JAVA_HOME="/Library/Java/JavaVirtualMachines/graalvm-ce-java11-22.2.0/Contents/Home"
@@ -133,6 +134,7 @@ alias newvlc="open -n /Applications/VLC.app"
 
 alias python="python3"
 alias pip="pip3"
+alias trail='<<<${(F)path}'
 
 # alias brew="/opt/homebrew/bin/brew"
 alias brewupdate="echo 'Updating Homebrew and Casks' && brew cu -af && echo 'Upgrading Packages' && brew upgrade"
