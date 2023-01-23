@@ -2,3 +2,4 @@
 /Brewfile.lock.json
 *.DS_Store
 *DS_Store
+/macos-keyboard-shortcuts/

@@ -795,7 +795,7 @@
       (:desc "Compose email" "e" #'+mu4e/compose))
 (map! :leader
       (:prefix ("o" . "open")
-       :desc "Email" "m" #'mu4e))
+       :desc "Email" "m" #'=mu4e))
 
 (map! :map mu4e-compose-mode-map
       :localleader

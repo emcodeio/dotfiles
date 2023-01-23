@@ -22,6 +22,9 @@
     # ~/.dotfiles/org: /Users/eerickson/Library/Mobile\ Documents/iCloud\~com\~appsonthemove\~beorg/Documents/org
     # /Applications: ~/.dotfiles/scripts/Flow\ -\ Start.app/
 
+# - shell:
+#     - command: ln -s ~/Library/Mobile\ Documents/com\~apple\~CloudDocs/Documents/org/ ~/Documents/org
+
 # - create:
 #     - ~/inbox/
 #     - ~/.maildir/
@@ -32,7 +35,10 @@
 #     # - ~/downloads
 #     # - ~/.vim/undo-history
 # 
-# - shell:
+- shell:
+    - command: ./setup-org-files.zsh
+      stdout: true
+      stderr: true
 #     - command: ./setup-homebrew.zsh
 #       stdout: true
 #       stderr: true
