@@ -21,12 +21,15 @@ brew "fd"
 brew "ffmpeg"
 brew "git"
 brew "graphviz"
-brew "isync"
 brew "leiningen"
 brew "mas"
 brew "msmtp"
 brew "mu"
 brew "mvnvm"
+brew "isync"
+brew "nvm"
+brew "ncdu"
+brew "python"
 brew "pandoc"
 brew "zsh"
 brew "zsh-completions"
@@ -41,16 +44,19 @@ brew "yt-dlp/taps/yt-dlp"
 # Casks (Applications)
 cask "appcleaner"
 cask "calibre"
-cask "daisydisk"
 cask "davmail"
 cask "karabiner-elements"
 cask "mactex"
 cask "meetingbar"
 cask "onyx"
-cask "visual-studio-code"
-cask "vlc"
-cask "yed"
 cask "zoom"
+cask "iina"
+cask "microsoft-teams"
+cask "vscodium"
+cask "intellij-idea-ce"
+cask "macwhisper"
+cask "brave-browser"
+cask "omnigraffle"
 
 # Mac App Store
 mas "1Focus", id: 969210610
@@ -60,13 +66,11 @@ mas "Flow", id: 1423210932
 mas "Focus for YouTube", id: 1514703160
 mas "Ghostery Lite", id: 1436953057
 mas "Hush", id: 1544743900
-mas "Irvue", id: 1039633667
 mas "Keynote", id: 409183694
 mas "Microsoft Outlook", id: 985367838
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
 mas "StopTheMadness", id: 1376402589
-mas "Tayasui Sketches", id: 1178074963
 mas "The Unarchiver", id: 425424353
-mas "Unsplash Wallpapers", id: 1284863847
 mas "Vimari", id: 1480933944
+mas "Pixelmator Pro", id: 1289583905

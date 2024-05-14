@@ -1,6 +1,6 @@
 #+title: ZSH Configuration
 #+AUTHOR: Evan Erickson (EE)
-#+PROPERTY: header-args:sh :tangle ./zshrc
+#+PROPERTY: header-args:sh :tangle ./zshrc_full
 #+auto-tangle: t
 #+STARTUP: showeverything
 
@@ -16,8 +16,8 @@
   - [[#random-aliases][Random Aliases]]
   - [[#homebrew][Homebrew]]
   - [[#app-management][App Management]]
-  - [[#moving-to-server][Moving to Server]]
 - [[#customize-prompts][Customize Prompt(s)]]
+- [[#source-external-shell-info][Source External Shell Info]]
 
 * ABOUT THIS CONFIG
 This files is used to configure my zshrc
@@ -26,6 +26,8 @@ This files is used to configure my zshrc
 Enable Powerlevel10k instant prompt. Should stay close to the top of $HOME/.zshrc. Initialization code that may require console input (password prompts, [y/n] confirmations, etc.) must go above this block; everything else may go below.
 
 #+begin_src sh
+#!/usr/bin/env zsh
+
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
@@ -36,8 +38,6 @@ If you come from bash you might have to change your $PATH.
 #+begin_src sh
 # export PATH=$HOME/bin:/opt/homebrew/bin:/usr/local/bin:$PATH
 #+end_src
-
-#+RESULTS:
 
 Path to your oh-my-zsh installation.
 
@@ -58,7 +58,7 @@ Set name of the theme to load --- if set to "random", it will load a random them
 ZSH_THEME="powerlevel10k/powerlevel10k"
 #+end_src
 
-Set list of themes to pick from when loading at random Setting this variable when ZSH_THEME=random will cause zsh to load a theme from this variable instead of looking in $ZSH/themes/ If set to an empty array, this variable will have no effect.
+Set list of themes to when loading at random Setting this variable when ZSH_THEME=random will cause zsh to load a theme from this variable instead of looking in $ZSH/themes/ If set to an empty array, this variable will have no effect.
 
 #+begin_src sh
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
@@ -153,7 +153,6 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
-export PATH=/usr/local/opt/llvm/bin:$PATH
 export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/.emacs.d/bin/:$PATH
@@ -167,8 +166,8 @@ export DEFAULT_MVN_VERSION=3.6.3
 # export PATH="/usr/local/opt/openjdk@11/bin:$PATH"
 # export JAVA_HOME="/Library/Java/JavaVirtualMachines/openjdk-11.jdk/Contents/Home"
 
-export PATH="/Library/Java/JavaVirtualMachines/jdk-11.0.8.jdk/Contents/Home/bin:$PATH"
-export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk-11.0.8.jdk/Contents/Home"
+# export PATH="/Library/Java/JavaVirtualMachines/jdk-11.0.8.jdk/Contents/Home/bin:$PATH"
+# export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk-11.0.8.jdk/Contents/Home"
 
 #+end_src
 
@@ -282,9 +281,7 @@ alias emacs="open -a emacs"
 ** Scripts
 
 #+begin_src sh
-alias dotpdf="$HOME/.dotfiles/scripts/dot2pdf.sh"
-alias c320="$HOME/.dotfiles/scripts/convert_to_320_aac.sh . $HOME/Music/encoded"
-alias c96="$HOME/.dotfiles/scripts/convert_to_96_aac.sh . $HOME/Music/encoded"
+alias reformatvtt="python $HOME/.dotfiles/python-scripts/reformat-vtt.py"
 #+end_src
 
 ** Shortcuts
@@ -292,16 +289,6 @@ alias c96="$HOME/.dotfiles/scripts/convert_to_96_aac.sh . $HOME/Music/encoded"
 #+begin_src sh
 alias dev="cd $HOME/dev"
 alias dotfiles="cd $HOME/.dotfiles"
-alias rep="cd $HOME/dev/colleague/Representation"
-alias repwork="cd $HOME/dev/colleague/Representation/workspace"
-alias icgen="cd $HOME/dev/colleague/icGenerator"
-alias icgenviz="cd $HOME/dev/colleague/icGenerator/src/main/resources/tmp"
-alias gotosync="cp -a $HOME/.dotfiles/obsidian/GoTo\ Elimination/. $HOME/dev/fom/GraphNormaliztion/Goto\ Elimination\ Docs"
-alias pullrep="rep && $HOME/.dotfiles/scripts/mvOutVizCode.sh && git restore src/* && git pull && $HOME/.dotfiles/scripts/mvInVizCode.sh"
-alias mvoutrep="$HOME/.dotfiles/scripts/mvOutVizCode.sh"
-alias mvinrep="$HOME/.dotfiles/scripts/mvInVizCode.sh"
-alias dotclean="rm *.dot *.pdf"
-alias mkcobol="$HOME/.dotfiles/scripts/make-cobol.sh"
 alias newvlc="open -n /Applications/VLC.app"
 #+end_src
 
@@ -328,15 +315,6 @@ alias deletezsh="echo 'Delete $HOME/.oh-my-zsh/custom' && rm $HOME/.oh-my-zsh/cu
 alias linkzsh="echo 'Relink .oh-my-zsh/custom' && $HOME/.dotfiles/install && sleep 1s && exec zsh"
 #+end_src
 
-** Moving to Server
-
-#+begin_src sh
-alias mv4k="echo 'Moving 4K movies to server...' && mv $HOME/inbox/00_movies_4k_to_transfer/* /Volumes/files/plex/movies_4k/"
-alias mvmovies="echo 'Moving movies to server...' && mv $HOME/inbox/00_movies_to_transfer/* /Volumes/files/plex/movies/"
-alias mvporn="echo 'Moving porn to server...' && mv $HOME/inbox/00_porn_to_transfer/* /Volumes/files/plex/videos/"
-alias mvfiles="mv4k && mvmovies && mvporn"
-#+end_src
-
 * Customize Prompt(s)
 
 Add locations to $PATH variables
@@ -357,4 +335,16 @@ To customize prompt, run `p10k configure` or edit $HOME/.dotfiles/p10k.zsh.
 
 #+begin_src sh
 [[ ! -f $HOME/.dotfiles/p10k.zsh ]] || source $HOME/.dotfiles/p10k.zsh
+#+end_src
+
+* Source External Shell Info
+
+#+begin_src sh
+if [ "$MACHINE_TYPE" = "work" ]; then
+    source $HOME/.dotfiles/lib/aliases_work.zsh
+else
+    source $HOME/.dotfiles/lib/aliases_personal.zsh
+fi
+
+source $HOME/.dotfiles/private_info/private_info.zsh
 #+end_src

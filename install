@@ -2,9 +2,13 @@
 
 set -e
 
-CONFIG="install.conf.yaml"
-DOTBOT_DIR="dotbot"
+if [ "$MACHINE_TYPE" = "work" ]; then
+    CONFIG="install_work.conf.yaml"
+else
+    CONFIG="install_personal.conf.yaml"
+fi
 
+DOTBOT_DIR="dotbot"
 DOTBOT_BIN="bin/dotbot"
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 

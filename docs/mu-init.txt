@@ -1,0 +1,2 @@
+mu init -m ~/.maildir --my-address evan@emcode.io --my-address evan.erksn@gmail.com --my-address ericenna@gmail.com --my-address eerickson@phasechange.ai
+

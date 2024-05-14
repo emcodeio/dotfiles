@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
@@ -43,7 +45,6 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
-export PATH=/usr/local/opt/llvm/bin:$PATH
 export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/.emacs.d/bin/:$PATH
@@ -57,8 +58,8 @@ export DEFAULT_MVN_VERSION=3.6.3
 # export PATH="/usr/local/opt/openjdk@11/bin:$PATH"
 # export JAVA_HOME="/Library/Java/JavaVirtualMachines/openjdk-11.jdk/Contents/Home"
 
-export PATH="/Library/Java/JavaVirtualMachines/jdk-11.0.8.jdk/Contents/Home/bin:$PATH"
-export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk-11.0.8.jdk/Contents/Home"
+# export PATH="/Library/Java/JavaVirtualMachines/jdk-11.0.8.jdk/Contents/Home/bin:$PATH"
+# export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk-11.0.8.jdk/Contents/Home"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -114,22 +115,10 @@ alias doom-open="open -a emacs "
 alias zsh-config="open -a emacs $HOME/.zshrc"
 alias emacs="open -a emacs"
 
-alias dotpdf="$HOME/.dotfiles/scripts/dot2pdf.sh"
-alias c320="$HOME/.dotfiles/scripts/convert_to_320_aac.sh . $HOME/Music/encoded"
-alias c96="$HOME/.dotfiles/scripts/convert_to_96_aac.sh . $HOME/Music/encoded"
+alias reformatvtt="python $HOME/.dotfiles/python-scripts/reformat-vtt.py"
 
 alias dev="cd $HOME/dev"
 alias dotfiles="cd $HOME/.dotfiles"
-alias rep="cd $HOME/dev/colleague/Representation"
-alias repwork="cd $HOME/dev/colleague/Representation/workspace"
-alias icgen="cd $HOME/dev/colleague/icGenerator"
-alias icgenviz="cd $HOME/dev/colleague/icGenerator/src/main/resources/tmp"
-alias gotosync="cp -a $HOME/.dotfiles/obsidian/GoTo\ Elimination/. $HOME/dev/fom/GraphNormaliztion/Goto\ Elimination\ Docs"
-alias pullrep="rep && $HOME/.dotfiles/scripts/mvOutVizCode.sh && git restore src/* && git pull && $HOME/.dotfiles/scripts/mvInVizCode.sh"
-alias mvoutrep="$HOME/.dotfiles/scripts/mvOutVizCode.sh"
-alias mvinrep="$HOME/.dotfiles/scripts/mvInVizCode.sh"
-alias dotclean="rm *.dot *.pdf"
-alias mkcobol="$HOME/.dotfiles/scripts/make-cobol.sh"
 alias newvlc="open -n /Applications/VLC.app"
 
 alias python="python3"
@@ -143,13 +132,16 @@ alias updateapps="echo 'Updating Homebrew and Casks...' && brew cu -af && echo '
 alias deletezsh="echo 'Delete $HOME/.oh-my-zsh/custom' && rm $HOME/.oh-my-zsh/custom && echo 'Updating ZSH' && exec zsh -l"
 alias linkzsh="echo 'Relink .oh-my-zsh/custom' && $HOME/.dotfiles/install && sleep 1s && exec zsh"
 
-alias mv4k="echo 'Moving 4K movies to server...' && mv $HOME/inbox/00_movies_4k_to_transfer/* /Volumes/files/plex/movies_4k/"
-alias mvmovies="echo 'Moving movies to server...' && mv $HOME/inbox/00_movies_to_transfer/* /Volumes/files/plex/movies/"
-alias mvporn="echo 'Moving porn to server...' && mv $HOME/inbox/00_porn_to_transfer/* /Volumes/files/plex/videos/"
-alias mvfiles="mv4k && mvmovies && mvporn"
-
 function mkcd() {
   mkdir -p "$@" && cd "$_";
 }
 
 [[ ! -f $HOME/.dotfiles/p10k.zsh ]] || source $HOME/.dotfiles/p10k.zsh
+
+if [ "$MACHINE_TYPE" = "work" ]; then
+    source $HOME/.dotfiles/lib/aliases_work.zsh
+else
+    source $HOME/.dotfiles/lib/aliases_personal.zsh
+fi
+
+source $HOME/.dotfiles/private_info/private_info.zsh

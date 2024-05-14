@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+set -e
+
+echo "Did you copy over ./private_info information? (y/n)"
+read user_input1
+
+if [[ "$user_input2" == "y" ]]; then
+    continue
+else
+    echo "Please copy of information before continuing."
+    exit 1
+fi
+
+# Prompt the user to select the type of machine setup
+echo "Select the type of machine to setup: (p)ersonal / (w)ork "
+read user_input2
+
+# Determine the MACHINE_TYPE based on the input
+if [[ "$user_input2" == "w" ]]; then
+    MACHINE_TYPE="work"
+elif [[ "$user_input2" == "p" ]]; then
+    MACHINE_TYPE="personal"
+else
+    echo "Invalid input. Please start the script again and select 'w' or 'p' for work or personal."
+    exit 1
+fi
+
+echo "export MACHINE_TYPE=$MACHINE_TYPE" >> ~/.zshrc
+echo "source $HOME/.dotfiles/config/zshrc_full" >> ~/.zshrc
+
+$HOME/.dotfiles/install
