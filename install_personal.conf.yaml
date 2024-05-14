@@ -18,6 +18,8 @@
     ~/.skhdrc: ~/.dotfiles/config/skhdrc
     ~/.config/karabiner: ~/.dotfiles/karabiner
     ~/.ideavimrc: ~/.dotfiles/config/ideavimrc
+    ~/.dotfiles/fonts: ~/Library/Mobile\ Documents/com\~apple\~CloudDocs/Documents/dotfiles/fonts
+    ~/.dotfiles/private_info: ~/Library/Mobile\ Documents/com\~apple\~CloudDocs/Documents/dotfiles/private_info
     # ~/dev/obsidian_vault: ~/.dotfiles/obsidian
     # ~/.dotfiles/org: /Users/eerickson/Library/Mobile\ Documents/iCloud\~com\~appsonthemove\~beorg/Documents/org
     # /Applications: ~/.dotfiles/scripts/Flow\ -\ Start.app/

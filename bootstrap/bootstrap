@@ -134,17 +134,27 @@ install_zsh() {
     success "You already have Zsh installed. Skipping..."
   fi
 
-  if _exists zsh && [[ -z "$ZSH_VERSION" ]]; then
+  if [ "$SHELL" != "/bin/zsh" ]; then
     info "Setting up Zsh as default shell..."
 
-    echo "The script will ask you the password for sudo:"
+    echo "The script will ask you the password for sudo"
+    echo "when changing your default shell via chsh -s:"
     echo
-    echo "1) When changing your default shell via chsh -s"
-    echo
-    echo "$(command -v zsh)" | sudo tee -a '/etc/shells' >/dev/null
 
-    chsh -s "$(command -v zsh)" || error "Error: Cannot set Zsh as default shell!"
+    chsh -s "$(command -v zsh)"
   fi
+
+  # if _exists zsh && [[ -z "$ZSH_VERSION" ]]; then
+  #   info "Setting up Zsh as default shell..."
+
+  #   echo "The script will ask you the password for sudo:"
+  #   echo
+  #   echo "1) When changing your default shell via chsh -s"
+  #   echo
+  #   echo "$(command -v zsh)" | sudo tee -a '/etc/shells' >/dev/null
+
+  #   chsh -s "$(command -v zsh)" || error "Error: Cannot set Zsh as default shell!"
+  # fi
 
   finish
 }
@@ -180,7 +190,6 @@ install_software() {
   finish
 }
 
-
 install_doom() {
 
   info "Installing Doom Emacs..."
@@ -192,6 +201,17 @@ install_doom() {
     git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.emacs.d
     ~/.emacs.d/bin/doom install
   fi
+
+  finish
+}
+
+install_fonts() {
+  info "Installing fonts..."
+
+  BASE_DIR="$HOME/.dotfiles/fonts"
+
+  # Find and install all TTF and OTF fonts
+  find "$BASE_DIR" -type f \( -name "*.ttf" -o -name "*.otf" \) -exec cp {} ~/Library/Fonts/ \;
 
   finish
 }
@@ -255,6 +275,7 @@ main() {
   install_zsh "$*"
   install_software "$*"
   install_doom "$*"
+  install_fonts "$*"
   setup_mu "$*"
   on_finish "$*"
 }
