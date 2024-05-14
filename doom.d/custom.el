@@ -7,6 +7,9 @@
    [default default default italic underline success warning error])
  '(custom-safe-themes
    '("1f1b545575c81b967879a5dddc878783e6ebcca764e4916a270f9474215289e5" "a0be7a38e2de974d1598cf247f607d5c1841dbcef1ccd97cded8bea95a7c7639" default))
+ '(magit-todos-insert-after '(bottom) nil nil "Changed by setter of obsolete option `magit-todos-insert-at'")
+ '(org-agenda-files
+   '("~/dev/writing_and_communication/scms_and_programs/scms_and_programs.org" "/Users/eerickson/Documents/org/inbox.org" "/Users/eerickson/Documents/org/events.org" "/Users/eerickson/Documents/org/projects.org" "/Users/eerickson/Documents/org/db.org"))
  '(package-selected-packages
    '(spacemacs-theme json-mode ediprolog cyberpunk-theme cyberpunk-2019-theme cobol-mode auctex ace-window))
  '(smtpmail-smtp-server "smtp.mail.me.com")

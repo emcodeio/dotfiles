@@ -4,30 +4,34 @@
 (setq doom-theme 'doom-xcode)
 (custom-theme-set-faces! 'doom-xcode
   ;;'(default :background "#1C1C1C")
-  '(default :background "#151515")
+  ;; '(default :background "#151515")
+  '(default :background "#16161D")
   ;;'(default :background "#000000")
   )
 
 (custom-theme-set-faces! 'doom-monokai-classic
   ;;'(default :background "#1C1C1C")
-  '(default :background "#151515")
+  ;; '(default :background "#151515")
+  '(default :background "#16161D")
   ;;'(default :background "#000000")
   )
 
 (custom-theme-set-faces! 'doom-dracula
   ;;'(default :background "#1C1C1C")
-  '(default :background "#151515")
+  ;; '(default :background "#151515")
+  '(default :background "#16161D")
   ;;'(default :background "#000000")
   )
 
 (custom-theme-set-faces! 'doom-palenight
   ;;'(default :background "#1C1C1C")
-  '(default :background "#151515")
-  ;;'(default :background "#000000")
+  ;; '(default :background "#151515")
+  '(default :background "#16161D")
+  ;; '(default :background "#000000")
   )
 
-(setq doom-font (font-spec :family "Dank Mono" :size 15)
-      doom-big-font (font-spec :family "Dank Mono" :size 20)
+(setq doom-font (font-spec :family "Dank Mono" :size 16)
+      doom-big-font (font-spec :family "Dank Mono" :size 24)
       doom-variable-pitch-font (font-spec :family "Iosevka Aile" :weight 'light :size 13)
       doom-serif-font (font-spec :family "Iosevka Etoile" :weight 'light :size 13))
 
@@ -144,10 +148,17 @@
 (setq aw-keys
       '(97 115 100 102 103 104 106 107 108))
 
+(use-package! evil-escape
+  :init
+  (setq-default evil-escape-delay 0.2)
+  (setq evil-escape-key-sequence "jj"))
+
 (require 'key-chord)
 (key-chord-mode 1)
 (setq key-chord-two-keys-delay 0.05)
-(key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
+(setq key-chord-safety-interval-forward 0.0)
+(setq key-chord-safety-interval-backward 0.0)
+;; (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
 (key-chord-define-global "vv" 'ace-window)
 
 (global-auto-revert-mode 1)
@@ -200,13 +211,13 @@
     (dired-sort-other -arg )))
 
 (defun dired-get-size ()
- (interactive)
- (let ((files (dired-get-marked-files)))
-   (with-temp-buffer
-     (apply 'call-process "/usr/bin/du" nil t nil "-sch" files)
-     (message "Size of all marked files: %s"
-              (progn
-                (re-search-backward "\\(^[0-9.,]+[A-Za-z]+\\).*total$")
+  (interactive)
+  (let ((files (dired-get-marked-files)))
+    (with-temp-buffer
+      (apply 'call-process "/usr/bin/du" nil t nil "-sch" files)
+      (message "Size of all marked files: %s"
+               (progn
+                 (re-search-backward "\\(^[0-9.,]+[A-Za-z]+\\).*total$")
                  (match-string 1))))))
 
 (require 'mm-util)
@@ -287,7 +298,7 @@
                              'syntax-table (string-to-syntax "_")))))))
 
 (defun efs/org-mode-visual-fill ()
-  (setq visual-fill-column-width 120
+  (setq visual-fill-column-width 180
         visual-fill-column-center-text t)
   (visual-fill-column-mode 1))
 
@@ -310,16 +321,16 @@
            "* TODO %?")
           ("e" "Event" entry (file+datetree "events.org")
            ,(concat "* %?\n"
-             "<%<%Y-%m-%d %a %^{Time}>>")
+                    "<%<%Y-%m-%d %a %^{Time}>>")
            :time-prompt t)
           ("j" "Journal" checkitem (file+olp "projects.org" "SINGLES" "Journaling Ideas")
            "+ [ ] %?")
           ("m" "Inbox [mu4e]" entry (file "inbox.org")
            "* TODO Email: \"%a\"\n%i%?"
            :immediate-finish t)
-           ;; ("n" "Note" entry (file "inbox.org")
-           ;;  ,(concat "* Note (%a)\n"
-           ;;           "%U\n" "%?"))
+          ;; ("n" "Note" entry (file "inbox.org")
+          ;;  ,(concat "* Note (%a)\n"
+          ;;           "%U\n" "%?"))
           ("n" "Next" entry (file "inbox.org")
            "* NEXT %?")
           ("p" "Project")
@@ -331,17 +342,17 @@
                     ":COOKIE_DATA: recursive todo\n"
                     ":END:\n"
                     "** Why?\n"
-                          ":PROPERTIES:\n"
-                          ":VISIBILITY: hide\n"
-                          ":END:\n"
+                    ":PROPERTIES:\n"
+                    ":VISIBILITY: hide\n"
+                    ":END:\n"
                     "** Notes\n"
-                          ":PROPERTIES:\n"
-                          ":VISIBILITY: hide\n"
-                          ":END:\n"
+                    ":PROPERTIES:\n"
+                    ":VISIBILITY: hide\n"
+                    ":END:\n"
                     "** Tasks\n"
-                          ":PROPERTIES:\n"
-                          ":VISIBILITY: content\n"
-                          ":END:\n"))
+                    ":PROPERTIES:\n"
+                    ":VISIBILITY: content\n"
+                    ":END:\n"))
           ("pw" "Personal Project" entry (file+olp "projects.org" "WORK")
            ,(concat "* PROJ %? [\/]\n"
                     ":PROPERTIES:\n"
@@ -349,21 +360,21 @@
                     ":COOKIE_DATA: recursive todo\n"
                     ":END:\n"
                     "** Why?\n"
-                          ":PROPERTIES:\n"
-                          ":VISIBILITY: hide\n"
-                          ":END:\n"
+                    ":PROPERTIES:\n"
+                    ":VISIBILITY: hide\n"
+                    ":END:\n"
                     "** Notes\n"
-                          ":PROPERTIES:\n"
-                          ":VISIBILITY: hide\n"
-                          ":END:\n"
+                    ":PROPERTIES:\n"
+                    ":VISIBILITY: hide\n"
+                    ":END:\n"
                     "** Tasks\n"
-                          ":PROPERTIES:\n"
-                          ":VISIBILITY: content\n"
-                          ":END:\n"))))
+                    ":PROPERTIES:\n"
+                    ":VISIBILITY: content\n"
+                    ":END:\n"))))
   (regexp-opt '("Tasks" "Notes"))
   (setq org-refile-targets
         '(("projects.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
-         ;;  ("inbox.org" :maxlevel . 3)
+          ;;  ("inbox.org" :maxlevel . 3)
           ("projects.org" :regexp . "Single Personal Tasks")
           ("projects.org" :regexp . "Single Work Tasks")
           ))
@@ -473,18 +484,18 @@
 (map! :leader
       (:prefix ("n" . "notes")
        :desc "View GTD Work" "w" #'(lambda ()
-                                      (interactive)
-                                      (org-agenda nil "gw"))
+                                     (interactive)
+                                     (org-agenda nil "gw"))
        :desc "View GTD Personal" "p" #'(lambda ()
-                                      (interactive)
-                                      (org-agenda nil "gp"))))
+                                         (interactive)
+                                         (org-agenda nil "gp"))))
 
 (defun eme/renew-org-buffer ()
   (interactive)
   (dolist (buffer (buffer-list))
     (with-current-buffer buffer
       (when (derived-mode-p 'org-agenda-mode)
-    (org-agenda-maybe-redo)))))
+        (org-agenda-maybe-redo)))))
 
 (run-with-timer 3 (* 3 60) #'eme/renew-org-buffer)
 
@@ -495,12 +506,18 @@
 
 (after! org-mode
   (setq org-latex-caption-above nil)
-        org-latex-listings 'minted
-        org-latex-packages-alist '(("" "minted"))
-        org-latex-pdf-process
-        '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+  org-latex-listings 'minted
+  org-latex-packages-alist '(("" "minted"))
+  org-latex-pdf-process
+  '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+    "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+    "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+(after! org-mode
+  '(require 'ox-gfm nil t))
+
+(after! org-mode
+  '(require 'ox-gfm nil t))
 
 (require 'org-present)
 
@@ -569,7 +586,7 @@
   (add-to-list 'load-path "/opt/homebrew/opt/mu/share/emacs/site-lisp/mu/mu4e"))
 (require 'mu4e)
 (require 'smtpmail)
-      ;; installed this with homebrew
+;; installed this with homebrew
 (setq mu4e-mu-binary (executable-find "mu")
       ;; mu4e mail directory:
       mu4e-maildir "~/.maildir"
@@ -802,6 +819,8 @@
       :desc "convert to html email" "h" #'org-mime-htmlize
       :desc "edit email in org buffer" "o" #'org-mime-edit-mail-in-org-mode)
 
+(set-popup-rule! "^\\*mu4e-\\(main\\|headers\\)\\*" :ignore t)
+
 (setq projectile-project-search-path '("~/dev/"))
 
 (setq display-line-numbers-type t)
@@ -896,3 +915,13 @@
                                ;; add major mode setting here, if needed, for example:
                                ;; (text-mode)
                                (json-mode))))
+
+(setq chatgpt-model "gpt-4-turbo-preview"
+      chatgpt-spinner-type 'vector
+      chatgpt-max-tokens "4000"
+      chatgpt-window-prompt "")
+
+(setq codegpt-tunnel 'chat                ; The default is 'completion
+      codegpt-spinner-type 'vector
+      codegpt-max-tokens "4000"
+      codegpt-model "gpt-4-turbo-preview")

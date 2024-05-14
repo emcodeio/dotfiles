@@ -69,7 +69,7 @@
        (dired +icons)      ; making dired pretty [functional]
        electric            ; smarter, keyword-based electric-indent
        (ibuffer +icons)    ; interactive buffer management
-       undo                ; persistent, smarter undo for your inevitable mistakes
+       (undo +tree)        ; persistent, smarter undo for your inevitable mistakes
        vc                  ; version-control and Emacs, sitting in a tree
 
        :term
@@ -140,9 +140,9 @@
        ;;idris             ; a language you can depend on
        json                ; At least it ain't XML
        (java +lsp)         ; the poster child for carpal tunnel syndrome
-       ;;javascript        ; all(hope(abandon(ye(who(enter(here))))))
+       javascript          ; all(hope(abandon(ye(who(enter(here))))))
        ;;julia             ; a better, faster MATLAB
-       ;;kotlin            ; a better, slicker Java(Script)
+       (kotlin +lps)       ; a better, slicker Java(Script)
        latex               ; writing papers in Emacs has never been so fun
        ;;lean              ; for folks with too much to prove
        ;;ledger            ; be audit you can be
@@ -195,5 +195,5 @@
        :config
        ;;literate
        (default
-         +bindings
-         +smartparens))
+        +bindings
+        +smartparens))
