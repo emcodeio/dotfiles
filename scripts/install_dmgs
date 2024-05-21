@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+
+DMG_DIR="$HOME/.dotfiles/dmgs"
+source "$SCRIPT_DIR/utils"
+
+_exists() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+# Array of DMGs to install (dmg_path, volume_name, app_name)
+dmgs_to_install=(
+    "$DMG_DIR/Final Cut Pro 10.7.1|LogicPro|Logic Pro.app"
+    "$DMG_DIR/Downloads/another_app.dmg|AnotherAppVolume|Another App.app"
+)
+
+# Install DMG function
+install_dmg() {
+    local dmg_path="$1"
+    local volume_name="$2"
+    local app_name="$3"
+    local app_path="/Applications/$app_name"
+
+    if [ ! -f "$dmg_path" ]; then
+        error "DMG file not found: $dmg_path"
+        return 1
+    fi
+
+    if [ -d "$app_path" ]; then
+        echo "$app_name is already installed. Skipping."
+        return 0
+    fi
+
+    info "Mounting $dmg_path..."
+    hdiutil attach "$dmg_path" -nobrowse -quiet
+    if [ $? -ne 0 ]; then
+        error "Failed to mount $dmg_path"
+        return 1
+    fi
+
+    echo "Copying $app_name to /Applications..."
+    cp -R "/Volumes/$volume_name/$app_name" /Applications/
+    if [ $? -ne 0 ]; then
+        error "Failed to copy $app_name"
+        hdiutil detach "/Volumes/$volume_name" -quiet
+        return 1
+    fi
+
+    info "Unmounting $volume_name..."
+    hdiutil detach "/Volumes/$volume_name" -quiet
+    if [ $? -ne 0 ]; then
+        error "Failed to unmount /Volumes/$volume_name"
+        return 1
+    fi
+
+    info "$app_name installed complete. Continuing..."
+    return 0
+}
+
+# Install DMGs
+install_all_dmgs() {
+  for dmg in "${dmgs_to_install[@]}"; do
+      IFS="|" read -r dmg_path volume_name app_name <<< "$dmg"
+      install_dmg "$dmg_path" "$volume_name" "$app_name"
+  done
+  return 0
+}
+
+install_all_dmgs

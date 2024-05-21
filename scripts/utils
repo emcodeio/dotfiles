@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# Define colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+BOLD='\033[1m'
+NC='\033[0m' # No Color
+
+# Function to wrap text in blue
+info() {
+    echo -e "${BLUE}$1${NC}"
+}
+
+# Function to wrap text in red
+error() {
+    echo -e "${RED}$1${NC}"
+}
+
+# Function to wrap text in green
+success() {
+    echo -e "${GREEN}$1${NC}"
+}
+
+# Function to wrap text in bold
+prompt() {
+    echo -e "${BOLD}$1${NC}"
+}

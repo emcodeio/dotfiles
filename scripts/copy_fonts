@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$HOME/.dotfiles/scripts"
+source "$SCRIPT_DIR/utils"
+
+_exists() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+# Source directory containing the fonts
+SOURCE_DIR="$HOME/.dotfiles/fonts"
+
+# Destination directory for user-installed fonts
+DEST_DIR="$HOME/Library/Fonts"
+
+copy_fonts() {
+  # Check if the source directory exists
+  if [ ! -d "$SOURCE_DIR" ]; then
+      error "Source directory $SOURCE_DIR does not exist. Exiting."
+      exit 1
+  fi
+
+  # Check if the destination directory exists
+  if [ ! -d "$DEST_DIR" ]; then
+      error "Destination directory $DEST_DIR does not exist. Exiting."
+      exit 1
+  fi
+
+  # Find and copy .otf and .ttc files to the destination directory
+  find -L "$SOURCE_DIR" -type f \( -iname "*.otf" -o -iname "*.ttc" \) -exec cp -v {} "$DEST_DIR" \;
+
+  info "Fonts copied successfully to $DEST_DIR. Continuing..."
+
+  return 0
+}
+
+copy_fonts

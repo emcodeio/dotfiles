@@ -1,0 +1,12 @@
+#Brews (Packages)
+brew "borkdude/brew/clj-kondo"
+brew "leiningen"
+brew "mvnvm"
+
+# Casks (Applications)
+cask "meetingbar"
+cask "microsoft-teams"
+
+# Mac App Store
+mas "Flow", id: 1423210932
+mas "Microsoft Outlook", id: 985367838

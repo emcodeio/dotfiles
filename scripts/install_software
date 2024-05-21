@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$HOME/.dotfiles/scripts"
+source "$SCRIPT_DIR/utils"
+
+_exists() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+DOTFILES=${1:-"$HOME/.dotfiles"}
+
+install_software() {
+
+  export HOMEBREW_CASK_OPTS="--no-quarantine"
+
+  if [ -f "$DOTFILES/brewfiles/Brewfile_shared" ]; then
+    brew bundle --verbose --file="$DOTFILES/brewfiles/Brewfile_shared"
+  else
+    error "Error: Brewfile_shared not found"
+    exit 1
+  fi
+
+  if _exists brew; then
+    if [ "$MACHINE_TYPE" = "work" ]; then
+      if [ -f "$DOTFILES/brewfiles/Brewfile_work" ]; then
+        info "Installing work specific apps..."
+        brew bundle --verbose --file="$DOTFILES/brewfiles/Brewfile_work"
+      else
+        error "Error: Brewfile_work not found"
+        exit 1
+      fi
+    else
+      if [ -f "$DOTFILES/brewfiles/Brewfile_personal" ]; then
+        info "Installing prersonal specific apps..."
+        brew bundle --verbose --file="$DOTFILES/brewfiles/Brewfile_personal"
+      else
+        error "Error: Brewfile_personal not found"
+        exit 1
+      fi
+    fi
+  else
+    error "Error: Brew is not available"
+  fi
+
+  info "Brew managed software installation complete. Continuing..."
+
+  return 0
+}
+
+install_software

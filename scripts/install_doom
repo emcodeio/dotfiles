@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$HOME/.dotfiles/scripts"
+source "$SCRIPT_DIR/utils"
+
+_exists() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+install_doom() {
+  if _exists ~/.emacs.d/bin/doom; then
+    echo "Doom Emacs exists. Skipping..."
+  else
+    echo "Doom Emacs doesn't exist, continuing with install..."
+    git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.emacs.d
+    ~/.emacs.d/bin/doom install
+    info "Doom Emacs installation complete. Continuing..."
+  fi
+
+  return 0
+}
+
+install_doom

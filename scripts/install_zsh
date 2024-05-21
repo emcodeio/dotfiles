@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$HOME/.dotfiles/scripts"
+source "$SCRIPT_DIR/utils"
+
+_exists() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+install_zsh() {
+  if ! _exists zsh; then
+    echo "Installing Zsh..."
+    brew install zsh
+    info "ZSH installation complete. Continuing..."
+  else
+    echo "You already have Zsh installed. Skipping..."
+  fi
+
+  if [ "$SHELL" != "/bin/zsh" ]; then
+    echo "Setting up Zsh as default shell..."
+    echo
+    echo "The script sudo permissions when changing"
+    echo "your default shell via chsh -s:"
+    echo
+    chsh -s "$(command -v zsh)"
+  fi
+
+  info "ZSH is now the default shell. Continuing..."
+
+  return 0
+}
+
+install_zsh

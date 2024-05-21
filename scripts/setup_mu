@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$HOME/.dotfiles/scripts"
+source "$SCRIPT_DIR/utils"
+
+_exists() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+# The check_exists function that uses _exists
+check_exists() {
+  if ! _exists "$1"; then
+    error "$1 doesn't exist, please install..."
+    exit 1
+  fi
+}
+
+setup_mu() {
+  prompt "Do you want to setup mu and mu4e? [y/N] "
+  read  -n 1 answer
+  echo
+  if [ "${answer}" != "y" ]; then
+    echo "Skipping mu and mu4e setup..."
+    return 0
+  fi
+
+  DAVMAIL_PREF_PATH="$HOME/.davmail.properties"
+
+  if [ -L "$DAVMAIL_PREF_PATH" ]; then
+    echo "DavMail perferences from iCloud already linked..."
+    continue
+  else
+    echo "Linking DavMail perferences..."
+    ln -s $HOME/Library/Mobile\ Documents/com\~apple\~CloudDocs/Documents/dotfiles/private_info $HOME/.dotfiles/
+    echo
+  fi
+
+  echo "Opening DavMail..."
+
+  open -a davmail
+
+  prompt "Press any key when DavMail is ready."
+  read -n1 -s
+
+  echo "Checking for requried packages..."
+
+  check_exists mu
+  check_exists mbsync
+  check_exists msmtp
+
+  echo "Checking if passwords are saved in Keychain..."
+
+  # Continue with the setup
+  echo "mu, isync, and msmtp exist. Continuing mu setup..."
+  mbsync -aV
+  mu init -m ~/.maildir --my-address evan_e@icloud.com --my-address evan@emcode.io --my-address evan.erksn@gmail.com --my-address ericenna@gmail.com --my-address eerickson@phasechange.ai
+  mu index
+
+  info "mu and mu4e setup complete. Continuing..."
+
+  return 0
+}
+
+setup_mu

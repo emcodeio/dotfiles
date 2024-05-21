@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$HOME/.dotfiles/scripts"
+source "$SCRIPT_DIR/utils"
+
+_exists() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+# Array of directories to create
+directories=(
+    "$HOME/inbox"
+    "$HOME/.maildir"
+    "$HOME/.maildir/icloud"
+    "$HOME/.maildir/evan.erksn-gmail"
+    "$HOME/.maildir/ericenna-gmail"
+    "$HOME/.maildir/work"
+)
+
+
+create_dirs() {
+  # Loop through the array and create each directory if it does not exist
+  for dir in "${directories[@]}"; do
+      if [ ! -d "$dir" ]; then
+          mkdir -p "$dir"
+          echo "Created directory: $dir"
+      else
+          echo "Directory already exists: $dir"
+      fi
+  done
+
+  info "Directories creation complete. Continuing..."
+
+  return 0
+}
+
+create_dirs

@@ -1,7 +1,7 @@
 IMAPAccount icloud
 Host imap.mail.me.com
 User evan_e@icloud.com
-PassCmd "security find-generic-password -s mu4e-icloud-gen -a evan_e@icloud.com -w"
+PassCmd "security find-generic-password -s mu4e-icloud -a evan_e@icloud.com -w"
 Port 993
 SSLType IMAPS
 SSLVersions TLSv1.2
@@ -31,7 +31,7 @@ SyncState *
 IMAPAccount evan.erksn-gmail
 Host imap.gmail.com
 User evan.erksn@gmail.com
-PassCmd "security find-generic-password -s mu4e-evan.erksn-gen -a evan.erksn@gmail.com -w"
+PassCmd "security find-generic-password -s mu4e-evan.erksn -a evan.erksn@gmail.com -w"
 Port 993
 SSLType IMAPS
 SSLVersions TLSv1.2
@@ -61,7 +61,7 @@ SyncState *
 IMAPAccount ericenna-gmail
 Host imap.gmail.com
 User ericenna@gmail.com
-PassCmd "security find-generic-password -s mu4e-ericenna-gen -a ericenna@gmail.com -w"
+PassCmd "security find-generic-password -s mu4e-ericenna -a ericenna@gmail.com -w"
 Port 993
 SSLType IMAPS
 SSLVersions TLSv1.2

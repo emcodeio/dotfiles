@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$HOME/.dotfiles/scripts"
+source "$SCRIPT_DIR/utils"
+
+_exists() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+# Array for symlinks (key-value pairs). To add a symlink, simply add symlink
+# location and target file location seperated by : as seen below
+symlinks=(
+  "$HOME/.zshenv                                         :$HOME/.dotfiles/config/zshenv"
+  "$HOME/.doom.d                                         :$HOME/.dotfiles/config/doom.d"
+  "$HOME/.zsh_plugins.txt                                :$HOME/.dotfiles/config/zsh_plugins.txt"
+  "$HOME/.p10k.zsh                                       :$HOME/.dotfiles/config/p10k.zsh"
+  "$HOME/.mbsyncrc                                       :$HOME/.dotfiles/config/mbsyncrc"
+  "$HOME/.msmtprc                                        :$HOME/.dotfiles/config/msmtprc"
+  "$HOME/.wallpaper                                      :$HOME/.dotfiles/config/wallpaper"
+  "$HOME/.yabairc                                        :$HOME/.dotfiles/config/yabairc"
+  "$HOME/.skhdrc                                         :$HOME/.dotfiles/config/skhdrc"
+  "$HOME/.config/karabiner                               :$HOME/.dotfiles/config/karabiner"
+  "$HOME/Library/Application Support/Keyboard Maestro    :$HOME/.dotfiles/config/keyboard_maestro"
+  "$HOME/.ideavimrc        .                             :$HOME/.dotfiles/config/ideavimrc"
+  "$HOME/.dotfiles/private_info                          :$HOME/Library/Mobile Documents/com~apple~CloudDocs/Documents/dotfiles/private_info"
+  "$HOME/.dotfiles/fonts                                 :$HOME/Library/Mobile Documents/com~apple~CloudDocs/Documents/dotfiles/fonts"
+  "$HOME/.dotfiles/dmgs                                  :$HOME/Library/Mobile Documents/com~apple~CloudDocs/Documents/dotfiles/dmgs"
+)
+
+# Function to create symlink if it doesn't already exist
+create_symlink() {
+  local target=$1
+  local symlink=$2
+
+  if [ -L "$symlink" ]; then
+    echo "$(basename "$symlink") already linked..."
+  else
+    echo "Linking $(basename "$symlink")..."
+    ln -s "$target" "$symlink"
+  fi
+
+  return 0
+}
+
+create_all_symlinks() {
+  # Creating symlinks
+  for pair in "${symlinks[@]}"; do
+    IFS=":" read -r symlink target <<< "$pair"
+    # Trim leading/trailing whitespace
+    symlink=$(echo "$symlink" | xargs)
+    target=$(echo "$target" | xargs)
+    create_symlink "$target" "$symlink"
+  done
+
+  # Handle Secrets keychain separately
+  SECRETS_KEYCHAIN_SRC="$HOME/Library/Mobile Documents/com~apple~CloudDocs/Documents/dotfiles/private_info/Secrets.keychain-db"
+  SECRETS_KEYCHAIN_DEST="$HOME/Library/Keychains/Secrets.keychain-db"
+
+  if [ -e "$SECRETS_KEYCHAIN_DEST" ]; then
+  echo "Secrets keychain from iCloud already linked..."
+  else
+    echo "Linking Secrets keychain from iCloud..."
+    ln "$SECRETS_KEYCHAIN_SRC" "$SECRETS_KEYCHAIN_DEST"
+    echo
+  fi
+
+  info "Symlink creation complete. Continuing..."
+
+  return 0
+}
+
+create_all_symlinks

@@ -1,0 +1,84 @@
+# dotfiles
+
+I'm learning about dotfiles at [dotfiles.eieio.xyz](http://dotfiles.eieio.xyz)
+
+* TODO
+
+- [ ] Figure out method for populating $PATH
+- [ ] Figure out zsh-completions
+- [ ] Transfer org files.
+- [ ] Figure out app specific shortcuts like cmd-x to delete Finder files
+- [ ] Finish detailed writeup for dotfiles
+- [ ] Wrap init scripts in functions.
+- [ ] Remove ~.zsh~ file extentions from README file
+
+* Entrypoint and Setup
+
+* $MACHINE_TYPE Variable
+
+* ZSH Plugin Management
+
+#+TITLE: Dotfiles Setup Guide
+#+AUTHOR: Your Name
+#+DATE: 2024-05-19
+
+* Introduction
+
+This document provides instructions on how to set up your machine using the provided scripts in your dotfiles repository. The main entry point for the setup process is the ~init_machine.sh~ script, which orchestrates the execution of several individual setup scripts.
+
+* Scripts Overview
+The ~init_machine.sh~ script executes the following setup scripts in order:
+
+1. ~install_homebrew.sh~
+2. ~install_git.sh~
+3. ~install_zsh.sh~
+4. ~install_software.sh~
+5. ~install_doom.sh~
+6. ~setup_mu.sh~
+7. ~create_dir.sh~
+8. ~create_symlinks.sh~
+9. ~copy_fonts.sh~
+
+Each script is responsible for a specific part of the setup process.
+
+* Script Explanations
+1. **~install_homebrew.sh~**
+   This script checks if Homebrew is installed on your system. If it is not installed, the script installs Homebrew.
+
+2. **~install_git.sh~**
+   This script checks if Git is installed on your system. If it is not installed, the script installs Git using Homebrew.
+
+3. **~install_zsh.sh~**
+   This script checks if Zsh is installed on your system. If it is not installed, the script installs Zsh using Homebrew and sets it as the default shell.
+
+4. **~install_software.sh~**
+   This script installs various software packages listed in a Brewfile located in your dotfiles directory using Homebrew.
+
+5. **~install_doom.sh~**
+   This script checks if Doom Emacs is installed on your system. If it is not installed, the script clones the Doom Emacs repository and installs it.
+
+6. **~setup_mu.sh~**
+   This script sets up the mu email client and all necessary components for using the mu4e Emacs package.
+
+7. **~create_dir.sh~**
+   This script creates various directories used by your system and applications.
+
+8. **~create_symlinks.sh~**
+   This script creates symbolic links (symlinks) for important dotfiles (e.g., configuration files) into your home directory.
+
+9. **~copy_fonts.sh~**
+   This script copies font files from your dotfiles directory to the user fonts directory on your system.
+
+* Usage
+To run the entire setup process from the beginning, execute the ~init_machine.sh~ script without any arguments:
+
+#+BEGIN_SRC sh
+  ./bootstrap
+#+END_SRC
+
+If a specific script fails and you need to make corrections, you can resume the setup process from the failed script by specifying it as a command-line argument. For example, to resume from the ~install_zsh.sh~ script:
+
+#+BEGIN_SRC sh
+  ./bootstrap.sh install_zsh.sh
+#+END_SRC
+

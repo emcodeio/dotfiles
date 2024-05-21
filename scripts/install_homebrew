@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$HOME/.dotfiles/scripts"
+source "$SCRIPT_DIR/utils"
+
+_exists() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+HOMEBREW_INSTALLER_URL="https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh"
+
+install_homebrew() {
+
+  if ! _exists brew; then
+    echo "Installing Homebrew..."
+    bash -c "$(curl -fsSL ${HOMEBREW_INSTALLER_URL})"
+    eval "$(/usr/local/bin/brew shellenv)"
+    info "Homebrew install complete. Continuing..."
+  else
+    echo "You already have Homebrew installed. Skipping..."
+  fi
+
+  return 0
+}
+
+install_homebrew

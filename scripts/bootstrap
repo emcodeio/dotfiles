@@ -1,0 +1,105 @@
+#!/usr/bin/env bash
+
+# Path to the directory containing the setup scripts
+SCRIPT_DIR="$HOME/.dotfiles/scripts"
+
+# Array of scripts to execute
+scripts=(
+    "$SCRIPT_DIR/create_symlinks"
+    "$SCRIPT_DIR/create_dirs"
+    "$SCRIPT_DIR/copy_fonts"
+    "$SCRIPT_DIR/install_homebrew"
+    # "$SCRIPT_DIR/install_git"
+    "$SCRIPT_DIR/install_zsh"
+    "$SCRIPT_DIR/install_software"
+    "$SCRIPT_DIR/install_doom"
+    "$SCRIPT_DIR/setup_mu"
+    "$SCRIPT_DIR/prompt_dmg"
+)
+
+# Function to run a script and check its exit status
+run_script() {
+    local script=$1
+    local script_name=$(basename "$script")
+
+    info "Running $script_name..."
+    "$script"
+    if [ $? -ne 0 ]; then
+        error "$script_name failed. Exiting."
+        exit 1
+    fi
+    success "$script_name completed successfully."
+    return 0
+}
+
+bootstrap() {
+  # Path to the directory containing the setup scripts
+  SCRIPT_DIR="$HOME/.dotfiles/scripts"
+  source "$SCRIPT_DIR/utils"
+
+  info "        ____        __          __             "
+  info "       /  _/___  __/ /_______  / /_____  ___   "
+  info "       / // __ \/ / __/ / __ \/ / /_  / / _ \  "
+  info "     _/ // / / / / /_/ / /_/ / / / / /_/  __/  "
+  info "    /___/_/ /_/_/\__/_/\__,_/_/_/ /___/\___/   "
+  info "        __  ___           __                   "
+  info "       /  |/  /___  _____/ /_  ______  ___     "
+  info "      / /|_/ / __ \/ ___/ __ \/ / __ \/ _ \    "
+  info "     / /  / / /_/ / /__/ / / / / / / /  __/    "
+  info "    /_/  /_/\__,_/\___/_/ /_/_/_/ /_/\___/     "
+  info "                                               "
+  info "                 by @emcodeio                  "
+  info "                                               "
+  info "This script initializes a new Mac based on the "
+  info "\$MACHINE_TYPE variable defined in your .zshrc."
+  echo
+  prompt "Proceed with the full initialization? [y/N] "
+  read -n 1 answer
+  echo
+  if [ "${answer}" != "y" ]; then
+    exit
+  fi
+
+  # Ensure SCRIPT_DIR exists
+  if [ ! -d "$SCRIPT_DIR" ]; then
+      error "Script directory $SCRIPT_DIR does not exist. Exiting..."
+      exit 1
+  fi
+ 
+  # Get the starting script from the command-line argument
+  start_script=$1
+  start_index=0
+
+  # If a starting script is specified, find its index
+  if [ -n "$start_script" ]; then
+      for i in "${!scripts[@]}"; do
+          if [[ "${scripts[$i]}" == *"$start_script"* ]]; then
+              start_index=$i
+              break
+          fi
+      done
+  fi
+
+  # Run scripts from the specified start index
+  for ((i=start_index; i<${#scripts[@]}; i++)); do
+      run_script "${scripts[$i]}"
+  done
+
+  success "     ____        __          __              __               "
+  success "    /  _/___  _ / /_______  / /_____  ____  / /_______  ____  "
+  success "    / // __ \/ / __/ / __ \/ / /_  / / __ \/ __/ / __ \/ __ \ "
+  success "  _/ // / / / / /_/ / /_/ / / / / /_/ /_/ / /_/ / /_/ / / / / "
+  success " /___/_/ /_/_/\__/_/\__,_/_/_/ /___/\__,_/\__/_/\____/_/ /_/  "
+  success "          ______                      __     __               "
+  success "         / ____/___  ____ ___  ____  / /__  / /____           "
+  success "        / /   / __ \/ __ \`__ \/ __ \/ / _ \/ __/ _ \          "
+  success "       / /___/ /_/ / / / / / / /_/ / /  __/ /_/  __/          "
+  success "       \____/\____/_/ /_/ /_/ .___/_/\___/\__/\___/           "
+  success "                           /_/                                "
+  success "                                                              "
+  success "                        Happy hacking!                        "
+
+  return 0
+}
+
+bootstrap

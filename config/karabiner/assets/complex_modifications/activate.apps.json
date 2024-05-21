@@ -1,0 +1,93 @@
+{
+  "title": "Activate Applications",
+  "rules": [
+    {
+      "description": "Activate Brave Browser <command + control + n>",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "n",
+            "modifiers": {
+              "mandatory": [
+                "control",
+                "command"
+              ]
+            }
+          },
+          "to": [
+            {
+              "shell_command": "open -a Brave\\ Browser.app"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Activate Terminal <left shift + left command + spacebar>",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "spacebar",
+            "modifiers": {
+              "mandatory": [
+                "left_shift",
+                "left_command"
+              ]
+            }
+          },
+          "to": [
+            {
+              "shell_command": "open -a Terminal.app"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Activate IntelliJ <command + control + i>",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "i",
+            "modifiers": {
+              "mandatory": [
+                "control",
+                "command"
+              ]
+            }
+          },
+          "to": [
+            {
+              "shell_command": "open -a IntelliJ\\ IDEA\\ CE.app"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Activate Emacs <command + control + spacebar>",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "spacebar",
+            "modifiers": {
+              "mandatory": [
+                "control",
+                "command"
+              ]
+            }
+          },
+          "to": [
+            {
+              "shell_command": "open -a Emacs.app"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

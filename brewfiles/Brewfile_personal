@@ -1,0 +1,10 @@
+# Casks (Applications)
+cask "zoom"
+cask "discord"
+cask "obs"
+cask "makemkv"
+cask "mkvtoolnix"
+cask "transmission"
+
+# Mac App Store
+mas "Friendly Streaming", id: 553245401

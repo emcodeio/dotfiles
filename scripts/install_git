@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$HOME/.dotfiles/scripts"
+source "$SCRIPT_DIR/utils"
+
+_exists() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+install_git() {
+  if ! _exists git; then
+    echo "Installing Git..."
+    brew install git
+    info "Git installation complete. Continuing..."
+  else
+    echo "You already have Git installed. Skipping..."
+  fi
+
+  return 0
+}
+
+install_git

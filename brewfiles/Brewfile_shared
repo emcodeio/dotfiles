@@ -1,0 +1,62 @@
+#Taps
+tap "buo/cask-upgrade"
+tap "homebrew/bundle"
+tap "homebrew/cask-fonts"
+tap "homebrew/services"
+tap "koekeishiya/formulae"
+tap "railwaycat/emacsmacport"
+tap "yqrashawn/goku"
+
+#Brews (Packages)
+brew "antidote"
+brew "aspell"
+brew "bat"
+brew "cmake"
+brew "coreutils"
+brew "eza"
+brew "fd"
+brew "ffmpeg"
+brew "git"
+brew "graphviz"
+brew "mas"
+brew "msmtp"
+brew "mu"
+brew "isync"
+brew "ncdu"
+brew "python"
+brew "pipenv"
+brew "pandoc"
+brew "koekeishiya/formulae/skhd"
+brew "koekeishiya/formulae/yabai"
+brew "railwaycat/emacsmacport/emacs-mac", args: ["with-native-comp", "without-modules"]
+brew "yqrashawn/goku/goku"
+brew "yt-dlp"
+
+# Casks (Applications)
+cask "appcleaner"
+cask "calibre"
+cask "brave-browser"
+cask "davmail"
+cask "iina"
+cask "karabiner-elements"
+cask "keyboard-maestro"
+cask "mactex"
+cask "macwhisper"
+cask "omnigraffle"
+cask "onyx"
+cask "vscodium"
+
+# Mac App Store
+mas "1Focus", id: 969210610
+mas "AdGuard for Safari", id: 1440147259
+mas "Dark Reader for Safari", id: 1438243180
+mas "Focus for YouTube", id: 1514703160
+mas "Ghostery Lite", id: 1436953057
+mas "Hush", id: 1544743900
+mas "Keynote", id: 409183694
+mas "Numbers", id: 409203825
+mas "Pages", id: 409201541
+mas "StopTheMadness", id: 1376402589
+mas "The Unarchiver", id: 425424353
+mas "Vimari", id: 1480933944
+mas "Pixelmator Pro", id: 1289583905
