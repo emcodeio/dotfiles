@@ -86,6 +86,7 @@ yabai -m rule --add label="Drop" app="^Drop$" manage=off
 yabai -m rule --add label="Karabiner-Elements" app="^Karabiner-Elements$" manage=off
 yabai -m rule --add label="yEd" app="^yEd$" title="(Properties)" manage=off
 yabai -m rule --add label="Pixelmator Pro" app="^Pixelmator Pro$" manage=off
+yabai -m rule --add label="Pixea" app="^Pixea$" manage=off
 
 # ===== Signals ================================
 
