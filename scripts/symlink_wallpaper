@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+DEST_DIR="$HOME/.wallpaper"
+
+symlink_wallpaper() {
+
+  # Create destination directory if it doesn't exist
+  mkdir -p "$DEST_DIR"
+
+  # Set wallpapers to symlink
+  if [ "$MACHINE_TYPE" = "work" ]; then
+    SOURCE_DIR="$HOME/.dotfiles/wallpaper/safe"
+  else
+    SOURCE_DIR="$HOME/.dotfiles/wallpaper"
+  fi
+
+  # Find all image files in the source directory and create symlinks in the destination directory
+  find "$SOURCE_DIR" -type f \( -name '*.jpg' -o -name '*.jpeg' -o -name '*.png' -o -name '*.heic' \) | while read -r file; do
+      ln -s "$file" "$DEST_DIR"
+  done
+
+  return 0
+}
+
+symlink_wallpaper

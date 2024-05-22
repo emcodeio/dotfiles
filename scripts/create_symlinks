@@ -16,7 +16,7 @@ symlinks=(
   "$HOME/.p10k.zsh                                       :$HOME/.dotfiles/config/p10k.zsh"
   "$HOME/.mbsyncrc                                       :$HOME/.dotfiles/config/mbsyncrc"
   "$HOME/.msmtprc                                        :$HOME/.dotfiles/config/msmtprc"
-  "$HOME/.wallpaper                                      :$HOME/.dotfiles/config/wallpaper"
+  # "$HOME/.wallpaper                                      :$HOME/.dotfiles/config/wallpaper"
   "$HOME/.yabairc                                        :$HOME/.dotfiles/config/yabairc"
   "$HOME/.skhdrc                                         :$HOME/.dotfiles/config/skhdrc"
   "$HOME/.config/karabiner                               :$HOME/.dotfiles/config/karabiner"

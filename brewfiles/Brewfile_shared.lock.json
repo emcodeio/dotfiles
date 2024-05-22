@@ -2,16 +2,16 @@
   "entries": {
     "tap": {
       "buo/cask-upgrade": {
-        "revision": "d486832c51b1e5f78b4ce04ffa5d3256c074a950"
+        "revision": "9572bea6fb47d9eb86f80de1e3b00d88b692cad7"
       },
       "homebrew/bundle": {
-        "revision": "69cbf77b396ac9a2ce3a8ef460e4a073be992f7d"
+        "revision": "e5adcba48e9174fb7de55a7c5c18ed5feee55878"
       },
       "homebrew/cask-fonts": {
         "revision": "0ed20f35d21ebc3f4f829689b101078718ad5ce1"
       },
       "homebrew/services": {
-        "revision": "6d0d089f49d4d89c32060cc4bb4ea44a93d5b04c"
+        "revision": "83d1da0a2ee973db401b482962a8b955ee188370"
       },
       "koekeishiya/formulae": {
         "revision": "757b5c222bce502d4292dfbb9648eb749689d704"
@@ -939,9 +939,15 @@
         }
       },
       "macwhisper": {
-        "version": "8.0,800",
+        "version": "8.1,802",
         "options": {
           "full_name": "macwhisper"
+        }
+      },
+      "keyboard-maestro": {
+        "version": "11.0.3,1103",
+        "options": {
+          "full_name": "keyboard-maestro"
         }
       }
     },

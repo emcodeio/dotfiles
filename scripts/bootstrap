@@ -13,6 +13,7 @@ scripts=(
     "$SCRIPT_DIR/install_zsh"
     "$SCRIPT_DIR/install_software"
     "$SCRIPT_DIR/install_doom"
+    "$SCRIPT_DIR/symlink_wallpaper"
     "$SCRIPT_DIR/setup_mu"
     "$SCRIPT_DIR/prompt_dmg"
 )
