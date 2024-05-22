@@ -50,7 +50,7 @@ or, if a specific script fails and corrections are needed, resume the setup proc
 The =init_machine= script exports the =$MACHINE_TYPE= environment variable to the =.zshrc= file and adds a =source= command to include the shared ZSH configuration:
 
 #+begin_src sh
-  echo "export MACHINE_TYPE=$MACHINE_TYPE" >> ~/.zshrc
+  echo "export MACHINE_TYPE=$MACHINE_TYPE" > ~/.zshrc
   echo "source $HOME/.dotfiles/shell/zshrc_shared" >> ~/.zshrc
 #+end_src
 
@@ -77,7 +77,7 @@ The =init_machine= script exports the =$MACHINE_TYPE= environment variable to th
 
 ** ZSH Plugin Management
 
-I use [[https://getantidote.github.io/][antidote]] (installed via Homebrew) to manage my ZSH plugins. By default, antidote uses the =\~/.zsh_plugins.txt= file to keep track of plugins:
+I use [[https://getantidote.github.io/][antidote]] (installed via Homebrew) to manage my ZSH plugins. By default, antidote uses the =~/.zsh_plugins.txt= file to keep track of plugins:
 
 #+begin_src text
   # comments are supported like this
