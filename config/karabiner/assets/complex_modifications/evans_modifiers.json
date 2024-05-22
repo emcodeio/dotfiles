@@ -1018,6 +1018,9 @@
             }
           ]
         },
+
+        // Visual mode
+
         {
           "type": "basic",
           "from": {
@@ -1395,6 +1398,7 @@
             }
           ]
         },
+
         {
           "type": "basic",
           "from": {

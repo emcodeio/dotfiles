@@ -1,84 +1,169 @@
-# dotfiles
-
-I'm learning about dotfiles at [dotfiles.eieio.xyz](http://dotfiles.eieio.xyz)
-
-* TODO
-
-- [ ] Figure out method for populating $PATH
-- [ ] Figure out zsh-completions
-- [ ] Transfer org files.
-- [ ] Figure out app specific shortcuts like cmd-x to delete Finder files
-- [ ] Finish detailed writeup for dotfiles
-- [ ] Wrap init scripts in functions.
-- [ ] Remove ~.zsh~ file extentions from README file
-
-* Entrypoint and Setup
-
-* $MACHINE_TYPE Variable
-
-* ZSH Plugin Management
-
 #+TITLE: Dotfiles Setup Guide
-#+AUTHOR: Your Name
-#+DATE: 2024-05-19
+
+* Dotfiles Setup Instructions
+
+This document provides instructions on how to set up my machine using the provided scripts in the dotfiles repository. The main entry point for the setup process is the =init_machine= script located in my iCloud, which orchestrates the execution of several individual setup scripts. The main script to initialize a machine is =./scripts/bootstrap=.
+
+** Table of Contents
+1. [[#introduction][Introduction]]
+2. [[#machine_type-variable][$MACHINE_TYPE Variable]]
+3. [[#usage][Usage]]
+4. [[#zsh-configuration][ZSH Configuration]]
+   - [[#organization-of-my-zshrc][Organization of .zshrc]]
+   - [[#zsh-plugin-management][ZSH Plugin Management]]
+5. [[#additional-information][Additional Information]]
+   - [[#path-management][PATH Management]]
+   - [[#other-environment-variables][Other Environment Variables]]
 
 * Introduction
 
-This document provides instructions on how to set up your machine using the provided scripts in your dotfiles repository. The main entry point for the setup process is the ~init_machine.sh~ script, which orchestrates the execution of several individual setup scripts.
+This repository contains my personal dotfiles and setup scripts for configuring a new machine. These scripts automate the installation and configuration of essential tools and preferences to ensure a consistent development environment.
 
-* Scripts Overview
-The ~init_machine.sh~ script executes the following setup scripts in order:
+* $MACHINE_TYPE Variable
 
-1. ~install_homebrew.sh~
-2. ~install_git.sh~
-3. ~install_zsh.sh~
-4. ~install_software.sh~
-5. ~install_doom.sh~
-6. ~setup_mu.sh~
-7. ~create_dir.sh~
-8. ~create_symlinks.sh~
-9. ~copy_fonts.sh~
-
-Each script is responsible for a specific part of the setup process.
-
-* Script Explanations
-1. **~install_homebrew.sh~**
-   This script checks if Homebrew is installed on your system. If it is not installed, the script installs Homebrew.
-
-2. **~install_git.sh~**
-   This script checks if Git is installed on your system. If it is not installed, the script installs Git using Homebrew.
-
-3. **~install_zsh.sh~**
-   This script checks if Zsh is installed on your system. If it is not installed, the script installs Zsh using Homebrew and sets it as the default shell.
-
-4. **~install_software.sh~**
-   This script installs various software packages listed in a Brewfile located in your dotfiles directory using Homebrew.
-
-5. **~install_doom.sh~**
-   This script checks if Doom Emacs is installed on your system. If it is not installed, the script clones the Doom Emacs repository and installs it.
-
-6. **~setup_mu.sh~**
-   This script sets up the mu email client and all necessary components for using the mu4e Emacs package.
-
-7. **~create_dir.sh~**
-   This script creates various directories used by your system and applications.
-
-8. **~create_symlinks.sh~**
-   This script creates symbolic links (symlinks) for important dotfiles (e.g., configuration files) into your home directory.
-
-9. **~copy_fonts.sh~**
-   This script copies font files from your dotfiles directory to the user fonts directory on your system.
+The =init_machine= script prompts whether the machine is for =personal= or =work= use and sets the =$MACHINE_TYPE= environment variable accordingly. This variable is crucial as it dictates specific configurations tailored to the machine type.
 
 * Usage
-To run the entire setup process from the beginning, execute the ~init_machine.sh~ script without any arguments:
 
-#+BEGIN_SRC sh
+To run the entire setup process from the beginning, execute the =init_machine= script:
+
+#+begin_src sh
+  ./init_machine
+#+end_src
+
+The =./scripts/bootstrap= script can be run in one of two ways:
+
+#+begin_src sh
   ./bootstrap
-#+END_SRC
+#+end_src
 
-If a specific script fails and you need to make corrections, you can resume the setup process from the failed script by specifying it as a command-line argument. For example, to resume from the ~install_zsh.sh~ script:
+or, if a specific script fails and corrections are needed, resume the setup process from the failed script by specifying it as a command-line argument. For example, to resume from the =install_zsh.sh= script:
 
-#+BEGIN_SRC sh
+#+begin_src sh
   ./bootstrap.sh install_zsh.sh
-#+END_SRC
+#+end_src
 
+* ZSH Configuration
+
+** Organization of my .zshrc
+
+The =init_machine= script exports the =$MACHINE_TYPE= environment variable to the =.zshrc= file and adds a =source= command to include the shared ZSH configuration:
+
+#+begin_src sh
+  echo "export MACHINE_TYPE=$MACHINE_TYPE" >> ~/.zshrc
+  echo "source $HOME/.dotfiles/shell/zshrc_shared" >> ~/.zshrc
+#+end_src
+
+=zshrc_shared= includes logic to source the appropriate sub-configuration based on the machine type:
+
+#+begin_src sh
+# Source environment variables, functions, aliases, etc.
+  source "$HOME/.dotfiles/shell/functions_shared.zsh"
+  source "$HOME/.dotfiles/shell/env_vars_shared.zsh"
+  source "$HOME/.dotfiles/shell/aliases_shared.zsh"
+  source "$HOME/.dotfiles/private_info/private_info.zsh"
+
+  # Machine type specific sources
+  if [ "$MACHINE_TYPE" = "work" ]; then
+    source "$HOME/.dotfiles/shell/zshrc_work.zsh"
+    source "$HOME/.dotfiles/shell/env_vars_work.zsh"
+    source "$HOME/.dotfiles/shell/aliases_work.zsh"
+  else
+    source "$HOME/.dotfiles/shell/zshrc_personal.zsh"
+    source "$HOME/.dotfiles/shell/env_vars_personal.zsh"
+    source "$HOME/.dotfiles/shell/aliases_personal.zsh"
+  fi
+#+end_src
+
+** ZSH Plugin Management
+
+I use [[https://getantidote.github.io/][antidote]] (installed via Homebrew) to manage my ZSH plugins. By default, antidote uses the =\~/.zsh_plugins.txt= file to keep track of plugins:
+
+#+begin_src text
+  # comments are supported like this
+  rupa/z
+  zsh-users/zsh-completions
+
+  # annotations are also allowed:
+  romkatv/zsh-bench kind:path
+  olets/zsh-abbr    kind:defer
+
+  # frameworks like oh-my-zsh are supported
+  ohmyzsh/ohmyzsh path:lib
+  ohmyzsh/ohmyzsh path:plugins/colored-man-pages
+  ohmyzsh/ohmyzsh path:plugins/magic-enter
+  ohmyzsh/ohmyzsh path:plugins/fancy-ctrl-z
+  # ohmyzsh/ohmyzsh path:plugins/zsh_reload
+  # ohmyzsh/ohmyzsh path:plugins/web-search
+  # ohmyzsh/ohmyzsh path:plugins/dirhistory
+  ohmyzsh/ohmyzsh path:plugins/macos
+  ohmyzsh/ohmyzsh path:plugins/history
+  ohmyzsh/ohmyzsh path:plugins/copybuffer
+  ohmyzsh/ohmyzsh path:plugins/magic-enter
+  ohmyzsh/ohmyzsh path:plugins/fancy-ctrl-z
+  ohmyzsh/ohmyzsh path:plugins/copypath
+
+  # or lighter-weight ones like zsh-utils
+  belak/zsh-utils path:editor
+  belak/zsh-utils path:history
+  belak/zsh-utils path:prompt
+  belak/zsh-utils path:utility
+  belak/zsh-utils path:completion
+
+  # prompts:
+  sindresorhus/pure     kind:fpath
+  romkatv/powerlevel10k kind:fpath
+
+  # popular fish-like plugins
+  mattmc3/zfunctions
+  mattmc3/zman
+  zsh-users/zsh-autosuggestions
+  zdharma-continuum/fast-syntax-highlighting kind:defer
+  zsh-users/zsh-history-substring-search
+#+end_src
+
+To install and load plugins, add them to this configuration file and run =antidote load= or restart the shell.
+
+* Additional Information
+
+** PATH Management
+
+The =.zshrc_shared= file include logic to manage the =$PATH= variable. The function =extend_path= is used to add directories to the =$PATH=, ensuring each directory is added only once:
+
+#+begin_src sh
+  function extend_path() {
+    [[ -d "$1" ]] || return
+
+    if ! $( echo "$PATH" | tr ":" "\n" | grep -qx "$1" ) ; then
+      export PATH="$1:$PATH"
+    fi
+  }
+#+end_src
+
+Then the paths are added in the appropriate file as follows:
+
+#+begin_src sh
+  extend_path "/opt/homebrew/bin"
+  extend_path "/opt/homebrew/sbin"
+  extend_path "$HOME/bin"
+  extend_path "$HOME/.local/bin"
+  extend_path "$HOME/.emacs.d/bin"
+#+end_src
+
+This ensures essential directories are included in the =$PATH=, facilitating access to commonly used tools and scripts.
+
+** Other Environment Variables
+
+In addition to managing the =$PATH= variable, other environment variables are set to configure specific tools and preferences. For example, the following configuration disables Homebrew's quarantine for downloaded applications:
+
+#+begin_src sh
+  export HOMEBREW_CASK_OPTS="--no-quarantine"
+#+end_src
+
+** File Locations
+
+The =$PATH= and other environment variables are managed int he following files:
+
+=./shell/env_vars_shared=
+=./shell/env_vars_personal=
+=./shell/env_vars_work=

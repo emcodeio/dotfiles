@@ -4,11 +4,51 @@
 <array>
 	<dict>
 		<key>BundleIdentifier</key>
-		<string>org.pqrs.Karabiner-Elements.Settings</string>
+		<string>com.apple.Dictionary</string>
 		<key>Name</key>
-		<string>Karabiner-Elements</string>
+		<string>Dictionary</string>
 		<key>NewFile</key>
-		<string>/Applications/Karabiner-Elements.app</string>
+		<string>/System/Applications/Dictionary.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>com.vscodium</string>
+		<key>Name</key>
+		<string>VSCodium</string>
+		<key>NewFile</key>
+		<string>/Applications/VSCodium.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>com.apple.Terminal</string>
+		<key>Name</key>
+		<string>Terminal</string>
+		<key>NewFile</key>
+		<string>/System/Applications/Utilities/Terminal.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>com.colliderli.iina</string>
+		<key>Name</key>
+		<string>IINA</string>
+		<key>NewFile</key>
+		<string>/Applications/IINA.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>com.runningwithcrayons.Alfred-Preferences</string>
+		<key>Name</key>
+		<string>Alfred Preferences</string>
+		<key>NewFile</key>
+		<string>/Applications/Alfred 5.app/Contents/Preferences/Alfred Preferences.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>com.apple.Safari</string>
+		<key>Name</key>
+		<string>Safari</string>
+		<key>NewFile</key>
+		<string>/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app</string>
 	</dict>
 	<dict>
 		<key>BundleIdentifier</key>
@@ -17,6 +57,14 @@
 		<string>System Settings</string>
 		<key>NewFile</key>
 		<string>/System/Applications/System Settings.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>org.pqrs.Karabiner-Elements.Settings</string>
+		<key>Name</key>
+		<string>Karabiner-Elements</string>
+		<key>NewFile</key>
+		<string>/Applications/Karabiner-Elements.app</string>
 	</dict>
 	<dict>
 		<key>BundleIdentifier</key>
@@ -49,14 +97,6 @@
 		<string>Microsoft Outlook</string>
 		<key>NewFile</key>
 		<string>/Applications/Microsoft Outlook.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>com.apple.Terminal</string>
-		<key>Name</key>
-		<string>Terminal</string>
-		<key>NewFile</key>
-		<string>/System/Applications/Utilities/Terminal.app</string>
 	</dict>
 	<dict>
 		<key>BundleIdentifier</key>

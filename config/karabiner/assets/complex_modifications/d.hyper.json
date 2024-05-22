@@ -1,0 +1,753 @@
+{
+  "title": "00 D As Hyper Key Rules",
+  "rules": [
+
+    {
+      "description": "D as Hyper Key",
+      "manipulators": [
+        {
+          "from": {
+            "key_code": "d",
+            "modifiers": {
+              "optional": [
+                "caps_lock"
+              ]
+            }
+          },
+          "to": [
+            {
+              "set_variable": {
+                "name": "hyper_mode",
+                "value": 1
+              }
+            }
+          ],
+          "to_after_key_up": [
+            {
+              "set_variable": {
+                "name": "hyper_mode",
+                "value": 0
+              }
+            }
+          ],
+          "to_if_alone": [
+            {
+              "key_code": "d"
+            }
+          ],
+          "type": "basic"
+        }
+      ]
+    },
+
+    {
+      "description": "D+V to Visual Mode",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "v",
+            "modifiers": {
+              "optional": [
+                "caps_lock"
+              ]
+            }
+          },
+          "to": [
+            {
+              "set_variable": {
+                "name": "hyper_visual_mode",
+                "value": 1
+              }
+            }
+          ],
+          "to_if_alone": [
+            {
+              "key_code": "vk_none"
+            }
+          ],
+          "to_after_key_up": [
+            {
+              "set_variable": {
+                "name": "hyper_visual_mode",
+                "value": 0
+              }
+            }
+          ],
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "hyper_mode",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "description": "D+F to left_command",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "f",
+            "modifiers": {
+              "optional": [
+                "caps_lock"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "left_command"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "hyper_mode",
+              "value": 1
+            },
+            {
+              "type": "variable_if",
+              "name": "hyper_visual_mode",
+              "value": 0
+            },
+            {
+              "type": "variable_if",
+              "name": "hyper_switch_mode",
+              "value": 0
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "description": "D+S to left_option",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "s",
+            "modifiers": {
+              "optional": [
+                "caps_lock"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "left_option"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "hyper_mode",
+              "value": 1
+            },
+            {
+              "type": "variable_if",
+              "name": "hyper_visual_mode",
+              "value": 0
+            },
+            {
+              "type": "variable_if",
+              "name": "hyper_switch_mode",
+              "value": 0
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "description": "D+h/j/k/l to Vi Navigation",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "h",
+            "modifiers": {
+              "optional": [
+                "caps_lock"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "left_arrow"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "hyper_mode",
+              "value": 1
+            },
+            {
+              "type": "variable_if",
+              "name": "hyper_visual_mode",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "j",
+            "modifiers": {
+              "optional": [
+                "caps_lock"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "down_arrow"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "hyper_mode",
+              "value": 1
+            },
+            {
+              "type": "variable_if",
+              "name": "hyper_visual_mode",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "k",
+            "modifiers": {
+              "optional": [
+                "caps_lock"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "up_arrow"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "hyper_mode",
+              "value": 1
+            },
+            {
+              "type": "variable_if",
+              "name": "hyper_visual_mode",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "l",
+            "modifiers": {
+              "optional": [
+                "caps_lock"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "right_arrow"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "hyper_mode",
+              "value": 1
+            },
+            {
+              "type": "variable_if",
+              "name": "hyper_visual_mode",
+              "value": 0
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "description": "D+b/w to Vi Word Jump",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "b",
+            "modifiers": {
+              "optional": [
+                "caps_lock"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "left_arrow",
+              "modifiers": [
+                "left_option"
+              ]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "hyper_mode",
+              "value": 1
+            },
+            {
+              "type": "variable_if",
+              "name": "hyper_visual_mode",
+              "value": 0
+            },
+            {
+              "type": "variable_if",
+              "name": "hyper_switch_mode",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "w",
+            "modifiers": {
+              "optional": [
+                "caps_lock"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "right_arrow",
+              "modifiers": [
+                "left_option"
+              ]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "hyper_mode",
+              "value": 1
+            },
+            {
+              "type": "variable_if",
+              "name": "hyper_visual_mode",
+              "value": 0
+            },
+            {
+              "type": "variable_if",
+              "name": "hyper_switch_mode",
+              "value": 0
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "description": "D+0/4/ to Vi Line Jump",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "0",
+            "modifiers": {
+              "optional": [
+                "caps_lock"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "a",
+              "modifiers": [
+                "left_control"
+              ]
+            },
+            {
+              "key_code": "vk_none"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "hyper_mode",
+              "value": 1
+            },
+            {
+              "type": "variable_if",
+              "name": "hyper_visual_mode",
+              "value": 0
+            },
+            {
+              "type": "variable_if",
+              "name": "hyper_switch_mode",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "4",
+            "modifiers": {
+              "optional": [
+                "caps_lock",
+                "shift"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "e",
+              "modifiers": [
+                "left_control"
+              ]
+            },
+            {
+              "key_code": "vk_none"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "hyper_mode",
+              "value": 1
+            },
+            {
+              "type": "variable_if",
+              "name": "hyper_visual_mode",
+              "value": 0
+            },
+            {
+              "type": "variable_if",
+              "name": "hyper_switch_mode",
+              "value": 0
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "description": "Visual Mode Vi Navigation",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "h",
+            "modifiers": {
+              "optional": [
+                "caps_lock"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "left_arrow",
+              "modifiers": [
+                "left_shift"
+              ]
+            },
+            {
+              "key_code": "vk_none"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "hyper_visual_mode",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "j",
+            "modifiers": {
+              "optional": [
+                "caps_lock"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "down_arrow",
+              "modifiers": [
+                "left_shift"
+              ]
+            },
+            {
+              "key_code": "vk_none"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "hyper_visual_mode",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "k",
+            "modifiers": {
+              "optional": [
+                "caps_lock"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "up_arrow",
+              "modifiers": [
+                "left_shift"
+              ]
+            },
+            {
+              "key_code": "vk_none"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "hyper_visual_mode",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "l",
+            "modifiers": {
+              "optional": [
+                "caps_lock"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "right_arrow",
+              "modifiers": [
+                "left_shift"
+              ]
+            },
+            {
+              "key_code": "vk_none"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "hyper_visual_mode",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "0",
+            "modifiers": {
+              "optional": [
+                "caps_lock"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "left_arrow",
+              "modifiers": [
+                "left_shift",
+                "left_command"
+              ]
+            },
+            {
+              "key_code": "vk_none"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "hyper_visual_mode",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "4",
+            "modifiers": {
+              "optional": [
+                "caps_lock",
+                "shift"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "right_arrow",
+              "modifiers": [
+                "left_shift",
+                "left_command"
+              ]
+            },
+            {
+              "key_code": "vk_none"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "hyper_visual_mode",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "b",
+            "modifiers": {
+              "optional": [
+                "caps_lock"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "left_arrow",
+              "modifiers": [
+                "left_shift",
+                "left_option"
+              ]
+            },
+            {
+              "key_code": "vk_none"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "hyper_visual_mode",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "w",
+            "modifiers": {
+              "optional": [
+                "caps_lock"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "right_arrow",
+              "modifiers": [
+                "left_shift",
+                "left_option"
+              ]
+            },
+            {
+              "key_code": "vk_none"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "hyper_visual_mode",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "open_bracket",
+            "modifiers": {
+              "optional": [
+                "caps_lock",
+                "shift"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "up_arrow",
+              "modifiers": [
+                "left_shift",
+                "left_option"
+              ]
+            },
+            {
+              "key_code": "vk_none"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "hyper_visual_mode",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "close_bracket",
+            "modifiers": {
+              "optional": [
+                "caps_lock",
+                "shift"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "down_arrow",
+              "modifiers": [
+                "left_shift",
+                "left_option"
+              ]
+            },
+            {
+              "key_code": "vk_none"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "hyper_visual_mode",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    }
+
+  ]
+}
