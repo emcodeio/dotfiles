@@ -18,54 +18,6 @@
                 },
                 "rules": [
                     {
-                        "description": "Hold spacebar to talk on MS Teams",
-                        "manipulators": [
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.microsoft\\.teams"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "spacebar"
-                                },
-                                "parameters": {
-                                    "basic.to_if_alone_timeout_milliseconds": 250,
-                                    "basic.to_if_held_down_threshold_milliseconds": 250
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "spacebar"
-                                    }
-                                ],
-                                "to_after_key_up": [
-                                    {
-                                        "key_code": "m",
-                                        "modifiers": [
-                                            "left_shift",
-                                            "left_command"
-                                        ],
-                                        "repeat": false
-                                    }
-                                ],
-                                "to_if_held_down": [
-                                    {
-                                        "key_code": "m",
-                                        "modifiers": [
-                                            "left_shift",
-                                            "left_command"
-                                        ],
-                                        "repeat": false
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
                         "description": "Use left_command+left_control+h/j/k/l navigate.",
                         "manipulators": [
                             {

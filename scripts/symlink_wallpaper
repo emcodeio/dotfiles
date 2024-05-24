@@ -9,9 +9,9 @@ symlink_wallpaper() {
 
   # Set wallpapers to symlink
   if [ "$MACHINE_TYPE" = "work" ]; then
-    SOURCE_DIR="$HOME/.dotfiles/wallpaper/safe"
+    SOURCE_DIR="$HOME/Photos/wallpaper/safe"
   else
-    SOURCE_DIR="$HOME/.dotfiles/wallpaper"
+    SOURCE_DIR="$HOME/Photos/wallpaper"
   fi
 
   # Find all image files in the source directory and create symlinks in the destination directory

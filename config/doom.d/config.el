@@ -30,8 +30,8 @@
   ;; '(default :background "#000000")
   )
 
-(setq doom-font (font-spec :family "Dank Mono" :size 16)
-      doom-big-font (font-spec :family "Dank Mono" :size 24)
+(setq doom-font (font-spec :family "Dank Mono" :size 16 :weight 'medium)
+      doom-big-font (font-spec :family "Dank Mono" :size 28 :weight 'medium)
       doom-variable-pitch-font (font-spec :family "Iosevka Aile" :weight 'light :size 13)
       doom-serif-font (font-spec :family "Iosevka Etoile" :weight 'light :size 13))
 
@@ -43,9 +43,18 @@
   '(font-lock-comment-face :slant italic)
   '(font-lock-keyword-face :slant italic))
 
+;; (defun my-toggle-font-size ()
+;;   "Toggle the frame font between `doom-font` and `doom-big-font`."
+;;   (interactive)
+;;   (let ((current-font (font-info (frame-parameter nil 'font))))
+;;     (if (string= (aref current-font 0) (aref (font-info (font-xlfd-name doom-big-font)) 0))
+;;         (set-frame-font doom-font nil t)
+;;       (set-frame-font doom-big-font nil t))))
+
 (setq display-line-numbers-type t)
 (map! :leader
       (:prefix ("t" . "toggle")
+       ;; :desc "Toggle Font Size" "b" #'my-toggle-font-size
        :desc "Comment or uncomment lines" "/" #'comment-line
        :desc "Toggle line numbers" "l" #'doom/toggle-line-numbers
        :desc "Toggle line highlight in frame" "h" #'hl-line-mode
@@ -298,7 +307,7 @@
                              'syntax-table (string-to-syntax "_")))))))
 
 (defun efs/org-mode-visual-fill ()
-  (setq visual-fill-column-width 180
+  (setq visual-fill-column-width 150
         visual-fill-column-center-text t)
   (visual-fill-column-mode 1))
 
