@@ -4,22 +4,6 @@
 <array>
 	<dict>
 		<key>BundleIdentifier</key>
-		<string>imagetasks.Pixea</string>
-		<key>Name</key>
-		<string>Pixea</string>
-		<key>NewFile</key>
-		<string>/Applications/Pixea.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>com.apple.Preview</string>
-		<key>Name</key>
-		<string>Preview</string>
-		<key>NewFile</key>
-		<string>/System/Applications/Preview.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
 		<string>com.apple.finder</string>
 		<key>Name</key>
 		<string>Finder</string>
@@ -36,67 +20,11 @@
 	</dict>
 	<dict>
 		<key>BundleIdentifier</key>
-		<string>com.brave.Browser</string>
+		<string>com.oecoway.friendlynetflix</string>
 		<key>Name</key>
-		<string>Brave Browser</string>
+		<string>Friendly Streaming</string>
 		<key>NewFile</key>
-		<string>/Applications/Brave Browser.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>com.neo4j.neo4j-desktop</string>
-		<key>Name</key>
-		<string>Neo4j Desktop</string>
-		<key>NewFile</key>
-		<string>/Applications/Neo4j Desktop.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>com.apple.Music</string>
-		<key>Name</key>
-		<string>Music</string>
-		<key>NewFile</key>
-		<string>/System/Applications/Music.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>com.apple.TextEdit</string>
-		<key>Name</key>
-		<string>TextEdit</string>
-		<key>NewFile</key>
-		<string>/System/Applications/TextEdit.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>com.colliderli.iina</string>
-		<key>Name</key>
-		<string>IINA</string>
-		<key>NewFile</key>
-		<string>/Applications/IINA.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>com.microsoft.Outlook</string>
-		<key>Name</key>
-		<string>Microsoft Outlook</string>
-		<key>NewFile</key>
-		<string>/Applications/Microsoft Outlook.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>com.microsoft.teams2</string>
-		<key>Name</key>
-		<string>Microsoft Teams (work or school)</string>
-		<key>NewFile</key>
-		<string>/Applications/Microsoft Teams (work or school).app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>org.gnu.Emacs</string>
-		<key>Name</key>
-		<string>Emacs</string>
-		<key>NewFile</key>
-		<string>/opt/homebrew/Cellar/emacs-mac/emacs-29.1-mac-10.0/Emacs.app</string>
+		<string>/Applications/Friendly Streaming.app</string>
 	</dict>
 	<dict>
 		<key>BundleIdentifier</key>
@@ -116,6 +44,182 @@
 	</dict>
 	<dict>
 		<key>BundleIdentifier</key>
+		<string>imagetasks.Pixea</string>
+		<key>Name</key>
+		<string>Pixea</string>
+		<key>NewFile</key>
+		<string>/Applications/Pixea.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>com.pixelmatorteam.pixelmator.x</string>
+		<key>Name</key>
+		<string>Pixelmator Pro</string>
+		<key>NewFile</key>
+		<string>/Applications/Pixelmator Pro.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>com.apple.Photos</string>
+		<key>Name</key>
+		<string>Photos</string>
+		<key>NewFile</key>
+		<string>/System/Applications/Photos.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>com.apple.archiveutility</string>
+		<key>Name</key>
+		<string>Archive Utility</string>
+		<key>NewFile</key>
+		<string>/System/Library/CoreServices/Applications/Archive Utility.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>com.hnc.Discord</string>
+		<key>Name</key>
+		<string>Discord</string>
+		<key>NewFile</key>
+		<string>/Applications/Discord.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>com.obsproject.obs-studio</string>
+		<key>Name</key>
+		<string>OBS</string>
+		<key>NewFile</key>
+		<string>/Applications/OBS.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>org.gnu.Emacs</string>
+		<key>Name</key>
+		<string>Emacs</string>
+		<key>NewFile</key>
+		<string>/opt/homebrew/Cellar/emacs-mac/emacs-29.1-mac-10.0/Emacs.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>com.apple.TextEdit</string>
+		<key>Name</key>
+		<string>TextEdit</string>
+		<key>NewFile</key>
+		<string>/System/Applications/TextEdit.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>com.brave.Browser</string>
+		<key>Name</key>
+		<string>Brave Browser</string>
+		<key>NewFile</key>
+		<string>/Applications/Brave Browser.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>com.noodlesoft.Hazel</string>
+		<key>Name</key>
+		<string>Hazel</string>
+		<key>NewFile</key>
+		<string>/Applications/Hazel.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>com.apple.Automator</string>
+		<key>Name</key>
+		<string>Automator</string>
+		<key>NewFile</key>
+		<string>/System/Applications/Automator.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>com.apple.iCal</string>
+		<key>Name</key>
+		<string>Calendar</string>
+		<key>NewFile</key>
+		<string>/System/Applications/Calendar.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>com.planner5d.Planner-5D.macOS</string>
+		<key>Name</key>
+		<string>Planner 5D</string>
+		<key>NewFile</key>
+		<string>/Applications/Planner 5D.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>com.apple.mail</string>
+		<key>Name</key>
+		<string>Mail</string>
+		<key>NewFile</key>
+		<string>/System/Applications/Mail.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>TeXShop</string>
+		<key>Name</key>
+		<string>TeXShop</string>
+		<key>NewFile</key>
+		<string>/Applications/TeX/TeXShop.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>com.apple.AppStore</string>
+		<key>Name</key>
+		<string>App Store</string>
+		<key>NewFile</key>
+		<string>/System/Applications/App Store.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>org.chromium.Thorium</string>
+		<key>Name</key>
+		<string>Thorium</string>
+		<key>NewFile</key>
+		<string>/Applications/Thorium.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>com.apple.Preview</string>
+		<key>Name</key>
+		<string>Preview</string>
+		<key>NewFile</key>
+		<string>/System/Applications/Preview.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>com.apple.Notes</string>
+		<key>Name</key>
+		<string>Notes</string>
+		<key>NewFile</key>
+		<string>/System/Applications/Notes.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>com.apple.DiskUtility</string>
+		<key>Name</key>
+		<string>Disk Utility</string>
+		<key>NewFile</key>
+		<string>/System/Applications/Utilities/Disk Utility.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>org.m0k.transmission</string>
+		<key>Name</key>
+		<string>Transmission</string>
+		<key>NewFile</key>
+		<string>/Applications/Transmission.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>com.apple.FinalCut</string>
+		<key>Name</key>
+		<string>Final Cut Pro</string>
+		<key>NewFile</key>
+		<string>/Applications/Final Cut Pro.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
 		<string>com.stairways.keyboardmaestro.editor</string>
 		<key>Name</key>
 		<string>Keyboard Maestro</string>
@@ -129,6 +233,20 @@
 		<string>FaceTime</string>
 		<key>NewFile</key>
 		<string>/System/Applications/FaceTime.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
+		<string>org.pqrs.Karabiner-Elements.Settings</string>
+		<key>Name</key>
+		<string>Karabiner-Elements</string>
+		<key>NewFile</key>
+		<string>/Applications/Karabiner-Elements.app</string>
+	</dict>
+	<dict>
+		<key>Name</key>
+		<string>DavMail</string>
+		<key>NewFile</key>
+		<string>/Applications/DavMail.app</string>
 	</dict>
 	<dict>
 		<key>BundleIdentifier</key>
@@ -148,75 +266,11 @@
 	</dict>
 	<dict>
 		<key>BundleIdentifier</key>
-		<string>org.pqrs.Karabiner-Elements.Settings</string>
+		<string>com.colliderli.iina</string>
 		<key>Name</key>
-		<string>Karabiner-Elements</string>
+		<string>IINA</string>
 		<key>NewFile</key>
-		<string>/Applications/Karabiner-Elements.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>com.runningwithcrayons.Alfred-Preferences</string>
-		<key>Name</key>
-		<string>Alfred Preferences</string>
-		<key>NewFile</key>
-		<string>/Applications/Alfred 5.app/Contents/Preferences/Alfred Preferences.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>com.apple.QuickTimePlayerX</string>
-		<key>Name</key>
-		<string>QuickTime Player</string>
-		<key>NewFile</key>
-		<string>/System/Applications/QuickTime Player.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>com.runningwithcrayons.Alfred</string>
-		<key>Name</key>
-		<string>Alfred 5</string>
-		<key>NewFile</key>
-		<string>/Applications/Alfred 5.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>com.sascha-simon.buster</string>
-		<key>Name</key>
-		<string>Ghost Buster Pro</string>
-		<key>NewFile</key>
-		<string>/Applications/Ghost Buster Pro.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>com.apple.archiveutility</string>
-		<key>Name</key>
-		<string>Archive Utility</string>
-		<key>NewFile</key>
-		<string>/System/Library/CoreServices/Applications/Archive Utility.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>net.freemacsoft.AppCleaner</string>
-		<key>Name</key>
-		<string>AppCleaner</string>
-		<key>NewFile</key>
-		<string>/Applications/AppCleaner.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>com.withopal.opalmacos</string>
-		<key>Name</key>
-		<string>Opal</string>
-		<key>NewFile</key>
-		<string>/Applications/Opal.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>com.omnigroup.OmniGraffle7</string>
-		<key>Name</key>
-		<string>OmniGraffle</string>
-		<key>NewFile</key>
-		<string>/Applications/OmniGraffle.app</string>
+		<string>/Applications/IINA.app</string>
 	</dict>
 	<dict>
 		<key>BundleIdentifier</key>
@@ -228,11 +282,11 @@
 	</dict>
 	<dict>
 		<key>BundleIdentifier</key>
-		<string>com.openai.chat</string>
+		<string>net.freemacsoft.AppCleaner</string>
 		<key>Name</key>
-		<string>ChatGPT</string>
+		<string>AppCleaner</string>
 		<key>NewFile</key>
-		<string>/Applications/ChatGPT.app</string>
+		<string>/Applications/AppCleaner.app</string>
 	</dict>
 </array>
 </plist>

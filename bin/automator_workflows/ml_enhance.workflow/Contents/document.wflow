@@ -60,7 +60,7 @@
 					<key>replaceExisting</key>
 					<false/>
 					<key>toDirectory</key>
-					<string>~/Pictures/wallpaper/safe</string>
+					<string>~/Pictures/ml_enhanced</string>
 				</dict>
 				<key>BundleIdentifier</key>
 				<string>com.apple.Automator.CopyFiles</string>
@@ -77,16 +77,16 @@
 				<key>Class Name</key>
 				<string>AMCopyFilesAction</string>
 				<key>InputUUID</key>
-				<string>FF651C2D-D8A4-4FF9-BF30-600354C8A1AE</string>
+				<string>63CEDFF6-434D-4073-B163-D8374557E664</string>
 				<key>Keywords</key>
 				<array>
 					<string>File</string>
 					<string>Copy</string>
 				</array>
 				<key>OutputUUID</key>
-				<string>CF75E75A-E6B0-4338-AE4F-4CDB327F284D</string>
+				<string>D32441DC-1D11-4BF7-80D3-69685EF18C70</string>
 				<key>UUID</key>
-				<string>C2912587-B5A7-40DF-924B-F1BB602AC7B7</string>
+				<string>EECF5D8D-4CDB-4808-8084-C3F38B033EB1</string>
 				<key>UnlocalizedApplications</key>
 				<array>
 					<string>Finder</string>
@@ -123,7 +123,7 @@
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>833.000000:102.000000</string>
+				<string>784.750000:102.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Copy Finder Items.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -191,7 +191,7 @@
 				<key>Class Name</key>
 				<string>AMRemoteAction</string>
 				<key>InputUUID</key>
-				<string>02D26EC3-14C3-49F9-9B68-D7627716055B</string>
+				<string>5AD1B57E-AE55-4E20-87B2-78F8D3D452E9</string>
 				<key>Keywords</key>
 				<array>
 					<string>pxd</string>
@@ -199,9 +199,9 @@
 					<string>pxm</string>
 				</array>
 				<key>OutputUUID</key>
-				<string>8E0B7BF9-0723-442F-B4FB-79DABF7A3B47</string>
+				<string>802EF849-B5FA-48E7-ADE3-328BF7F6FDE6</string>
 				<key>UUID</key>
-				<string>57C2F3DB-DA71-498A-BA32-DD40B33031F3</string>
+				<string>22B52C9D-F70C-4A3A-9417-01B86563E483</string>
 				<key>UnlocalizedApplications</key>
 				<array>
 					<string>Pixelmator Pro</string>
@@ -225,7 +225,7 @@
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>833.000000:205.000000</string>
+				<string>784.750000:205.000000</string>
 				<key>nibPath</key>
 				<string>/Applications/Pixelmator Pro.app/Contents/Library/Automator/Change Type of Images.action/Contents/Resources/Base.lproj/Change Type of Images.nib</string>
 			</dict>
@@ -287,7 +287,7 @@
 				<key>Class Name</key>
 				<string>AMRemoteAction</string>
 				<key>InputUUID</key>
-				<string>B1513DF7-1DE5-4854-8EB8-AFDE754DBC17</string>
+				<string>DF0FA5EF-244B-486B-BD40-1D02E9790564</string>
 				<key>Keywords</key>
 				<array>
 					<string>Enhance</string>
@@ -295,9 +295,9 @@
 					<string>Image Size</string>
 				</array>
 				<key>OutputUUID</key>
-				<string>D2B27BEC-9AB9-47A4-AE19-6019A9AE6571</string>
+				<string>E0CCA23F-C238-4CE4-8839-E060F68F2E51</string>
 				<key>UUID</key>
-				<string>E170DE9A-886B-4E71-AA6D-41C56DDB8E8A</string>
+				<string>F0B896FC-EC2E-4D6E-9C6A-7077595472C8</string>
 				<key>UnlocalizedApplications</key>
 				<array>
 					<string>Pixelmator Pro</string>
@@ -307,7 +307,7 @@
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>833.000000:270.000000</string>
+				<string>784.750000:270.000000</string>
 				<key>nibPath</key>
 				<string>/Applications/Pixelmator Pro.app/Contents/Library/Automator/Increase Resolution of Images.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -358,7 +358,7 @@
 				<key>ActionParameters</key>
 				<dict>
 					<key>format</key>
-					<string>public.png</string>
+					<string>public.heic</string>
 				</dict>
 				<key>BundleIdentifier</key>
 				<string>com.pixelmatorteam.pixelmator.x.automator.change-type-of-images</string>
@@ -375,7 +375,7 @@
 				<key>Class Name</key>
 				<string>AMRemoteAction</string>
 				<key>InputUUID</key>
-				<string>52C47EBB-B07C-467E-A165-2F426AC09B18</string>
+				<string>944C4123-2742-4B4C-9F16-0D6F70D1A671</string>
 				<key>Keywords</key>
 				<array>
 					<string>pxd</string>
@@ -383,9 +383,9 @@
 					<string>pxm</string>
 				</array>
 				<key>OutputUUID</key>
-				<string>E248DB96-EA07-4C70-80D1-5D6D45BEEE4C</string>
+				<string>ACD1AC8D-3535-4CF5-AD15-97EF5266B5EC</string>
 				<key>UUID</key>
-				<string>D36E630A-DD70-4AB2-A0E3-7CAE39C937B2</string>
+				<string>761D4F3C-53D8-48D0-B256-5537A53063A2</string>
 				<key>UnlocalizedApplications</key>
 				<array>
 					<string>Pixelmator Pro</string>
@@ -409,7 +409,7 @@
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>833.000000:373.000000</string>
+				<string>784.750000:373.000000</string>
 				<key>nibPath</key>
 				<string>/Applications/Pixelmator Pro.app/Contents/Library/Automator/Change Type of Images.action/Contents/Resources/Base.lproj/Change Type of Images.nib</string>
 			</dict>
@@ -480,7 +480,7 @@
 					<dict>
 						<key>tokenizedValue</key>
 						<array>
-							<string>_super_res_output</string>
+							<string>_ml_res</string>
 						</array>
 					</dict>
 					<key>textToFind</key>
@@ -542,7 +542,7 @@
 					<key>startingNumber</key>
 					<integer>1</integer>
 					<key>textInput</key>
-					<string>_super_res_output</string>
+					<string>_ml_res</string>
 					<key>textToFind</key>
 					<string></string>
 					<key>useLeadingZeros</key>
@@ -563,7 +563,7 @@
 				<key>Class Name</key>
 				<string>AMRenameFinderItemsAction</string>
 				<key>InputUUID</key>
-				<string>C0A16883-57E8-430F-AB68-625DCA862104</string>
+				<string>4D34B6B3-C9BB-4BCC-99EE-77A8BE6A452B</string>
 				<key>Keywords</key>
 				<array>
 					<string>Name</string>
@@ -584,9 +584,9 @@
 					<string>Sequential</string>
 				</array>
 				<key>OutputUUID</key>
-				<string>EC65851B-3409-4E90-B9D3-9887D03CDD17</string>
+				<string>446BEEE9-66A6-449A-B8A5-FB95E6E38D3A</string>
 				<key>UUID</key>
-				<string>D96A8367-1F15-4F52-9EEE-95A2B00B70AD</string>
+				<string>58E0131C-D320-43E4-89A7-8CEAB3A7CA89</string>
 				<key>UnlocalizedApplications</key>
 				<array>
 					<string>Finder</string>
@@ -883,7 +883,7 @@
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>833.000000:533.000000</string>
+				<string>784.750000:533.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Rename Finder Items.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -893,33 +893,33 @@
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>29963FD1-ABB5-4C22-BC2C-1F6D528AAA77</key>
+		<key>1D79D574-9333-47D1-B739-95EADFFD8B5C</key>
 		<dict>
 			<key>from</key>
-			<string>E170DE9A-886B-4E71-AA6D-41C56DDB8E8A - E170DE9A-886B-4E71-AA6D-41C56DDB8E8A</string>
+			<string>22B52C9D-F70C-4A3A-9417-01B86563E483 - 22B52C9D-F70C-4A3A-9417-01B86563E483</string>
 			<key>to</key>
-			<string>D36E630A-DD70-4AB2-A0E3-7CAE39C937B2 - D36E630A-DD70-4AB2-A0E3-7CAE39C937B2</string>
+			<string>F0B896FC-EC2E-4D6E-9C6A-7077595472C8 - F0B896FC-EC2E-4D6E-9C6A-7077595472C8</string>
 		</dict>
-		<key>9E78430B-E3E3-4787-AA33-2E98A6E3A074</key>
+		<key>D8AF0182-4658-4AB5-A1DE-9664EC4BB30E</key>
 		<dict>
 			<key>from</key>
-			<string>57C2F3DB-DA71-498A-BA32-DD40B33031F3 - 57C2F3DB-DA71-498A-BA32-DD40B33031F3</string>
+			<string>EECF5D8D-4CDB-4808-8084-C3F38B033EB1 - EECF5D8D-4CDB-4808-8084-C3F38B033EB1</string>
 			<key>to</key>
-			<string>E170DE9A-886B-4E71-AA6D-41C56DDB8E8A - E170DE9A-886B-4E71-AA6D-41C56DDB8E8A</string>
+			<string>22B52C9D-F70C-4A3A-9417-01B86563E483 - 22B52C9D-F70C-4A3A-9417-01B86563E483</string>
 		</dict>
-		<key>C2618B0C-1865-43E8-AF7D-9FD702015FCF</key>
+		<key>DC6E08B5-A5A7-4906-8BB6-DEBCCAE25E65</key>
 		<dict>
 			<key>from</key>
-			<string>D36E630A-DD70-4AB2-A0E3-7CAE39C937B2 - D36E630A-DD70-4AB2-A0E3-7CAE39C937B2</string>
+			<string>761D4F3C-53D8-48D0-B256-5537A53063A2 - 761D4F3C-53D8-48D0-B256-5537A53063A2</string>
 			<key>to</key>
-			<string>D96A8367-1F15-4F52-9EEE-95A2B00B70AD - D96A8367-1F15-4F52-9EEE-95A2B00B70AD</string>
+			<string>58E0131C-D320-43E4-89A7-8CEAB3A7CA89 - 58E0131C-D320-43E4-89A7-8CEAB3A7CA89</string>
 		</dict>
-		<key>F687D74A-4A68-4FF0-B25D-99D88F65741D</key>
+		<key>FD4BDDBC-3930-4840-8A97-416079D4CD88</key>
 		<dict>
 			<key>from</key>
-			<string>C2912587-B5A7-40DF-924B-F1BB602AC7B7 - C2912587-B5A7-40DF-924B-F1BB602AC7B7</string>
+			<string>F0B896FC-EC2E-4D6E-9C6A-7077595472C8 - F0B896FC-EC2E-4D6E-9C6A-7077595472C8</string>
 			<key>to</key>
-			<string>57C2F3DB-DA71-498A-BA32-DD40B33031F3 - 57C2F3DB-DA71-498A-BA32-DD40B33031F3</string>
+			<string>761D4F3C-53D8-48D0-B256-5537A53063A2 - 761D4F3C-53D8-48D0-B256-5537A53063A2</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>

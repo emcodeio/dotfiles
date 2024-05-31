@@ -46,6 +46,8 @@ alias pip="pip3"
 alias trail='<<<${(F)path}'
 alias du="ncdu"
 alias src="source $HOME/.zshrc"
+alias pei="pipenv install"
+alias per="pipenv run python3"
 
 # alias brew="/opt/homebrew/bin/brew"
 alias brewupdate="echo 'Updating Homebrew and Casks' && brew cu -af && echo 'Upgrading Packages' && brew upgrade"
@@ -54,5 +56,9 @@ alias updateapps="echo 'Updating Homebrew and Casks...' && brew cu -af && echo '
 alias deletezsh="echo 'Delete $HOME/.oh-my-zsh/custom' && rm $HOME/.oh-my-zsh/custom && echo 'Updating ZSH' && exec zsh -l"
 alias linkzsh="echo 'Relink .oh-my-zsh/custom' && $HOME/.dotfiles/install && sleep 1s && exec zsh"
 
-alias mkwallsafe="$HOME/.dotfiles/bin/shell_scripts/make_8k_wallpaper_safe.zsh"
-alias mkwallnsfw="$HOME/.dotfiles/bin/shell_scripts/make_8k_wallpaper_nsfw.zsh"
+alias mkw="$HOME/.dotfiles/bin/shell_scripts/make_wallpaper/make_wallpaper.zsh"
+alias mkwdesk="$HOME/.dotfiles/bin/shell_scripts/make_wallpaper/make_wallpaper.zsh -d"
+alias mkwphone="$HOME/.dotfiles/bin/shell_scripts/make_wallpaper/make_wallpaper.zsh -p"
+alias gptrn="$HOME/.dotfiles/bin/python_scripts/gpt_rename_image/gpt_renamer.zsh"
+alias enhance="$HOME/.dotfiles/bin/shell_scripts/enhance.zsh"
+alias linkwall="$HOME/.dotfiles/scripts/symlink_wallpaper"

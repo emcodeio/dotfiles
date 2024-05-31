@@ -23,7 +23,7 @@ success() {
 }
 
 # Define the paths to the Automator workflows
-SUPER_RES_WORKFLOW="$HOME/.dotfiles/bin/automator_workflows/super_res_wallpaper_nsfw.workflow"
+SUPER_RES_WORKFLOW="$HOME/.dotfiles/bin/automator_workflows/super_res_wallpaper_safe.workflow"
 CONVERT_HEIC_WORKFLOW="$HOME/.dotfiles/bin/automator_workflows/convert_to_heic.workflow"
 
 # Ensure output directory exists
@@ -100,7 +100,7 @@ process_image() {
     local BASENAME=$(basename "$INPUT_IMAGE" | sed 's/\.[^.]*$//')
     local ORIG_STORE_DIR="$HOME/Pictures/wallpaper_originals"
     local ORIG_ERROR_DIR="$HOME/Pictures/wallpaper_error"
-    local SUPER_RES_OUTPUT="$HOME/Pictures/wallpaper/nsfw"
+    local SUPER_RES_OUTPUT="$HOME/Pictures/wallpaper/safe"
     local SUPER_RES_IMAGE="$SUPER_RES_OUTPUT/${BASENAME}_super_res_output.png"
     local RESIZED_IMAGE="$SUPER_RES_OUTPUT/${BASENAME}_ml_res_wallpaper.png"
 
@@ -117,7 +117,19 @@ process_image() {
     ASPECT_RATIO=$(calculate_aspect_ratio "$IMAGE_WIDTH" "$IMAGE_HEIGHT")
 
     if (( $(echo "$ASPECT_RATIO <= 1.6" | bc -l) )); then
+
         info "$(basename "$INPUT_IMAGE") apsect ratio is is less than or equal to 16:10. Apply resizing based on width..."
+
+        local TARGET_OUTPUT_WIDTH=IMAGE_WIDTH*3
+
+        if (( TARGET_OUTPUT_WIDTH < 5120 )); then
+            error "$(basename "$INPUT_IMAGE") will be not be wide enough even after apply Super Resolution."
+            error "Projected resolution width is $TARGET_OUTPUT_WIDTH pixels."
+            error "Moving $(basename $INPUT_IMAGE) to $ORIG_ERROR_DIR..."
+            mv "$INPUT_IMAGE" "$ORIG_ERROR_DIR"
+            return 1
+        fi
+
         if [ "$IMAGE_WIDTH" -ge 7680 ]; then
             info "Skipping Super Resolution. $(basename "$INPUT_IMAGE") is already large enough..."
             resize_image_by_width "$INPUT_IMAGE" "$RESIZED_IMAGE"
@@ -132,21 +144,35 @@ process_image() {
             local SUPER_RES_WIDTH
             SUPER_RES_WIDTH=$(get_image_width "$SUPER_RES_IMAGE")
 
-            if [ "$SUPER_RES_WIDTH" -lt 7680 ]; then
+            if [ "$SUPER_RES_WIDTH" -lt 5120 ]; then
                 error "$(basename "$SUPER_RES_IMAGE") is still not large enough after applying Super Resolution."
-                error "Resolution width is $SUPER_RES_WIDTH."
-                info "Moving $(basename $INPUT_IMAGE) to $ORIG_ERROR_DIR..."
+                error "Resolution width is $SUPER_RES_WIDTH pixels."
+                error "Moving $(basename $INPUT_IMAGE) to $ORIG_ERROR_DIR..."
                 mv "$INPUT_IMAGE" "$ORIG_ERROR_DIR"
                 cleanup_temp_files "$SUPER_RES_IMAGE"
                 return 1
             fi
 
-            info "Downscaling $(basename "$SUPER_RES_IMAGE")..."
-            resize_image_by_width "$SUPER_RES_IMAGE" "$RESIZED_IMAGE"
+            if [ "$SUPER_RES_WIDTH" -ge 7680 ]; then
+                info "Downscaling $(basename "$SUPER_RES_IMAGE") to 8K..."
+                resize_image_by_width "$SUPER_RES_IMAGE" "$RESIZED_IMAGE"
+            fi
             cleanup_temp_files "$SUPER_RES_IMAGE"
         fi
     else
+
         info "$(basename "$INPUT_IMAGE") apsect ratio is is greater than 16:10. Apply resizing based on height..."
+
+        local TARGET_OUTPUT_HEIGHT=IMAGE_HEIGHT*3
+
+        if (( TARGET_OUTPUT_HEIGHT < 3200 )); then
+            error "$(basename "$INPUT_IMAGE") will not be tall enough even after apply Super Resolution."
+            error "Projected resolution height is $TARGET_OUTPUT_HEIGHT pixels."
+            error "Moving $(basename $INPUT_IMAGE) to $ORIG_ERROR_DIR..."
+            mv "$INPUT_IMAGE" "$ORIG_ERROR_DIR"
+            return 1
+        fi
+
         if [ "$IMAGE_HEIGHT" -ge 4800 ]; then
             info "Skipping Super Resolution. $(basename "$INPUT_IMAGE") is already large enough..."
             resize_image_by_height "$INPUT_IMAGE" "$RESIZED_IMAGE"
@@ -161,7 +187,7 @@ process_image() {
             local SUPER_RES_HEIGHT
             SUPER_RES_HEIGHT=$(get_image_height "$SUPER_RES_IMAGE")
 
-            if [ "$SUPER_RES_HEIGHT" -lt 4800 ]; then
+            if [ "$SUPER_RES_HEIGHT" -lt 3200 ]; then
                 error "$(basename "$SUPER_RES_IMAGE") is still not large enough after applying Super Resolution."
                 error "Resolution height is $SUPER_RES_WIDTH. Exiting..."
                 info "Moving $(basename $INPUT_IMAGE) to $ORIG_ERROR_DIR..."
@@ -170,8 +196,11 @@ process_image() {
                 return 1
             fi
 
-            info "Downscaling $(basename "$SUPER_RES_IMAGE")..."
-            resize_image_by_height "$SUPER_RES_IMAGE" "$RESIZED_IMAGE"
+            if [ "$SUPER_RES_WIDTH" -ge 4800 ]; then
+                info "Downscaling $(basename "$SUPER_RES_IMAGE") to 8K..."
+                resize_image_by_height "$SUPER_RES_IMAGE" "$RESIZED_IMAGE"
+            fi
+
             cleanup_temp_files "$SUPER_RES_IMAGE"
         fi
     fi
