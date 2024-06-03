@@ -20,14 +20,6 @@
 	</dict>
 	<dict>
 		<key>BundleIdentifier</key>
-		<string>com.oecoway.friendlynetflix</string>
-		<key>Name</key>
-		<string>Friendly Streaming</string>
-		<key>NewFile</key>
-		<string>/Applications/Friendly Streaming.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
 		<string>com.apple.systempreferences</string>
 		<key>Name</key>
 		<string>System Settings</string>
@@ -76,22 +68,6 @@
 	</dict>
 	<dict>
 		<key>BundleIdentifier</key>
-		<string>com.hnc.Discord</string>
-		<key>Name</key>
-		<string>Discord</string>
-		<key>NewFile</key>
-		<string>/Applications/Discord.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>com.obsproject.obs-studio</string>
-		<key>Name</key>
-		<string>OBS</string>
-		<key>NewFile</key>
-		<string>/Applications/OBS.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
 		<string>org.gnu.Emacs</string>
 		<key>Name</key>
 		<string>Emacs</string>
@@ -116,14 +92,6 @@
 	</dict>
 	<dict>
 		<key>BundleIdentifier</key>
-		<string>com.noodlesoft.Hazel</string>
-		<key>Name</key>
-		<string>Hazel</string>
-		<key>NewFile</key>
-		<string>/Applications/Hazel.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
 		<string>com.apple.Automator</string>
 		<key>Name</key>
 		<string>Automator</string>
@@ -137,14 +105,6 @@
 		<string>Calendar</string>
 		<key>NewFile</key>
 		<string>/System/Applications/Calendar.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>com.planner5d.Planner-5D.macOS</string>
-		<key>Name</key>
-		<string>Planner 5D</string>
-		<key>NewFile</key>
-		<string>/Applications/Planner 5D.app</string>
 	</dict>
 	<dict>
 		<key>BundleIdentifier</key>
@@ -172,14 +132,6 @@
 	</dict>
 	<dict>
 		<key>BundleIdentifier</key>
-		<string>org.chromium.Thorium</string>
-		<key>Name</key>
-		<string>Thorium</string>
-		<key>NewFile</key>
-		<string>/Applications/Thorium.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
 		<string>com.apple.Preview</string>
 		<key>Name</key>
 		<string>Preview</string>
@@ -201,22 +153,6 @@
 		<string>Disk Utility</string>
 		<key>NewFile</key>
 		<string>/System/Applications/Utilities/Disk Utility.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>org.m0k.transmission</string>
-		<key>Name</key>
-		<string>Transmission</string>
-		<key>NewFile</key>
-		<string>/Applications/Transmission.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>com.apple.FinalCut</string>
-		<key>Name</key>
-		<string>Final Cut Pro</string>
-		<key>NewFile</key>
-		<string>/Applications/Final Cut Pro.app</string>
 	</dict>
 	<dict>
 		<key>BundleIdentifier</key>

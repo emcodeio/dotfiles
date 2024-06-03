@@ -158,7 +158,10 @@ crop_image_into_thirds() {
     info "Removing temporary cropped images..."
     rm "$input_png"
     for output_image in "${output_images[@]}"; do
-        rm "$ORIG_STORE_DIR/$(basename "$output_image")"
+        output_file="$ORIG_STORE_DIR/$(basename "$output_image")"
+        if [ -e "$output_file" ]; then
+            rm "$output_file"
+        fi
     done
 
     info "Continuing..."
@@ -227,7 +230,10 @@ create_image() {
     local target_output_dim=$((image_dim * 3))
 
     if (( target_output_dim < target_min_dim )); then
-        error "$(basename "$input_image") will not be large enough even after applying Super Resolution."
+        error "$(basename "$input_image") will not be large enough even after applying 3x Super Resolution."
+        # echo "Trying 4x Super Resolution..."
+        # echo "$input_image"
+        # $HOME/.dotfiles/bin/shell_scripts/make_wallpaper/check_error_images.zsh "$input_image"
         mv "$input_image" "$ORIG_ERROR_DIR"
         return 1
     fi
@@ -306,7 +312,7 @@ process_image() {
     local input_image="$2"
     local basename=$(basename "$input_image" | sed 's/\.[^.]*$//')
     local super_res_image="$PROCESSING_DIR/${basename}_super_res_output.png"
-    local resized_desktop_image="$DESKTOP_OUTPUT_DIR/${basename}_ml_res_wallpaper.png"
+    local resized_desktop_image="$DESKTOP_OUTPUT_DIR/${basename}_ml_res_desktop.png"
     local resized_phone_image="$PHONE_OUTPUT_DIR/${basename}_ml_res_phone.png"
 
     create_output_directory "$PROCESSING_DIR"
