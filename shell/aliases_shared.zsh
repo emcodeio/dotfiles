@@ -57,8 +57,9 @@ alias deletezsh="echo 'Delete $HOME/.oh-my-zsh/custom' && rm $HOME/.oh-my-zsh/cu
 alias linkzsh="echo 'Relink .oh-my-zsh/custom' && $HOME/.dotfiles/install && sleep 1s && exec zsh"
 
 alias mkw="$HOME/.dotfiles/bin/shell_scripts/make_wallpaper/make_wallpaper.zsh"
+alias mkwproc="$HOME/.dotfiles/bin/shell_scripts/make_wallpaper/make_wallpaper.zsh $HOME/Pictures/wallpaper/processing/to_process"
 alias mkwdesk="$HOME/.dotfiles/bin/shell_scripts/make_wallpaper/make_wallpaper.zsh -d"
 alias mkwphone="$HOME/.dotfiles/bin/shell_scripts/make_wallpaper/make_wallpaper.zsh -p"
-alias gptrn="$HOME/.dotfiles/bin/python_scripts/gpt_rename_image/gpt_renamer.zsh"
+alias gptrn="cd $HOME/.dotfiles/bin/python_scripts/gpt_rename_image/ && pipenv run python3 $HOME/.dotfiles/bin/python_scripts/gpt_rename_image/rename_images_unique.py $HOME/.dotfiles/bin/python_scripts/gpt_rename_image/images_to_rename"
 alias enhance="$HOME/.dotfiles/bin/shell_scripts/enhance.zsh"
 alias linkwall="$HOME/.dotfiles/scripts/symlink_wallpaper"

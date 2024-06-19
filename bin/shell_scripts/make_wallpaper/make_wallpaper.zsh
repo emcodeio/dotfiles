@@ -8,97 +8,113 @@ BOLD='\033[1m'
 NC='\033[0m' # No Color
 
 # Function to wrap text in blue
-info() {
+function info() {
     echo -e "${BLUE}$1${NC}"
 }
 
 # Function to wrap text in red
-error() {
+function error() {
     echo -e "${RED}$1${NC}"
 }
 
 # Function to wrap text in green
-success() {
+function success() {
     echo -e "${GREEN}$1${NC}"
 }
 
 # Define the paths and constans
-SUPER_RES_WORKFLOW="$HOME/.dotfiles/bin/shell_scripts/make_wallpaper/apply_super_res_wallpaper_safe.workflow"
-CONVERT_HEIC_WORKFLOW="$HOME/.dotfiles/bin/shell_scripts/make_wallpaper/convert_to_heic.workflow"
 PROCESSING_DIR="$HOME/Pictures/wallpaper/processing"
 ORIG_STORE_DIR="$PROCESSING_DIR/originals"
 ORIG_ERROR_DIR="$PROCESSING_DIR/error"
 DESKTOP_OUTPUT_DIR="$PROCESSING_DIR/to_sort_desktop"
 PHONE_OUTPUT_DIR="$PROCESSING_DIR/to_sort_phone"
+DESKTOP_4X_DIR="$DESKTOP_OUTPUT_DIR/4x_upscaled"
+PHONE_4X_DIR="$PHONE_OUTPUT_DIR/4x_upscaled"
+MAX_DESKTOP_WIDTH=7680
+MAX_DESKTOP_HEIGHT=4800
+MIN_DESKTOP_WIDTH=5120
+MIN_DESKTOP_HEIGHT=3200
+MAX_PHONE_WIDTH=5120
+MAX_PHONE_HEIGHT=7680
+MIN_PHONE_WIDTH=2560
+MIN_PHONE_HEIGHT=3840
 
 # Ensure output directory exists
-create_output_directory() {
+function create_output_directory() {
     local output_dir="$1"
     mkdir -p "$output_dir"
 }
 
-# Get image dimensions using ImageMagick
-get_image_dimensions() {
-    local image="$1"
-    magick identify -format "%wx%h" "$image"
-}
-
-# Calculate the aspect ratio
-calculate_aspect_ratio() {
-    local width="$1"
-    local height="$2"
-    echo "scale=2; $width / $height" | bc
-}
-
-# Apply Super Resolution workflow
-apply_super_resolution() {
-    local input_image="$1"
-    automator -i "$input_image" "$SUPER_RES_WORKFLOW"
-}
-
-# Resize the image while maintaining the aspect ratio
-resize_image() {
-    local input_image="$1"
-    local resized_image="$2"
-    local dimension="$3"
-    magick "$input_image" -filter Lanczos -resize "$dimension" "$resized_image"
-}
-
-# Verify if the super resolution workflow generated the expected output
-verify_super_resolution_output() {
-    local super_res_image="$1"
-    if [ ! -f "$super_res_image" ]; then
-        error "Super resolution workflow did not generate the expected output for $super_res_image."
-        return 1
-    fi
-}
-
-# Apply Convert to HEIC workflow
-apply_convert_heic() {
-    local resized_image="$1"
-    automator -i "$resized_image" "$CONVERT_HEIC_WORKFLOW"
-}
-
 # Clean up temporary resized images
-cleanup_temp_files() {
+function cleanup_temp_files() {
     local temp_files=("$@")
     for file in "${temp_files[@]}"; do
         rm "$file"
     done
 }
 
-crop_image_into_thirds() {
-    local input_image="$1"
-    local width="$2"
-    local height="$3"
-    local direction="$4"
-    local aspect_numerator="$5"
-    local aspect_denominator="$6"
-    local input_dir="${input_image:h}/"
-    local input_basename=$(basename "$input_image" | sed 's/\.[^.]*$//')
-    local input_png="${input_dir}${input_basename}.png"
+function get_image_width() {
+    local image="$1"
+    magick identify -format "%w" "$image"
+}
 
-    magick "$input_image" "$input_png"
+function get_image_height() {
+    local image="$1"
+    magick identify -format "%h" "$image"
+}
+
+function get_aspect_ratio() {
+    local image="$1"
+    local width=$(get_image_width $image)
+    local height=$(get_image_height $image)
+    echo "scale=2; $width / $height" | bc
+}
+
+# TODO: fix downscaling_image. Add device to name and move downscaled image to correct directory
+
+function downscale_image() {
+    local image="$1"
+    local resized_res="$2"
+    local dimension="$3"
+    local device="$4"
+    magick "$image" -filter Lanczos -resize "$dimension" "$resized_res"
+}
+
+function upscale_image() {
+    local image="$1"
+    local new_size="$2"
+    local resize_dimension="$3"
+    local output_dir="$4"
+    local device="$5"
+
+    local basename=$(basename "$image" | sed 's/\.[^.]*$//')
+    local output_path="${output_dir}/${basename}_ml_res_${device}.heic"
+
+    local abs_image_path=$(cd "$(dirname "$image")"; pwd)/$(basename "$image")
+
+    local app="Pixelmator Pro"
+    osascript -e "tell application \"$app\" to open \"$abs_image_path\""
+    osascript -e "tell application \"$app\"
+    tell the front document to resize image $resize_dimension $new_size resolution 72 algorithm ml super resolution
+    set filePath to POSIX file \"$output_path\" as text
+    export the front document to file filePath as HEIC with properties {compression factor:85}
+    close the front document saving no
+end tell"
+}
+
+function crop_image_into_thirds() {
+    local image="$1"
+    local dimension="$2"
+    local aspect_numerator="$3"
+    local aspect_denominator="$4"
+    local input_dir="${image:h}/"
+    local input_basename=$(basename "$image" | sed 's/\.[^.]*$//')
+    # local input_png="${input_dir}${input_basename}.png"
+
+    local width=$(get_image_width $image)
+    local height=$(get_image_height $image)
+
+    # magick "$image" "$input_png"
 
     local output_image_1
     local output_image_2
@@ -111,7 +127,7 @@ crop_image_into_thirds() {
     local start_position
     local process_type
 
-    if [[ "$direction" == "horizontal" ]]; then
+    if [[ "$dimension" == "horizontal" ]]; then
         output_image_1="${input_dir}${input_basename}_top.png"
         output_image_2="${input_dir}${input_basename}_middle.png"
         output_image_3="${input_dir}${input_basename}_bottom.png"
@@ -142,7 +158,7 @@ crop_image_into_thirds() {
     local output_images=("$output_image_1" "$output_image_2" "$output_image_3")
 
     for i in {1..3}; do
-        magick "$input_png" -crop "${crop_size}+${start_position[i]}" "${output_images[i]}"
+        magick "$image" -crop "${crop_size}+${start_position[i]}" "${output_images[i]}"
     done
 
     info "Crops completed. Created the following images:"
@@ -156,7 +172,7 @@ crop_image_into_thirds() {
     done
 
     info "Removing temporary cropped images..."
-    rm "$input_png"
+    # rm "$input_png"
     for output_image in "${output_images[@]}"; do
         output_file="$ORIG_STORE_DIR/$(basename "$output_image")"
         if [ -e "$output_file" ]; then
@@ -167,185 +183,192 @@ crop_image_into_thirds() {
     info "Continuing..."
 }
 
-# Wrapper functions
-crop_image_into_horizontal_thirds() {
-    crop_image_into_thirds "$1" "$2" "$3" "horizontal" 16 10
+function crop_image_into_horizontal_thirds() {
+    crop_image_into_thirds "$1" "horizontal" 16 10
 }
 
-crop_image_into_vertical_thirds() {
-    crop_image_into_thirds "$1" "$2" "$3" "vertical" 2 3
+function crop_image_into_vertical_thirds() {
+    crop_image_into_thirds "$1" "vertical" 2 3
 }
 
-# Handle Super Resolution process
-handle_super_resolution() {
-    local input_image="$1"
-    local resized_image="$2"
-    local super_res_image="$3"
-    local target_min_dim="$4"
-    local target_max_dim="$5"
-    local resize_dim="$6"
-    local dim_index="$7"
+function resize_desktop_based_on_width() {
+    local image=$1
+    local width=$(get_image_width $image)
 
-    info "Applying Super Resolution to $(basename "$input_image")..."
-    apply_super_resolution "$input_image"
-
-    if ! verify_super_resolution_output "$super_res_image"; then
-        return 1
-    fi
-
-    local super_res_dim
-    super_res_dim=$(get_image_dimensions "$super_res_image" | cut -d'x' -f"$dim_index")
-
-    if [ "$super_res_dim" -lt "$target_min_dim" ]; then
-        error "$(basename "$super_res_image") is still not large enough after applying Super Resolution."
-        mv "$input_image" "$ORIG_ERROR_DIR"
-        cleanup_temp_files "$super_res_image"
-        return 1
-    fi
-
-    info "$(basename "$super_res_image") is large enough after applying Super Resolution. Continuing..."
-
-    if [ "$super_res_dim" -ge "$target_max_dim" ]; then
-        info "Downscaling $(basename "$super_res_image") to target size..."
-        resize_image "$super_res_image" "$resized_image" "$resize_dim"
-    else
-        info "Renaming $(basename "$super_res_image") to $(basename "$resized_image")"
-        cp "$super_res_image" "$resized_image"
-    fi
-
-    cleanup_temp_files "$super_res_image"
-}
-
-# Generic function to process image
-create_image() {
-    local input_image="$1"
-    local resized_image="$2"
-    local super_res_image="$3"
-    local image_dim="$4"
-    local target_min_dim="$5"
-    local target_max_dim="$6"
-    local resize_dim="$7"
-    local dim_index="$8"
-
-    local target_output_dim=$((image_dim * 3))
-
-    if (( target_output_dim < target_min_dim )); then
-        error "$(basename "$input_image") will not be large enough even after applying 3x Super Resolution."
-        # echo "Trying 4x Super Resolution..."
-        # echo "$input_image"
-        # $HOME/.dotfiles/bin/shell_scripts/make_wallpaper/check_error_images.zsh "$input_image"
-        mv "$input_image" "$ORIG_ERROR_DIR"
-        return 1
-    fi
-
-    if [ "$image_dim" -ge "$target_max_dim" ]; then
-        info "$(basename "$input_image") is already large enough. Skipping Super Resolution..."
-        info "Downscaling $(basename "$super_res_image") to target size..."
-        resize_image "$input_image" "$resized_image" "$resize_dim"
-    else
-        handle_super_resolution "$input_image" "$resized_image" "$super_res_image" "$target_min_dim" "$target_max_dim" "$resize_dim" "$dim_index"
-        if [ $? -ne 0 ]; then return 1; fi
-    fi
-}
-
-# Function to process the desktop image based on aspect ratio
-process_desktop_image() {
-    local input_image="$1"
-    local super_res_image="$2"
-    local resized_desktop_image="$3"
-    local image_width="$4"
-    local image_height="$5"
-    local aspect_ratio="$6"
-
-    if (( $(echo "$aspect_ratio <= 16 / 10" | bc -l) )); then
-        info "$(basename "$input_image") aspect ratio is less than or equal to 16:10. Resizing based on width..."
-        # if (( $(echo "$aspect_ratio > 4 / 5" | bc -l) )); then
-        if (( $(echo "$aspect_ratio > 1" | bc -l) )); then
-            echo "$(basename "$input_image") is too short to horizontally crop three times. Continuing..."
-            create_image "$input_image" "$resized_desktop_image" "$super_res_image" "$image_width" 5120 7680 "7680x" 1
-            if [ $? -ne 0 ]; then return 1; fi
-            apply_convert_heic "$resized_desktop_image"
+    if [[ $(echo "$(get_aspect_ratio $image) > 1" | bc -l) -eq 1 ]]; then
+        echo "$(basename "$image") is too short to horizontally crop three times. Continuing..."
+        # if (( width >= 7680 )); then
+        #     info "$(basename "$image") is already large enough. Skipping Super Resolution..."
+        #     info "Downscaling $(basename "$image") to target size..."
+        #     downscale_image $image 7680 "width" $DESKTOP_OUTPUT_DIR
+        if (( (width * 3) >= 7680 )); then
+            info "Applying Super Resolution to $(basename "$image")..."
+            upscale_image $image 7680 "width" $DESKTOP_OUTPUT_DIR "lt_3x_desktop"
+        elif (( (width * 3) < 7680 && (width * 3) >= 5120 )); then
+            info "Applying Super Resolution to $(basename "$image")..."
+            upscale_image $image $((width * 3)) "width" $DESKTOP_OUTPUT_DIR "3x_desktop"
+        elif (( (width * 4.25) >= 5120 )); then
+            error "$(basename "$image") will not be large enough even after applying 3x Super Resolution."
+            info "Trying 4x Super Resolution..."
+            upscale_image $image 5120 "width" $DESKTOP_4X_DIR "4x_desktop"
         else
-            echo "$(basename "$input_image") is tall enough to horizontally crop three times. Cropping..."
-            crop_image_into_horizontal_thirds "$input_image" "$image_width" "$image_height"
+            error "$(basename "$image") is too small to upscale nicely..."
+            error "Skipping..."
+            mv "$image" "$ORIG_ERROR_DIR"
+            echo
+            return 1
         fi
     else
-        info "$(basename "$input_image") aspect ratio is greater than 16:10. Resizing based on height..."
-        create_image "$input_image" "$resized_desktop_image" "$super_res_image" "$image_height" 3200 4800 "x4800" 2
-        if [ $? -ne 0 ]; then return 1; fi
-        apply_convert_heic "$resized_desktop_image"
+        echo "$(basename "$image") is tall enough to horizontally crop three times. Cropping..."
+        crop_image_into_horizontal_thirds $image
     fi
 }
 
-# Function to process the phone image based on aspect ratio
-process_phone_image() {
-    local input_image="$1"
-    local super_res_image="$2"
-    local resized_phone_image="$3"
-    local image_width="$4"
-    local image_height="$5"
-    local aspect_ratio="$6"
+function resize_desktop_based_on_height() {
+    local image=$1
+    local height=$(get_image_height $image)
 
-    if (( $(echo "$aspect_ratio >= 2 / 3" | bc -l) )); then
-        info "$(basename "$input_image") aspect ratio is greater than or equal to 2:3. Resizing based on height..."
-        if (( $(echo "$aspect_ratio < 1" | bc -l) )); then
-        # if (( $(echo "$aspect_ratio < 5 / 4" | bc -l) )); then
-            echo "$(basename "$input_image") is too thin to vertically crop three times. Continuing..."
-            create_image "$input_image" "$resized_phone_image" "$super_res_image" "$image_height" 3840 3840 "x3840" 2
-            if [ $? -ne 0 ]; then return 1; fi
-            apply_convert_heic "$resized_phone_image"
+    # if (( height >= 4800 )); then
+    #     info "$(basename "$image") is already large enough. Skipping Super Resolution..."
+    #     info "Downscaling $(basename "$super_res_image") to target size..."
+    #     downscale_image_height $image 4800 "height" $DESKTOP_OUTPUT_DIR
+    if (( (height * 3) >= 4800 )); then
+        info "Applying Super Resolution to $(basename "$image")..."
+        upscale_image $image 4800 "height" $DESKTOP_OUTPUT_DIR "lt_3x_desktop"
+    elif (( (height * 3) < 4800 && (height * 3) >= 3200 )); then
+        info "Applying Super Resolution to $(basename "$image")..."
+        upscale_image $image $((height * 3)) "height" $DESKTOP_OUTPUT_DIR "3x_desktop"
+    elif (( (height * 4.25) >= 3200 )); then
+        error "$(basename "$image") will not be large enough even after applying 3x Super Resolution."
+        info "Trying 4x Super Resolution..."
+        upscale_image $image 3200 "height" $DESKTOP_4X_DIR "4x_desktop"
+    else
+        error "$(basename "$image") is too small to upscale nicely..."
+        error "Skipping..."
+        mv "$image" "$ORIG_ERROR_DIR"
+        echo
+        return 1
+    fi
+}
+
+function resize_phone_based_on_width() {
+    local image=$1
+    local width=$(get_image_width $image)
+
+    # if (( width >= 2560 )); then
+    #     info "$(basename "$image") is already large enough. Skipping Super Resolution..."
+    #     info "Downscaling $(basename "$image") to target size..."
+    #     downscale_image $image 2560 "width" $PHONE_OUTPUT_DIR
+    if (( (width * 3) >= 2560 )); then
+        info "Applying Super Resolution to $(basename "$image")..."
+        upscale_image $image 2560 "width" $PHONE_OUTPUT_DIR "lt_3x_phone"
+    elif (( (width * 4.25) >= 2560 )); then
+        error "$(basename "$image") will not be large enough even after applying 3x Super Resolution."
+        info "Trying 4x Super Resolution..."
+        upscale_image $image 2560 "width" $PHONE_4X_DIR "4x_phone"
+    else
+        error "$(basename "$image") is too small to upscale nicely..."
+        error "Skipping..."
+        mv "$image" "$ORIG_ERROR_DIR"
+        echo
+        return 1
+    fi
+}
+
+function resize_phone_based_on_height() {
+    local image=$1
+    local height=$(get_image_height $image)
+
+    if [[ $(echo "$(get_aspect_ratio $image) < 1" | bc -l) -eq 1 ]]; then
+        echo "$(basename "$image") is too thin to vertically crop three times. Continuing..."
+        # if (( height >= 3840 )); then
+        #     info "$(basename "$image") is already large enough. Skipping Super Resolution..."
+        #     info "Downscaling $(basename "$image") to target size..."
+        #     downscale_image $image 3840 "height" $PHONE_OUTPUT_DIR
+        if (( (height * 3) >= 3840 )); then
+            info "Applying Super Resolution to $(basename "$image")..."
+            upscale_image $image 3840 "height" $PHONE_OUTPUT_DIR "lt_3x_phone"
+        elif (( (height * 4.25) >= 3840 )); then
+            error "$(basename "$image") will not be large enough even after applying 3x Super Resolution."
+            info "Trying 4x Super Resolution..."
+            upscale_image $image 3840 "height" $PHONE_4X_DIR "4x_phone"
         else
-            echo "$(basename "$input_image") is wide enough to vertically crop three times. Cropping..."
-            crop_image_into_vertical_thirds "$input_image" "$image_width" "$image_height"
+            error "$(basename "$image") is too small to upscale nicely..."
+            error "Skipping..."
+            mv "$image" "$ORIG_ERROR_DIR"
+            echo
+            return 1
         fi
     else
-        info "$(basename "$input_image") aspect ratio is less than 2:3. Resizing based on width..."
-        create_image "$input_image" "$resized_phone_image" "$super_res_image" "$image_width" 2560 2560 "2560x" 1
-        if [ $? -ne 0 ]; then return 1; fi
-        apply_convert_heic "$resized_phone_image"
+        echo "$(basename "$image") is wide enough to vertically crop three times. Cropping..."
+        crop_image_into_vertical_thirds $image
     fi
 }
 
-# Process a single image
-process_image() {
-    local process_type="${1:-both}"  # Default to "both" if no parameter is provided
-    local input_image="$2"
-    local basename=$(basename "$input_image" | sed 's/\.[^.]*$//')
-    local super_res_image="$PROCESSING_DIR/${basename}_super_res_output.png"
-    local resized_desktop_image="$DESKTOP_OUTPUT_DIR/${basename}_ml_res_desktop.png"
-    local resized_phone_image="$PHONE_OUTPUT_DIR/${basename}_ml_res_phone.png"
+# Desktop Resizing Logic
+function process_desktop_image() {
+    local image=$1
 
+    if [[ $(echo "$(get_aspect_ratio $image) <= (16/10)" | bc -l) -eq 1 ]]; then
+        info "$(basename "$image") aspect ratio is less than or equal to 16:10. Resizing based on width..."
+        resize_desktop_based_on_width $image
+        if [ $? -ne 0 ]; then return 1; fi
+    else
+        info "$(basename "$image") aspect ratio is greater than 16:10. Resizing based on height..."
+        resize_desktop_based_on_height $image
+        if [ $? -ne 0 ]; then return 1; fi
+    fi
+}
+
+# Phone Resizing Logic
+function process_phone_image() {
+    local image=$1
+
+    if [[ $(echo "$(get_aspect_ratio $image) >= (2/3)" | bc -l) -eq 1 ]]; then
+        info "$(basename "$image") aspect ratio is greater than or equal to 2:3. Resizing based on height..."
+        resize_phone_based_on_height $image
+        if [ $? -ne 0 ]; then return 1; fi
+    else
+        info "$(basename "$image") aspect ratio is less than 2:3. Resizing based on width..."
+        resize_phone_based_on_width $image
+        if [ $? -ne 0 ]; then return 1; fi
+    fi
+}
+
+function create_output_directories() {
     create_output_directory "$PROCESSING_DIR"
     create_output_directory "$ORIG_STORE_DIR"
     create_output_directory "$ORIG_ERROR_DIR"
     create_output_directory "$DESKTOP_OUTPUT_DIR"
     create_output_directory "$PHONE_OUTPUT_DIR"
+    create_output_directory "$DESKTOP_4X_DIR"
+    create_output_directory "$PHONE_4X_DIR"
+}
 
-    local dimensions
-    dimensions=$(get_image_dimensions "$input_image")
-    local image_width=${dimensions%x*}
-    local image_height=${dimensions#*x}
+# Process a single image
+function process_image() {
+    local process_type="${1:-both}"  # Default to "both" if no parameter is provided
+    local image="$2"
 
-    local aspect_ratio
-    aspect_ratio=$(calculate_aspect_ratio "$image_width" "$image_height")
+    create_output_directories
 
     if [[ "$process_type" == "d" || "$process_type" == "both" ]]; then
-        process_desktop_image "$input_image" "$super_res_image" "$resized_desktop_image" "$image_width" "$image_height" "$aspect_ratio"
+        process_desktop_image "$image"
         if [ $? -ne 0 ]; then return 1; fi
     fi
 
     if [[ "$process_type" == "p" || "$process_type" == "both" ]]; then
-        process_phone_image "$input_image" "$super_res_image" "$resized_phone_image" "$image_width" "$image_height" "$aspect_ratio"
+        process_phone_image "$image"
         if [ $? -ne 0 ]; then return 1; fi
     fi
 
-    success "Processing complete for $input_image."
-    mv "$input_image" "$ORIG_STORE_DIR"
+    success "Processing complete for $image."
+    if [ -e "$image" ]; then mv "$image" "$ORIG_STORE_DIR"; fi
     echo
 }
 
 # Function to display usage
-usage() {
+function usage() {
     echo "Usage: $0 [-d | -p | -b] <input-image-or-directory>"
     echo "  -d    Process only desktop images"
     echo "  -p    Process only phone images"
