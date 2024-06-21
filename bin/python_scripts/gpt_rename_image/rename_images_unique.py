@@ -11,7 +11,7 @@ import random
 load_dotenv()
 
 # OpenAI API Key
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY_WORK", "<your OpenAI API key if not set as env var>")
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY_PERSONAL", "<your OpenAI API key if not set as env var>")
 
 # Function to encode the image
 def encode_image(image_path):

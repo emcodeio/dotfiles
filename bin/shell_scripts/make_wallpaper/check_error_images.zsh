@@ -65,10 +65,11 @@ run_resize_apple_script() {
         return 1
     fi
 
-    # TODO: Full file path has to be passed to AppleScript, not just $input_image
+    # Convert input_image to an absolute path
+    local abs_input_image=$(cd "$(dirname "$input_image")"; pwd)/$(basename "$input_image")
 
     local app="Pixelmator Pro"
-    osascript -e "tell application \"$app\" to open \"$input_image\""
+    osascript -e "tell application \"$app\" to open \"$abs_input_image\""
     osascript -e "tell application \"$app\"
     tell the front document to resize image $resize_dimension $new_size resolution 72 algorithm ml super resolution
     set filePath to POSIX file \"$output_path\" as text
@@ -91,7 +92,7 @@ check_target_image() {
     else
         error "$(basename "$input_image") is too small to upscale nicely..."
         error "Skipping..."
-        mv "$input_image" "$ORIG_ERROR_DIR"
+        # mv "$input_image" "$ORIG_ERROR_DIR"
     fi
 }
 

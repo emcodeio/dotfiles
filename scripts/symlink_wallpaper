@@ -7,16 +7,20 @@ symlink_wallpaper() {
   # Create destination directory if it doesn't exist
   mkdir -p "$DEST_DIR"
 
+  echo "Removing previous symlinks..."
+  rm "$DEST_DIR"/*
+
   # Set wallpapers to symlink
   if [ "$MACHINE_TYPE" = "work" ]; then
-    SOURCE_DIR="$HOME/Pictures/wallpaper/safe"
+    SOURCE_DIR="$HOME/Pictures/wallpaper/desktop/safe"
   else
-    SOURCE_DIR="$HOME/Pictures/wallpaper"
+    SOURCE_DIR="$HOME/Pictures/wallpaper/desktop"
   fi
 
   # Find all image files in the source directory and create symlinks in the destination directory
   find "$SOURCE_DIR" -type f \( -name '*.jpg' -o -name '*.jpeg' -o -name '*.png' -o -name '*.heic' \) | while read -r file; do
-      ln -s "$file" "$DEST_DIR"
+    echo "Linking $(basename "$file")..."
+    ln -s "$file" "$DEST_DIR"
   done
 
   return 0
