@@ -83,6 +83,7 @@
 (package! mu4e-alert :disable t)
 (package! org-present)
 (package! graphviz-dot-mode)
+(package! string-utils)
 (package! jcl-mode
   :recipe (:host github
            :repo "lsiksous/jcl-mode.el"))
