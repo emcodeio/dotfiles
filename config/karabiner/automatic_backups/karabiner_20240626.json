@@ -18,45 +18,6 @@
                 },
                 "rules": [
                     {
-                        "description": "j+k to homerow",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    },
-                                    "simultaneous": [
-                                        {
-                                            "key_code": "j"
-                                        },
-                                        {
-                                            "key_code": "k"
-                                        }
-                                    ],
-                                    "simultaneous_options": {
-                                        "detect_key_down_uninterruptedly": false,
-                                        "key_down_order": "insensitive",
-                                        "key_up_order": "insensitive",
-                                        "key_up_when": "any"
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "spacebar",
-                                        "modifiers": [
-                                            "left_control",
-                                            "left_option",
-                                            "left_command"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
                         "description": "Double Left Shift to Capslock",
                         "manipulators": [
                             {
@@ -247,10 +208,10 @@
                                     },
                                     "simultaneous": [
                                         {
-                                            "key_code": "k"
+                                            "key_code": "j"
                                         },
                                         {
-                                            "key_code": "l"
+                                            "key_code": "k"
                                         }
                                     ],
                                     "simultaneous_options": {
@@ -319,10 +280,10 @@
                                     },
                                     "simultaneous": [
                                         {
-                                            "key_code": "k"
+                                            "key_code": "j"
                                         },
                                         {
-                                            "key_code": "l"
+                                            "key_code": "k"
                                         }
                                     ],
                                     "simultaneous_options": {
