@@ -92,14 +92,6 @@
 	</dict>
 	<dict>
 		<key>BundleIdentifier</key>
-		<string>com.agiletortoise.Drafts-OSX</string>
-		<key>Name</key>
-		<string>Drafts</string>
-		<key>NewFile</key>
-		<string>/Applications/Drafts.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
 		<string>com.goodsnooze.MacWhisper</string>
 		<key>Name</key>
 		<string>MacWhisper</string>
@@ -113,22 +105,6 @@
 		<string>Music</string>
 		<key>NewFile</key>
 		<string>/System/Applications/Music.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>com.neo4j.neo4j-desktop</string>
-		<key>Name</key>
-		<string>Neo4j Desktop</string>
-		<key>NewFile</key>
-		<string>/Applications/Neo4j Desktop.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>com.microsoft.teams2</string>
-		<key>Name</key>
-		<string>Microsoft Teams</string>
-		<key>NewFile</key>
-		<string>/Applications/Microsoft Teams.app</string>
 	</dict>
 	<dict>
 		<key>BundleIdentifier</key>
@@ -174,7 +150,7 @@
 		<key>BundleIdentifier</key>
 		<string>us.zoom.xos</string>
 		<key>Name</key>
-		<string>zoom</string>
+		<string>zoom.us</string>
 		<key>NewFile</key>
 		<string>/Applications/zoom.us.app</string>
 	</dict>
@@ -217,14 +193,6 @@
 		<string>Script Editor</string>
 		<key>NewFile</key>
 		<string>/System/Applications/Utilities/Script Editor.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>com.microsoft.Word</string>
-		<key>Name</key>
-		<string>Microsoft Word</string>
-		<key>NewFile</key>
-		<string>/Applications/Microsoft Word.app</string>
 	</dict>
 	<dict>
 		<key>BundleIdentifier</key>
@@ -300,7 +268,7 @@
 	</dict>
 	<dict>
 		<key>BundleIdentifier</key>
-		<string>com.dexterleng.Homerow</string>
+		<string>com.superultra.Homerow</string>
 		<key>Name</key>
 		<string>Homerow</string>
 		<key>NewFile</key>
@@ -313,14 +281,6 @@
 		<string>Automator</string>
 		<key>NewFile</key>
 		<string>/System/Applications/Automator.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>org.vim.MacVim</string>
-		<key>Name</key>
-		<string>MacVim</string>
-		<key>NewFile</key>
-		<string>/Applications/MacVim.app</string>
 	</dict>
 	<dict>
 		<key>BundleIdentifier</key>
@@ -356,35 +316,11 @@
 	</dict>
 	<dict>
 		<key>BundleIdentifier</key>
-		<string>com.microsoft.Outlook</string>
-		<key>Name</key>
-		<string>Microsoft Outlook</string>
-		<key>NewFile</key>
-		<string>/Applications/Microsoft Outlook.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
 		<string>com.vscodium</string>
 		<key>Name</key>
 		<string>VSCodium</string>
 		<key>NewFile</key>
 		<string>/Applications/VSCodium.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>com.brettterpstra.marked2</string>
-		<key>Name</key>
-		<string>Marked 2</string>
-		<key>NewFile</key>
-		<string>/Applications/Marked 2.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>com.microsoft.Powerpoint</string>
-		<key>Name</key>
-		<string>Microsoft PowerPoint</string>
-		<key>NewFile</key>
-		<string>/Applications/Microsoft PowerPoint.app</string>
 	</dict>
 	<dict>
 		<key>BundleIdentifier</key>
@@ -468,22 +404,6 @@
 	</dict>
 	<dict>
 		<key>BundleIdentifier</key>
-		<string>com.runningwithcrayons.Alfred-Preferences</string>
-		<key>Name</key>
-		<string>Alfred Preferences</string>
-		<key>NewFile</key>
-		<string>/Applications/Alfred 5.app/Contents/Preferences/Alfred Preferences.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>com.runningwithcrayons.Alfred</string>
-		<key>Name</key>
-		<string>Alfred 5</string>
-		<key>NewFile</key>
-		<string>/Applications/Alfred 5.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
 		<string>com.sascha-simon.buster</string>
 		<key>Name</key>
 		<string>Ghost Buster Pro</string>
@@ -497,14 +417,6 @@
 		<string>AppCleaner</string>
 		<key>NewFile</key>
 		<string>/Applications/AppCleaner.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>com.withopal.opalmacos</string>
-		<key>Name</key>
-		<string>Opal</string>
-		<key>NewFile</key>
-		<string>/Applications/Opal.app</string>
 	</dict>
 </array>
 </plist>
