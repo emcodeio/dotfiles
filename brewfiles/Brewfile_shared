@@ -29,7 +29,6 @@ brew "pandoc"
 brew "koekeishiya/formulae/skhd"
 brew "koekeishiya/formulae/yabai"
 brew "railwaycat/emacsmacport/emacs-mac", args: ["with-native-comp", "without-modules"]
-brew "yqrashawn/goku/goku"
 brew "yt-dlp"
 
 # Casks (Applications)
@@ -45,6 +44,7 @@ cask "macwhisper"
 cask "omnigraffle"
 cask "onyx"
 cask "vscodium"
+cask "raycast"
 
 # Mac App Store
 mas "1Focus", id: 969210610
