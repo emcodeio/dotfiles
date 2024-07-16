@@ -1,61 +1,60 @@
 {
-  "title": "Vim Mode Plus",
-  "maintainers": [
-    "gilitos92"
-  ],
+  "title": "Evan's Vim Activation",
   "rules": [
+
     {
-      "description": "Use left_control+u/i to cycle through running applications (like command+tab).",
+      "description": "(Evan's Vim 1/11) k+l -> on, j+k, esc, control+[ or any pointing_button -> off",
       "manipulators": [
         {
-          "type": "basic",
-          "from": {
-            "key_code": "i",
-            "modifiers": {
-              "mandatory": [
-                "left_control"
-              ]
-            }
-          },
-          "to": [
+          "conditions": [
             {
-              "key_code": "tab",
-              "modifiers": [
-                "left_command"
-              ]
-            }
-          ]
-        },
-        {
-          "type": "basic",
-          "from": {
-            "key_code": "i",
-            "modifiers": {
-              "mandatory": [
-                "left_control"
-              ]
-            }
-          },
-          "to": [
+              "bundle_identifiers": [
+                "com.googlecode.iterm2",
+                "com.github.atom",
+                "com.jetbrains.pycharm",
+                "com.visualstudio.code.oss"
+              ],
+              "type": "frontmost_application_unless"
+            },
             {
-              "key_code": "tab",
-              "modifiers": [
-                "left_command",
-                "left_shift"
-              ]
+              "name": "vim_mode",
+              "type": "variable_unless",
+              "value": 1
             }
-          ]
-        }
-      ]
-    },
-    {
-      "description": "(Evan's Vim 1/11) left_command -> on, left_command, esc, control+[ or any pointing_button -> off",
-      "manipulators": [
-        {
-          "type": "basic",
+          ],
           "from": {
-            "key_code": "left_command"
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            },
+            "simultaneous": [
+              {
+                "key_code": "k"
+              },
+              {
+                "key_code": "l"
+              }
+            ],
+            "simultaneous_options": {
+              "detect_key_down_uninterruptedly": false,
+              "key_down_order": "insensitive",
+              "key_up_order": "insensitive",
+              "key_up_when": "any"
+            }
           },
+          "parameters": {
+            "basic.to_if_alone_threshold_milliseconds": 0,
+            "basic.to_if_held_down_threshold_milliseconds": 0
+          },
+          "to_after_key_up": [
+            {
+              "set_variable": {
+                "name": "vim_mode",
+                "value": 0
+              }
+            }
+          ],
           "to_if_alone": [
             {
               "set_variable": {
@@ -76,39 +75,45 @@
               "key_code": "left_command"
             }
           ],
-          "to_after_key_up": [
-            {
-              "set_variable": {
-                "name": "vim_mode",
-                "value": 0
-              }
-            }
-          ],
+          "type": "basic"
+        },
+        {
           "conditions": [
             {
-              "type": "frontmost_application_unless",
               "bundle_identifiers": [
                 "com.googlecode.iterm2",
                 "com.github.atom",
                 "com.jetbrains.pycharm",
                 "com.visualstudio.code.oss"
-              ]
+              ],
+              "type": "frontmost_application_unless"
             },
             {
               "name": "vim_mode",
-              "type": "variable_unless",
+              "type": "variable_if",
               "value": 1
             }
           ],
-          "parameters": {
-            "basic.to_if_alone_threshold_milliseconds": 0,
-            "basic.to_if_held_down_threshold_milliseconds": 0
-          }
-        },
-        {
-          "type": "basic",
           "from": {
-            "key_code": "left_command"
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            },
+            "simultaneous": [
+              {
+                "key_code": "k"
+              },
+              {
+                "key_code": "l"
+              }
+            ],
+            "simultaneous_options": {
+              "detect_key_down_uninterruptedly": false,
+              "key_down_order": "insensitive",
+              "key_up_order": "insensitive",
+              "key_up_when": "any"
+            }
           },
           "to": [
             {
@@ -124,25 +129,25 @@
               }
             }
           ],
+          "type": "basic"
+        },
+        {
           "conditions": [
             {
-              "type": "frontmost_application_unless",
               "bundle_identifiers": [
                 "com.googlecode.iterm2",
                 "com.github.atom",
                 "com.jetbrains.pycharm",
                 "com.visualstudio.code.oss"
-              ]
+              ],
+              "type": "frontmost_application_unless"
             },
             {
               "name": "vim_mode",
               "type": "variable_if",
               "value": 1
             }
-          ]
-        },
-        {
-          "type": "basic",
+          ],
           "from": {
             "key_code": "escape"
           },
@@ -160,25 +165,25 @@
               }
             }
           ],
+          "type": "basic"
+        },
+        {
           "conditions": [
             {
-              "type": "frontmost_application_unless",
               "bundle_identifiers": [
                 "com.googlecode.iterm2",
                 "com.github.atom",
                 "com.jetbrains.pycharm",
                 "com.visualstudio.code.oss"
-              ]
+              ],
+              "type": "frontmost_application_unless"
             },
             {
               "name": "vim_mode",
               "type": "variable_if",
               "value": 1
             }
-          ]
-        },
-        {
-          "type": "basic",
+          ],
           "from": {
             "key_code": "open_bracket",
             "modifiers": {
@@ -201,25 +206,25 @@
               }
             }
           ],
+          "type": "basic"
+        },
+        {
           "conditions": [
             {
-              "type": "frontmost_application_unless",
               "bundle_identifiers": [
                 "com.googlecode.iterm2",
                 "com.github.atom",
                 "com.jetbrains.pycharm",
                 "com.visualstudio.code.oss"
-              ]
+              ],
+              "type": "frontmost_application_if"
             },
             {
               "name": "vim_mode",
               "type": "variable_if",
               "value": 1
             }
-          ]
-        },
-        {
-          "type": "basic",
+          ],
           "from": {
             "any": "key_code"
           },
@@ -237,25 +242,16 @@
               }
             }
           ],
+          "type": "basic"
+        },
+        {
           "conditions": [
-            {
-              "type": "frontmost_application_if",
-              "bundle_identifiers": [
-                "com.googlecode.iterm2",
-                "com.github.atom",
-                "com.jetbrains.pycharm",
-                "com.visualstudio.code.oss"
-              ]
-            },
             {
               "name": "vim_mode",
               "type": "variable_if",
               "value": 1
             }
-          ]
-        },
-        {
-          "type": "basic",
+          ],
           "from": {
             "any": "pointing_button"
           },
@@ -273,13 +269,7 @@
               }
             }
           ],
-          "conditions": [
-            {
-              "name": "vim_mode",
-              "type": "variable_if",
-              "value": 1
-            }
-          ]
+          "type": "basic"
         }
       ]
     }

@@ -1,0 +1,185 @@
+(defcfg
+  process-unmapped-keys no
+  concurrent-tap-hold yes
+)
+
+(defsrc
+  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft up
+  fn   lctl lalt lmet           spc            rmet ralt left down rght
+)
+
+(defoverrides
+  (;) (lsft ;)
+  (lsft ;) (;)
+)
+
+(defvar
+  tap-timeout   200
+  hold-timeout  200
+  tt $tap-timeout
+  ht $hold-timeout
+
+  left-hand-keys (
+    q w e r t
+            g
+    z x c v 
+  )
+  right-hand-keys (
+    y u i o p
+    h
+    n m , . /
+  )
+)
+
+(deffakekeys
+  to-base (layer-switch base)
+)
+
+(defalias
+  tap (multi
+       (layer-switch nomods)
+       (on-idle-fakekey to-base tap 20))
+
+  hma (tap-hold-release-keys $tt $ht (multi a @tap) lsft $left-hand-keys)
+  hms (tap-hold-release-keys $tt $ht (multi s @tap) lalt $left-hand-keys)
+  hmd (tap-hold-release-keys $tt $ht (multi d @tap) lctl $left-hand-keys)
+  hmf (tap-hold-release-keys $tt $ht (multi f @tap) lmet $left-hand-keys)
+
+  hmj (tap-hold-release-keys $tt $ht (multi j @tap) rmet $right-hand-keys)
+  hmk (tap-hold-release-keys $tt $ht (multi k @tap) rctl $right-hand-keys)
+  hml (tap-hold-release-keys $tt $ht (multi l @tap) ralt $right-hand-keys)
+  hm; (tap-hold-release-keys $tt $ht (multi ; @tap) rsft $right-hand-keys)
+
+  ;; hma (tap-hold-release $tt $ht (multi a @tap) lsft)
+  ;; hms (tap-hold-release $tt $ht (multi s @tap) lalt)
+  ;; hmd (tap-hold-release $tt $ht (multi d @tap) lctl)
+  ;; hmf (tap-hold-release $tt $ht (multi f @tap) lmet)
+
+  ;; hmj (tap-hold-release $tt $ht (multi j @tap) rmet)
+  ;; hmk (tap-hold-release $tt $ht (multi k @tap) rctl)
+  ;; hml (tap-hold-release $tt $ht (multi l @tap) ralt)
+  ;; hm; (tap-hold-release $tt $ht (multi ; @tap) rsft)
+
+)
+
+(defalias
+  ;; bm  (chord bspc-chord m)
+  ;; b,  (chord bspc-chord ,)
+  chu (chord hrow-chord u)
+  chi (chord hrow-chord i)
+)
+
+;; (defchords bspc-chord 200
+;;   (m   ) m
+;;   (   ,) ,
+;;   (m  ,) bspc
+;; )
+
+(defchords hrow-chord 200
+  (u   ) u
+  (   i) i
+  (u  i) C-M-j
+)
+
+(defalias
+  cps (tap-hold-release $tt $ht (multi esc @tap) lctl)
+  crt (tap-hold-release $tt $ht (multi ret @tap) lctl)
+)
+
+(defalias
+  qfrk (fork (tap-dance 160 ((multi q @tap) M-q)) () (lmet rmet))
+)
+
+(defalias
+  nesc (tap-dance 200 (esc (layer-switch base)))
+)
+
+(deflayer base
+  @nesc brdn  brup C-up _    _    _    prev pp   next mute vold volu
+  _     _     _    _    _    _    _    _    _    _    _    _    _    _
+  @vtab @qfrk _    @nme _    _    _    @chu @chi _    _    _    _    _
+  @cps  @hma  @hms @hmd @hmf @vig _    @hmj @hmk @hml @hm; _    @crt
+  _     _     _    _    @viv _    _    _    _    _    _    _    _
+  _     _     _    _              _              bspc _    _    _    _
+)
+
+(deflayer nomods
+  _    brdn brup C-up _    _    _    prev pp   next mute vold volu
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    e    _    _    _    _    _    _    _    _    _    _
+  @cps a    s    d    f    g    _    j    k    l    ;    _    @crt
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _              _              _    _    _    _    _
+)
+
+;;  Vi normal mode
+(defalias
+  vtab (tap-dance 200 (tab (layer-switch vi-nrm)))
+  btab (tap-dance 200 (tab (layer-switch base)))
+
+  vspc (tap-dance 200 (spc (layer-switch vi-nrm)))
+  bspc (tap-dance 200 (spc (layer-switch base)))
+
+  vg (tap-dance 160 (g (layer-switch vi-nrm)))
+  bg (tap-dance 160 (g (layer-switch base)))
+
+  vig (tap-hold-release $tt $ht (multi g @tap) (layer-toggle vi-nrm))
+
+  nrm-lw A-left ;; Vi normal word jump left
+  nrm-rw A-rght ;; Vi normal word jump right
+  nrm-bl C-a    ;; Vi normal line beginning
+  nrm-el C-e    ;; Vi normal line end
+)
+
+(deflayer vi-nrm
+  @nesc _    _       _       _       _       _     _    _    _    _       _    _
+  _     _    _       _       @nrm-el _       _     _    _    _    @nrm-bl _    _    _
+  @btab _    @nrm-rw @nrm-rw _       _       _     _    _    _    _       _    _    _
+  _     _    _       _       _       _       left  down up   rght _       _    _
+  _     _    _       _       @viv    @nrm-lw _     _    _    _    _       _    _
+  _     _    _       _                       _               _    _       _    _    _
+)
+
+;;  Vi visual mode
+(defalias
+  viv (tap-hold-release $tt $ht (multi v @tap) (layer-toggle vi-vis))
+
+  vis-lc S-left   ;; Vi visual left character
+  vis-dc S-down   ;; Vi visual down line
+  vis-uc S-up     ;; Vi visual up line
+  vis-rc S-rght   ;; vi visual right character
+
+  vis-bl S-M-left ;; vi visual line beginning
+  vis-el S-M-rght ;; vi visual line end
+
+  vis-dw S-A-left ;; vi visual back word
+  vis-fw S-A-rght ;; vi visual forward word
+  vis-dl S-A-down ;; vi visual down line break
+  vis-ul S-A-up   ;; vi visual up line break
+)
+
+(deflayer vi-vis
+  _     _    _       _       _       _       _       _       _       _       _       _       _
+  _     _    _       _       @vis-el _       _       _       _       _       @vis-bl _       _       _
+  _     _    @vis-fw @vis-fw _       _       _       _       _       _       _       @vis-dl @vis-ul _
+  _     _    _       _       _       _       @vis-lc @vis-dc @vis-uc @vis-rc _       _       _
+  _     _    _       _       _       @vis-dw _       _       _       _       _       _       _
+  _     _    _       _                       _                       _       _       _       _       _
+)
+
+(defalias
+  nme (tap-hold-release $tt $ht (multi e @tap) (layer-while-held numbers))
+)
+
+(deflayer numbers
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   _
+  _    XX   XX   XX   XX   XX   /    7    8    9    -    XX   XX   XX
+  _    XX   XX   XX   XX   XX   S-8  4    5    6    +    XX   _
+  _    XX   XX   XX   XX   S-9  S-0  1    2    3    .    _    _
+  _    _    _    _              0              _    _    _    _    _
+)

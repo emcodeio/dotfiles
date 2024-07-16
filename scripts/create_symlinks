@@ -22,14 +22,15 @@ symlinks=(
   "$HOME/.config/karabiner                               :$HOME/.dotfiles/config/karabiner"
   "$HOME/Library/Application Support/Keyboard Maestro    :$HOME/.dotfiles/config/keyboard_maestro"
   "$HOME/.ideavimrc                                      :$HOME/.dotfiles/config/ideavimrc"
+  "$HOME/.config/kmonad.kbd                              :$HOME/.dotfiles/config/kmonad.kbd"
   # "$HOME/Images                                          :$HOME/Photos"
   # "$HOME/Audio                                           :$HOME/Music"
   # "$HOME/Videos                                          :$HOME/Movies"
   "$HOME/.dotfiles/private_info                          :$HOME/Library/Mobile Documents/com~apple~CloudDocs/Documents/dotfiles/private_info"
   "$HOME/.dotfiles/fonts                                 :$HOME/Library/Mobile Documents/com~apple~CloudDocs/Documents/dotfiles/fonts"
   "$HOME/.dotfiles/dmgs                                  :$HOME/Library/Mobile Documents/com~apple~CloudDocs/Documents/dotfiles/dmgs"
-  "$HOME/.dotfiles/dmgs                                  :$HOME/Library/Mobile Documents/com~apple~CloudDocs/Documents/dotfiles/dmgs"
   "$HOME/Pictures/wallpaper/processing/to_rename         :$HOME/.dotfiles/bin/python_scripts/gpt_rename_image/images_to_rename"
+  "$HOME/Library/LaunchAgents                            :$HOME/.dotfiles/bin/launch_agents/local.kanata.plist"
 )
 
 # Function to create symlink if it doesn't already exist

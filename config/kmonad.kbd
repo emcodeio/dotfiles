@@ -1,0 +1,367 @@
+(defcfg
+  input (iokit-name)
+  output (kext)
+  fallthrough true
+  allow-cmd true
+)
+
+(defsrc
+  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft up
+  fn   lctl lalt lmet           spc            rmet ralt left down rght
+)
+
+;; (defalias
+;;   nm-dly (layer-delay 100 nmd)
+
+;;   nq #(q @nm-dly)
+;;   nw #(w @nm-dly)
+;;   ne #(e @nm-dly)
+;;   nr #(r @nm-dly)
+;;   nt #(t @nm-dly)
+;;   ny #(y @nm-dly)
+;;   nu #(u @nm-dly)
+;;   ni #(i @nm-dly)
+;;   no #(o @nm-dly)
+;;   np #(p @nm-dly)
+;;   na #(a @nm-dly)
+;;   ns #(s @nm-dly)
+;;   nd #(d @nm-dly)
+;;   nf #(f @nm-dly)
+;;   ng #(g @nm-dly)
+;;   nh #(h @nm-dly)
+;;   nj #(j @nm-dly)
+;;   nk #(k @nm-dly)
+;;   nl #(l @nm-dly)
+;;   nsc #(; @nm-dly)
+;;   ncl #(: @nm-dly)
+;;   nz #(z @nm-dly)
+;;   nx #(x @nm-dly)
+;;   nc #(c @nm-dly)
+;;   nv #(v @nm-dly)
+;;   nb #(b @nm-dly)
+;;   nn #(n @nm-dly)
+;;   nm #(m @nm-dly)
+
+;;   nA #(A @nm-dly)
+;;   nS #(S @nm-dly)
+;;   nD #(D @nm-dly)
+;;   nF #(F @nm-dly)
+
+;;   nU #(U @nm-dly)
+;;   nI #(I @nm-dly)
+;;   nO #(O @nm-dly)
+
+;;   nJ #(J @nm-dly)
+;;   nK #(K @nm-dly)
+;;   nL #(L @nm-dly)
+
+;; )
+
+;; (defalias
+;;   fn       (around (layer-toggle function) fn)
+;;   grv-sft  (tap-hold-next-release 200 grv shft)
+;;   lcmd     (around lmet lmet)
+;;   rcmd     (around rmet rmet)
+;;   shft     (around shft shft)
+;;   ;; shft     (layer-toggle shift-layer)
+;;   ;; shft     (around (layer-toggle shift-layer) shft)
+;;   tab-num  (tap-hold-next-release 200 tab (layer-toggle numbers))
+;;   e-num    (tap-hold-next-release 200 e   (layer-toggle numbers))
+;;   ;; cesc  (tap-hold-next-release 150 esc lctl)
+;;   ;; cret  (tap-hold-next-release 150 ret lctl)
+
+;;   rmet-caps (tap-hold-next-release 100 esc rmet)
+;;   s-caps    (sticky-key 5000 rmet)
+
+;;   sl (around shft (sticky-key 5000 shft))
+;;   sr (around shft (sticky-key 5000 shft))
+
+;;   rmet-ret  (tap-hold-next-release 100 ret rmet)
+
+;;   ahrow   C-A-M-spc
+;;   hrow    (multi-tap 200 spc C-A-M-spc)
+
+;;   jk      (tap-hold-next 50 @nj (layer-toggle jrow) :timeout-button j)
+;;   kj      (tap-hold-next 50 @nk (layer-toggle krow) :timeout-button k)
+
+;;   ;; ui      (tap-hold-next 12 u (layer-toggle urow) :timeout-button u)
+;;   ;; iu      (tap-hold-next 12 i (layer-toggle irow) :timeout-button i)
+
+;;   met-f   (tap-hold-next-release 200 @nf lmet)
+;;   met-d   (tap-hold-next-release 200 @nd lctl)
+;;   met-s   (tap-hold-next-release 200 @ns lalt)
+;;   met-a   (tap-hold-next-release 200 @na lsft)
+
+;;   met-u   (tap-hold-next-release 200 @nu lmet)
+;;   met-i   (tap-hold-next-release 200 @ni lctl)
+;;   met-o   (tap-hold-next-release 200 @no lalt)
+;;   met-sc  (tap-hold-next-release 200 @ncl lsft)
+
+;;   met-F   (tap-hold-next-release 200 @nF lmet)
+;;   met-D   (tap-hold-next-release 200 @nD lctl)
+;;   met-S   (tap-hold-next-release 200 @nS lalt)
+;;   met-A   (tap-hold-next-release 200 @nA @shft)
+
+;;   met-U   (tap-hold-next-release 200 @nU lmet)
+;;   met-I   (tap-hold-next-release 200 @nI lctl)
+;;   met-O   (tap-hold-next-release 200 @nO lalt)
+;;   met-cln (tap-hold-next-release 200 @nsc @shft)
+
+;;   met-j   (tap-hold-next-release 200 @nj lmet)
+;;   met-k   (tap-hold-next-release 200 @nk lctl)
+;;   met-l   (tap-hold-next-release 200 @nl lalt)
+
+;;   met-J   (tap-hold-next-release 200 @nJ lmet)
+;;   met-K   (tap-hold-next-release 200 @nK lctl)
+;;   met-L   (tap-hold-next-release 200 @nL lalt)
+
+;;   ;; cvi-nrm (tap-hold-next-release 200 c (layer-toggle vi-nrm))
+;;   ;; vvi-vis (tap-hold-next-release 200 v (layer-toggle vi-vis))
+;;   ;; mvi-nrm (tap-hold-next-release 200 m (layer-toggle vi-nrm))
+;;   ;; nvi-vis (tap-hold-next-release 200 n (layer-toggle vi-vis))
+
+;;   vvi-nrm (tap-hold-next-release 200 @nv (layer-toggle vi-nrm))
+;;   cvi-vis (tap-hold-next-release 200 @nc (layer-toggle vi-vis))
+;;   nvi-nrm (tap-hold-next-release 200 @nn (layer-toggle vi-nrm))
+;;   mvi-vis (tap-hold-next-release 200 @nm (layer-toggle vi-vis))
+
+;;   ;;  Vi normal mode
+;;   nrm-lw A-left ;; Vi normal word jump left
+;;   nrm-rw A-rght ;; Vi normal word jump right
+;;   nrm-bl C-a    ;; Vi normal line beginning
+;;   nrm-el C-e    ;; Vi normal line end
+
+;;   ;; Vi visual mode
+;;   vis-lc S-left  ;; Vi visual left character
+;;   vis-dc S-down  ;; Vi visual down line
+;;   vis-uc S-up    ;; Vi visual up line
+;;   vis-rc S-rght  ;; vi visual right character
+
+;;   vis-bl S-M-left ;; vi visual line beginning
+;;   vis-el S-M-rght ;; vi visual line end
+
+;;   vis-dw S-A-left ;; vi visual back word
+;;   vis-fw S-A-rght ;; vi visual forward word
+;;   vis-dl S-A-down ;; vi visual down line break
+;;   vis-ul S-A-up   ;; vi visual up line break
+;;  )
+
+(defalias
+    hma (tap-hold-next-release 200 a lsft)
+    hms (tap-hold-next-release 200 s lalt)
+    hmd (tap-hold-next-release 200 d lctl)
+    hmf (tap-hold-next-release 200 f lmet)
+
+    hmj (tap-hold-next-release 200 j rmet)
+    hmk (tap-hold-next-release 200 k rctl)
+    hml (tap-hold-next-release 200 l ralt)
+    hm; (tap-hold-next-release 200 ; rsft)
+)
+
+(defalias
+  nesc (multi-tap 200 esc (layer-switch default))
+)
+
+(defalias
+  sl (around (sticky-key 300 lsft) shft)
+  sr (around (sticky-key 300 rsft) shft)
+)
+
+;; (deflayer layer
+;;   _    _    _    _    _    _    _    _    _    _    _    _    _
+;;   _    _    _    _    _    _    _    _    _    _    _    _    _    _
+;;   _    _    _    _    _    _    _    _    _    _    _    _    _    _
+;;   _    _    _    _    _    _    _    _    _    _    _    _    _
+;;   _    _    _    _    _    _    _    _    _    _    _    _    _
+;;   _    _    _    _              _              _    _    _    _    _
+;; )
+
+(deflayer default
+  @nesc brdn brup lp   mctl bldn blup  prev pp   next mute vold volu
+  _     _    _    _    _    _    _     _    _    _    _    _    _    _
+  @vtab _    _    @nme _    _    _     _    _    _    _    _    _    _
+  _     @hma @hms @hmd @hmf @vg  h     @hmj @hmk @hml @hm; _    _
+  @sl   _    _    _    @viv _    _     _    _    _    _    @sr  _
+  @efn  _    _    _              _               _    _    _    _    _
+)
+
+(defalias
+  efn (layer-switch emacs)
+  dfn (layer-switch default)
+)
+
+(deflayer emacs
+  @nesc _    _    _    _    _    _    _    _    _    _    _    _
+  _     _    _    _    _    _    _    _    _    _    _    _    _    _
+  _     _    _    _    _    _    _    _    _    _    _    _    _    _
+  _     _    _    _    _    _    _    _    _    _    _    _    _
+  _     _    _    _    _    _    _    _    _    _    _    _    _
+  @dfn  _    _    _              _              _    _    _    _    _
+)
+
+;; (deflayer default
+;;   _          brdn   brup   lp       mctl     bldn blup     prev     pp     next   mute    vold  volu
+;;   @grv-sft   _      _      _        _        _    _        _        _      _      _       _     _         _
+;;   _          _      _      @e-num   _        _    _        @met-u   @met-i @met-o _       _     _         _
+;;   @rmet-caps @met-a @met-s @met-d   @met-f   _    _        @jk      @kj    _      @met-sc _     @rmet-ret
+;;   @shft      _      _      @cvi-vis @vvi-nrm _    @nvi-nrm @mvi-vis _      _      _       @shft _
+;;   @fn        _      _      @lcmd                  _                        @rcmd  _       _     _         _
+;; )
+
+;; (deflayer default
+;;   _          brdn   brup   lp       mctl     bldn blup     prev     pp     next   mute    vold  volu
+;;   @grv-sft   _      _      _        _        _    _        _        _      _      _       _     _         _
+;;   _          @nq    @nw    @e-num   @nr      @nt  @ny      @met-u   @met-i @met-o @np     _     _         _
+;;   @rmet-caps @met-a @met-s @met-d   @met-f   @ng  @nh      @jk      @kj    @nl    @met-sc _     @rmet-ret
+;;   _          @nz    @nx    @cvi-vis @vvi-nrm @nb  @nvi-nrm @mvi-vis _      _      _       _     _
+;;   @fn        _      _      @lcmd                  _                        @rcmd  _       _     _         _
+;; )
+
+;; (deflayer nmd
+;;   _    _    _    _    _    _    _    _    _    _    _    _    _
+;;   _    _    _    _    _    _    _    _    _    _    _    _    _    _
+;;   _    _    _    e    _    _    _    u    i    o    _    _    _    _
+;;   _    a    s    d    f    _    _    j    k    _    :    _    _
+;;   _    _    _    c    v    _    n    m    _    _    _    _    _
+;;   _    _    _    _              _              _    _    _    _    _
+;; )
+
+;; (deflayer shift-layer
+;;   esc   _      _      _      _      _    _    _      _      _      _        _     _
+;;   ~     !      @      #      $      %    ^    &      *      \(     \)       \_    +    _
+;;   S-tab Q      W      E      R      T    Y    @met-U @met-I @met-O P        {     }    |
+;;   _     @met-A @met-S @met-D @met-F G    H    J      K      L      @met-cln "     ret
+;;   lsft  Z      X      C      V      B    N    M      <      >      ?        rsft  up
+;;   _     _      _      @lcmd              spc                @rcmd  _        left down rght
+;; )
+
+;; (deflayer default
+;;   _          _      _      _        _        _    _        _        _      _      _       _     _
+;;   _          _      _      _        _        _    _        _        _      _      _       _     _         _
+;;   _          _      _      @e-num   _        _    _        _        _      _      _       _     _         _
+;;   @rmet-caps @met-a @met-s @met-d   @met-f   _    _        @met-j   @met-k @met-l @met-sc _     @rmet-ret
+;;   @shft      _      _      @cvi-nrm @vvi-vis _    @nvi-vis @mvi-nrm _      _      _       @shft _
+;;   _          _      _      _                      @hrow                    _      _       _     _         _
+;; )
+
+;; (deflayer swappedsft
+;;   esc  _      _      _      _      _    _    _      _      _      _        _    _
+;;   ~    !      @      #      $      %    ^    &      *      \(     \)       \_   +    _
+;;   tab  Q      W      E      R      T    Y    U      I      O      P        {    }    |
+;;   _    @met-A @met-S @met-D @met-F G    H    @met-J @met-K @met-L @met-cln "    _
+;;   _    Z      X      C      V      B    N    M      <      >      ?        _    up
+;;   _    _      _      _                  spc                _      _        left down rght
+;; )
+
+;;  Vi normal mode
+(defalias
+  vtab (multi-tap 200 tab (layer-switch vi-nrm))
+  dtab (multi-tap 200 tab (layer-switch default))
+
+  vspc (multi-tap 200 spc (layer-switch vi-nrm))
+  dspc (multi-tap 200 spc (layer-switch default))
+
+  vg (multi-tap 160 g (layer-switch vi-nrm))
+  dg (multi-tap 160 g (layer-switch default))
+
+  vig (tap-hold-next-release 200 g (layer-toggle vi-nrm))
+
+  nrm-lw A-left ;; Vi normal word jump left
+  nrm-rw A-rght ;; Vi normal word jump right
+  nrm-bl C-a    ;; Vi normal line beginning
+  nrm-el C-e    ;; Vi normal line end
+)
+
+(deflayer vi-nrm
+  @nesc _    _       _       _       _       _     _    _    _    _       _    _
+  _     _    _       _       @nrm-el _       _     _    _    _    @nrm-bl _    _    _
+  @dtab _    @nrm-rw @nrm-rw _       _       _     _    _    _    _       _    _    _
+  _     _    _       _       _       @dg     left  down up   rght _       _    _
+  _     _    _       _       @viv    @nrm-lw _     _    _    _    _       _    _
+  _     _    _       _                       _               _    _       _    _    _
+)
+
+(defalias
+  viv (tap-hold-next-release 200 v (layer-toggle vi-vis))
+
+  vis-lc S-left  ;; Vi visual left character
+  vis-dc S-down  ;; Vi visual down line
+  vis-uc S-up    ;; Vi visual up line
+  vis-rc S-rght  ;; vi visual right character
+
+  vis-bl S-M-left ;; vi visual line beginning
+  vis-el S-M-rght ;; vi visual line end
+
+  vis-dw S-A-left ;; vi visual back word
+  vis-fw S-A-rght ;; vi visual forward word
+  vis-dl S-A-down ;; vi visual down line break
+  vis-ul S-A-up   ;; vi visual up line break
+)
+
+(deflayer vi-vis
+  _     _    _       _       _       _       _       _       _       _       _       _       _
+  _     _    _       _       @vis-el _       _       _       _       _       @vis-bl _       _       _
+  _     _    @vis-fw @vis-fw _       _       _       _       _       _       _       @vis-dl @vis-ul _
+  _     _    _       _       _       _       @vis-lc @vis-dc @vis-uc @vis-rc _       _       _
+  _     _    _       _       _       @vis-dw _       _       _       _       _       _       _
+  _     _    _       _                       _                       _       _       _       _       _
+)
+
+;; (deflayer jrow
+;;   _    _    _    _    _    _    _    _    _      _    _    _    _
+;;   _    _    _    _    _    _    _    _    _      _    _    _    _    _
+;;   _    _    _    _    _    _    _    _    _      _    _    _    _    _
+;;   _    _    _    _    _    _    _    j    @ahrow l    :    '    _
+;;   _    _    _    _    _    _    _    m    ,      .    /    _    _
+;;   _    _    _    _              _                _    _    _    _    _
+;; )
+
+;; (deflayer krow
+;;   _    _    _    _    _    _    _    _      _      _    _    _    _
+;;   _    _    _    _    _    _    _    _      _      _    _    _    _    _
+;;   _    _    _    _    _    _    _    _      _      _    _    _    _    _
+;;   _    _    _    _    _    _    _    @ahrow k      l    :    '    _
+;;   _    _    _    _    _    _    _    m      ,      .    /    _    _
+;;   _    _    _    _              _                _    _    _    _    _
+;; )
+
+(defalias
+  ahrow   C-A-M-spc
+  ui      (tap-hold-next 50 u (layer-toggle urow) :timeout-button u)
+  iu      (tap-hold-next 50 i (layer-toggle irow) :timeout-button i)
+)
+
+(deflayer urow
+  _    _    _    _    _    _    _    _    _      _    _    _    _
+  _    _    _    _    _    _    _    _    _      _    _    _    _    _
+  _    _    _    _    _    _    _    u    @ahrow i    o    p    _    _
+  _    _    _    _    _    _    _    j    k      l    :    '    _
+  _    _    _    _    _    _    _    m    ,      .    /    _    _
+  _    _    _    _              _                _    _    _    _    _
+)
+
+(deflayer irow
+  _    _    _    _    _    _    _    _      _      _    _    _    _
+  _    _    _    _    _    _    _    _      _      _    _    _    _    _
+  _    _    _    _    _    _    _    @ahrow i      o    p    _    _    _
+  _    _    _    _    _    _    _    j      k      l    :    '    _
+  _    _    _    _    _    _    _    m      ,      .    /    _    _
+  _    _    _    _              _                _    _    _    _    _
+)
+
+(defalias
+  nme (tap-hold-next-release 200 e (layer-toggle numbers))
+)
+
+(deflayer numbers
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   _
+  _    XX   XX   XX   XX   XX   /    7    8    9    -    XX   XX   XX
+  _    XX   XX   XX   XX   XX   *    4    5    6    +    XX   _
+  _    XX   XX   XX   XX   \(   \)   1    2    3    .    _    _
+  _    _    _    _              0              _    _    _    _    _
+)

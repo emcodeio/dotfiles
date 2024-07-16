@@ -177,10 +177,10 @@
        ;;zig               ; C, but simpler
 
        :email
-       (mu4e
-        +org               ; org-msg
-        ;; +gmail
-        )
+       ;; (mu4e
+       ;;  +org               ; org-msg
+       ;;  ;; +gmail
+       ;;  )
        ;;notmuch
        ;;(wanderlust +gmail)
 

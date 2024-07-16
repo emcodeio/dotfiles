@@ -617,54 +617,54 @@ end tell")
 ;;           ;; Get rid of temp orgmode-to-apple-notes buffer
 ;;           (kill-buffer (current-buffer)))))))
 
-(defun eme/capture-mail-headers (msg)
-  (interactive)
-  (call-interactively 'org-store-link)
-  (org-capture nil "m")
-  (mu4e-headers-mark-for-refile))
+;; (defun eme/capture-mail-headers (msg)
+;;   (interactive)
+;;   (call-interactively 'org-store-link)
+;;   (org-capture nil "m")
+;;   (mu4e-headers-mark-for-refile))
 
-(defun eme/capture-mail-view (msg)
-  (interactive)
-  (call-interactively 'org-store-link)
-  (org-capture nil "m")
-  (mu4e-view-mark-for-refile))
+;; (defun eme/capture-mail-view (msg)
+;;   (interactive)
+;;   (call-interactively 'org-store-link)
+;;   (org-capture nil "m")
+;;   (mu4e-view-mark-for-refile))
 
-(defun eme/store-link-to-mu4e-query ()
-  (interactive)
-  (let ((mu4e-org-link-query-in-headers-mode t))
-    (call-interactively 'org-store-link)))
+;; (defun eme/store-link-to-mu4e-query ()
+;;   (interactive)
+;;   (let ((mu4e-org-link-query-in-headers-mode t))
+;;     (call-interactively 'org-store-link)))
 
-(eval-and-compile
-  (add-to-list 'load-path "/opt/homebrew/opt/mu/share/emacs/site-lisp/mu/mu4e"))
-(require 'mu4e)
-(require 'smtpmail)
-      ;; installed this with homebrew
-(setq mu4e-mu-binary (executable-find "mu")
-      ;; mu4e mail directory:
-      mu4e-maildir "~/.maildir"
-      ;; this command is called to sync imap servers:
-      mu4e-get-mail-command (concat (executable-find "mbsync") " -a")
-      ;; how often to call it in seconds:
-      mu4e-update-interval (* 5 60)
-      ;; run in background
-      mu4e-index-update-in-background t
-      ;; save attachment to ~/inbox by default
-      mu4e-attachment-dir "~/inbox"
-      ;; rename files when moving - needed for mbsync:
-      mu4e-change-filenames-when-moving t
-      ;; Make sure plain text mails flow correctly for recipients
-      mu4e-compose-format-flowed t
-      ;; list of email adresses:
-      mu4e-user-mail-address-list '("evan_e@icloud.com"
-                                    "evan@emcode.io"
-                                    "evan.erksn@gmail.com"
-                                    "ericenna@gmail.com"
-                                    "eerickson@phasechange.ai"))
+;; (eval-and-compile
+;;   (add-to-list 'load-path "/opt/homebrew/opt/mu/share/emacs/site-lisp/mu/mu4e"))
+;; (require 'mu4e)
+;; (require 'smtpmail)
+;;       ;; installed this with homebrew
+;; (setq mu4e-mu-binary (executable-find "mu")
+;;       ;; mu4e mail directory:
+;;       mu4e-maildir "~/.maildir"
+;;       ;; this command is called to sync imap servers:
+;;       mu4e-get-mail-command (concat (executable-find "mbsync") " -a")
+;;       ;; how often to call it in seconds:
+;;       mu4e-update-interval (* 5 60)
+;;       ;; run in background
+;;       mu4e-index-update-in-background t
+;;       ;; save attachment to ~/inbox by default
+;;       mu4e-attachment-dir "~/inbox"
+;;       ;; rename files when moving - needed for mbsync:
+;;       mu4e-change-filenames-when-moving t
+;;       ;; Make sure plain text mails flow correctly for recipients
+;;       mu4e-compose-format-flowed t
+;;       ;; list of email adresses:
+;;       mu4e-user-mail-address-list '("evan_e@icloud.com"
+;;                                     "evan@emcode.io"
+;;                                     "evan.erksn@gmail.com"
+;;                                     "ericenna@gmail.com"
+;;                                     "eerickson@phasechange.ai"))
 
-(add-to-list 'mu4e-headers-actions
-             '("org capture" . eme/capture-mail-headers) t)
-(add-to-list 'mu4e-view-actions
-             '("org capture" . eme/capture-mail-view) t)
+;; (add-to-list 'mu4e-headers-actions
+;;              '("org capture" . eme/capture-mail-headers) t)
+;; (add-to-list 'mu4e-view-actions
+;;              '("org capture" . eme/capture-mail-view) t)
 
 ;; (add-to-list 'mu4e-bookmarks
 ;;              (make-mu4e-bookmark
@@ -696,142 +696,142 @@ end tell")
 ;;                       "or m:/work/INBOX")
 ;;               :key ?i))
 
-(add-to-list 'mu4e-bookmarks
-             '(:name "Inbox - Work"
-               :query "maildir:/work/INBOX"
-               :key ?w))
-(add-to-list 'mu4e-bookmarks
-             '(:name "Inbox - Spam"
-               :query "maildir:/ericenna-gmail/INBOX"
-               :key ?s))
-(add-to-list 'mu4e-bookmarks
-             '(:name "Inbox - Gamil"
-               :query "maildir:/evan.erksn-gmail/INBOX"
-               :key ?g))
-(add-to-list 'mu4e-bookmarks
-             '(:name "Inbox - iCloud"
-               :query "maildir:/icloud/INBOX"
-               :key ?a))
-(add-to-list 'mu4e-bookmarks
-             '(:name "All Inboxes"
-               :query "m:/icloud/INBOX or m:/evan.erksn-gmail/INBOX or m:/ericenna-gmail/INBOX or m:/work/INBOX"
-               :key ?i))
+;; (add-to-list 'mu4e-bookmarks
+;;              '(:name "Inbox - Work"
+;;                :query "maildir:/work/INBOX"
+;;                :key ?w))
+;; (add-to-list 'mu4e-bookmarks
+;;              '(:name "Inbox - Spam"
+;;                :query "maildir:/ericenna-gmail/INBOX"
+;;                :key ?s))
+;; (add-to-list 'mu4e-bookmarks
+;;              '(:name "Inbox - Gamil"
+;;                :query "maildir:/evan.erksn-gmail/INBOX"
+;;                :key ?g))
+;; (add-to-list 'mu4e-bookmarks
+;;              '(:name "Inbox - iCloud"
+;;                :query "maildir:/icloud/INBOX"
+;;                :key ?a))
+;; (add-to-list 'mu4e-bookmarks
+;;              '(:name "All Inboxes"
+;;                :query "m:/icloud/INBOX or m:/evan.erksn-gmail/INBOX or m:/ericenna-gmail/INBOX or m:/work/INBOX"
+;;                :key ?i))
 
-(setq mu4e-contexts
-      (list
-       ;; Emcode account
-       (make-mu4e-context
-        :name "Emcode"
-        :match-func
-        (lambda (msg)
-          (when msg
-            (string-prefix-p "/icloud" (mu4e-message-field msg :maildir))))
-        :vars '((user-mail-address . "evan@emcode.io" )
-                (user-full-name . "Evan Erickson")
-                (mu4e-drafts-folder . "/icloud/Drafts")
-                (mu4e-refile-folder . "/icloud/Archive")
-                (mu4e-sent-folder . "/icloud/Sent Messages")
-                (mu4e-trash-folder . "/icloud/Deleted Messages")))
-       ;; iCloud acount
-       (make-mu4e-context
-        :name "iCloud"
-        :match-func
-        (lambda (msg)
-          (when msg
-            (string-prefix-p "/icloud" (mu4e-message-field msg :maildir))))
-        :vars '((user-mail-address  . "evan_e@icloud.com" )
-                (user-full-name     . "Evan Erickson")
-                (mu4e-drafts-folder . "/icloud/Drafts")
-                (mu4e-refile-folder . "/icloud/Archive")
-                (mu4e-sent-folder   . "/icloud/Sent Messages")
-                (mu4e-trash-folder  . "/icloud/Deleted Messages")))
-       ;; Gmail account
-       (make-mu4e-context
-        :name "Gmail"
-        :match-func
-        (lambda (msg)
-          (when msg
-            (string-prefix-p "/evan.erksn-gmail" (mu4e-message-field msg :maildir))))
-        :vars '((user-mail-address  . "evan.erksn@gmail.com")
-                (user-full-name     . "Evan Erickson")
-                (mu4e-drafts-folder . "/evan.erksn-gmail/[Gmail]/Drafts")
-                (mu4e-sent-folder   . "/evan.erksn-gmail/[Gmail]/Sent Mail")
-                (mu4e-refile-folder . "/evan.erksn-gmail/[Gmail]/All Mail")
-                (mu4e-trash-folder  . "/evan.erksn-gmail/[Gmail]/Trash")))
-       ;; Spam gmail account
-       (make-mu4e-context
-        :name "Spam"
-        :match-func
-        (lambda (msg)
-          (when msg
-            (string-prefix-p "/ericenna-gmail" (mu4e-message-field msg :maildir))))
-        :vars '((user-mail-address  . "ericenna@gmail.com")
-                (user-full-name     . "Evan Erickson")
-                (mu4e-drafts-folder . "/ericenna-gmail/[Gmail]/Drafts")
-                (mu4e-sent-folder   . "/ericenna-gmail/[Gmail]/Sent Mail")
-                (mu4e-refile-folder . "/ericenna-gmail/[Gmail]/All Mail")
-                (mu4e-trash-folder  . "/ericenna-gmail/[Gmail]/Trash")))
-       ;; Work account
-       (make-mu4e-context
-        :name "Work"
-        :match-func
-        (lambda (msg)
-          (when msg
-            (string-prefix-p "/work" (mu4e-message-field msg :maildir))))
-        ;; :name "Work"
-        ;; :enter-func
-        ;; (lambda () (mu4e-message "Enter eerickson@phasechange.ai context"))
-        ;; :leave-func
-        ;; (lambda () (mu4e-message "Leave eerickson@phasechange.ai context"))
-        ;; :match-func
-        ;; (lambda (msg)
-        ;;   (when msg
-        ;;     (or (mu4e-message-contact-field-matches msg
-        ;;                                             :to "eerickson@phasechange.ai")
-        ;;         (mu4e-message-contact-field-matches msg
-        ;;                                             :to "company@phasechange.ai"))))
-        :vars '((user-mail-address  . "eerickson@phasechange.ai")
-                (user-full-name     . "Evan Erickson")
-                (mu4e-drafts-folder . "/work/Drafts")
-                (mu4e-sent-folder   . "/work/Sent Items")
-                (mu4e-refile-folder . "/work/Archive")
-                (mu4e-trash-folder  . "/work/Trash"))))
-      mu4e-context-policy 'pick-first  ;; start with the first (default) context;
-      mu4e-compose-context-policy 'ask ;; ask for context if no context matches;
-      )
+;; (setq mu4e-contexts
+;;       (list
+;;        ;; Emcode account
+;;        (make-mu4e-context
+;;         :name "Emcode"
+;;         :match-func
+;;         (lambda (msg)
+;;           (when msg
+;;             (string-prefix-p "/icloud" (mu4e-message-field msg :maildir))))
+;;         :vars '((user-mail-address . "evan@emcode.io" )
+;;                 (user-full-name . "Evan Erickson")
+;;                 (mu4e-drafts-folder . "/icloud/Drafts")
+;;                 (mu4e-refile-folder . "/icloud/Archive")
+;;                 (mu4e-sent-folder . "/icloud/Sent Messages")
+;;                 (mu4e-trash-folder . "/icloud/Deleted Messages")))
+;;        ;; iCloud acount
+;;        (make-mu4e-context
+;;         :name "iCloud"
+;;         :match-func
+;;         (lambda (msg)
+;;           (when msg
+;;             (string-prefix-p "/icloud" (mu4e-message-field msg :maildir))))
+;;         :vars '((user-mail-address  . "evan_e@icloud.com" )
+;;                 (user-full-name     . "Evan Erickson")
+;;                 (mu4e-drafts-folder . "/icloud/Drafts")
+;;                 (mu4e-refile-folder . "/icloud/Archive")
+;;                 (mu4e-sent-folder   . "/icloud/Sent Messages")
+;;                 (mu4e-trash-folder  . "/icloud/Deleted Messages")))
+;;        ;; Gmail account
+;;        (make-mu4e-context
+;;         :name "Gmail"
+;;         :match-func
+;;         (lambda (msg)
+;;           (when msg
+;;             (string-prefix-p "/evan.erksn-gmail" (mu4e-message-field msg :maildir))))
+;;         :vars '((user-mail-address  . "evan.erksn@gmail.com")
+;;                 (user-full-name     . "Evan Erickson")
+;;                 (mu4e-drafts-folder . "/evan.erksn-gmail/[Gmail]/Drafts")
+;;                 (mu4e-sent-folder   . "/evan.erksn-gmail/[Gmail]/Sent Mail")
+;;                 (mu4e-refile-folder . "/evan.erksn-gmail/[Gmail]/All Mail")
+;;                 (mu4e-trash-folder  . "/evan.erksn-gmail/[Gmail]/Trash")))
+;;        ;; Spam gmail account
+;;        (make-mu4e-context
+;;         :name "Spam"
+;;         :match-func
+;;         (lambda (msg)
+;;           (when msg
+;;             (string-prefix-p "/ericenna-gmail" (mu4e-message-field msg :maildir))))
+;;         :vars '((user-mail-address  . "ericenna@gmail.com")
+;;                 (user-full-name     . "Evan Erickson")
+;;                 (mu4e-drafts-folder . "/ericenna-gmail/[Gmail]/Drafts")
+;;                 (mu4e-sent-folder   . "/ericenna-gmail/[Gmail]/Sent Mail")
+;;                 (mu4e-refile-folder . "/ericenna-gmail/[Gmail]/All Mail")
+;;                 (mu4e-trash-folder  . "/ericenna-gmail/[Gmail]/Trash")))
+;;        ;; Work account
+;;        (make-mu4e-context
+;;         :name "Work"
+;;         :match-func
+;;         (lambda (msg)
+;;           (when msg
+;;             (string-prefix-p "/work" (mu4e-message-field msg :maildir))))
+;;         ;; :name "Work"
+;;         ;; :enter-func
+;;         ;; (lambda () (mu4e-message "Enter eerickson@phasechange.ai context"))
+;;         ;; :leave-func
+;;         ;; (lambda () (mu4e-message "Leave eerickson@phasechange.ai context"))
+;;         ;; :match-func
+;;         ;; (lambda (msg)
+;;         ;;   (when msg
+;;         ;;     (or (mu4e-message-contact-field-matches msg
+;;         ;;                                             :to "eerickson@phasechange.ai")
+;;         ;;         (mu4e-message-contact-field-matches msg
+;;         ;;                                             :to "company@phasechange.ai"))))
+;;         :vars '((user-mail-address  . "eerickson@phasechange.ai")
+;;                 (user-full-name     . "Evan Erickson")
+;;                 (mu4e-drafts-folder . "/work/Drafts")
+;;                 (mu4e-sent-folder   . "/work/Sent Items")
+;;                 (mu4e-refile-folder . "/work/Archive")
+;;                 (mu4e-trash-folder  . "/work/Trash"))))
+;;       mu4e-context-policy 'pick-first  ;; start with the first (default) context;
+;;       mu4e-compose-context-policy 'ask ;; ask for context if no context matches;
+;;       )
 
-;; SENDING SETTINGS
-;; gpg encryptiom & decryption:
-;; this can be left alone
-(require 'epa-file)
-(epa-file-enable)
-(setq epa-pinentry-mode 'loopback)
-(auth-source-forget-all-cached)
+;; ;; SENDING SETTINGS
+;; ;; gpg encryptiom & decryption:
+;; ;; this can be left alone
+;; (require 'epa-file)
+;; (epa-file-enable)
+;; (setq epa-pinentry-mode 'loopback)
+;; (auth-source-forget-all-cached)
 
-;; don't keep message compose buffers around after sending:
-(setq message-kill-buffer-on-exit t
-      send-mail-function 'sendmail-send-it
-      message-send-mail-function 'sendmail-send-it
-      ;; send program.
-      sendmail-program (executable-find "msmtp")
-      ;; select the right sender email from the context.
-      mail-specify-envelope-from t
-      mail-envelope-from 'header
-      message-sendmail-envelope-from 'header
-      ;; turn off Org-msg-mode by default
-      mu4e-compose--org-msg-toggle-next nil
-      mu4e-compose-format-flowed t)
+;; ;; don't keep message compose buffers around after sending:
+;; (setq message-kill-buffer-on-exit t
+;;       send-mail-function 'sendmail-send-it
+;;       message-send-mail-function 'sendmail-send-it
+;;       ;; send program.
+;;       sendmail-program (executable-find "msmtp")
+;;       ;; select the right sender email from the context.
+;;       mail-specify-envelope-from t
+;;       mail-envelope-from 'header
+;;       message-sendmail-envelope-from 'header
+;;       ;; turn off Org-msg-mode by default
+;;       mu4e-compose--org-msg-toggle-next nil
+;;       mu4e-compose-format-flowed t)
 
-;; mu4e cc & bcc
-(add-hook! 'mu4e-compose-mode-hook
-  (defun timu/add-cc-and-bcc ()
-    "My Function to automatically add Cc & Bcc: headers.
-             This is in the mu4e compose mode."
-    (save-excursion (message-add-header "Cc:\n"))
-    (save-excursion (message-add-header "Bcc:\n"))))
-;; mu4e address completion
-(add-hook! 'mu4e-compose-mode-hook 'company-mode)
-(add-hook! 'mu4e-compose-mode-hook (lambda () (use-hard-newlines -1)))
+;; ;; mu4e cc & bcc
+;; (add-hook! 'mu4e-compose-mode-hook
+;;   (defun timu/add-cc-and-bcc ()
+;;     "My Function to automatically add Cc & Bcc: headers.
+;;              This is in the mu4e compose mode."
+;;     (save-excursion (message-add-header "Cc:\n"))
+;;     (save-excursion (message-add-header "Bcc:\n"))))
+;; ;; mu4e address completion
+;; (add-hook! 'mu4e-compose-mode-hook 'company-mode)
+;; (add-hook! 'mu4e-compose-mode-hook (lambda () (use-hard-newlines -1)))
 
 ;; This is breaking some Emacs on some machines but not others...
 
@@ -844,34 +844,34 @@ end tell")
 ;;        " or m:/work/INBOX"))
 ;; (add-hook! 'after-init-hook #'mu4e-alert-enable-mode-line-display)
 
-(require 'org-mime)
-(setq org-mime-export-options
-      '(:section-numbers nil
-        :with-author nil
-        :with-toc nil))
-(add-hook! 'message-send-hook 'org-mime-confirm-when-no-multipart)
+;; (require 'org-mime)
+;; (setq org-mime-export-options
+;;       '(:section-numbers nil
+;;         :with-author nil
+;;         :with-toc nil))
+;; (add-hook! 'message-send-hook 'org-mime-confirm-when-no-multipart)
 
-(setq +mu4e-main-bullet "‣")
-(setq mu4e-headers-thread-child-prefix '("├>" . "├─➤ ")
-      mu4e-headers-thread-last-child-prefix '("└>" . "└─➤ ")
-      mu4e-headers-thread-orphan-prefix '("┬>" . "┬─➤ ")
-      mu4e-headers-thread-single-orphan-prefix '("─>" . "──➤ ")
-      ;; The following two should have the same width.
-      mu4e-headers-thread-connection-prefix '("│" . "│ ")
-      mu4e-headers-thread-blank-prefix '(" " . " "))
+;; (setq +mu4e-main-bullet "‣")
+;; (setq mu4e-headers-thread-child-prefix '("├>" . "├─➤ ")
+;;       mu4e-headers-thread-last-child-prefix '("└>" . "└─➤ ")
+;;       mu4e-headers-thread-orphan-prefix '("┬>" . "┬─➤ ")
+;;       mu4e-headers-thread-single-orphan-prefix '("─>" . "──➤ ")
+;;       ;; The following two should have the same width.
+;;       mu4e-headers-thread-connection-prefix '("│" . "│ ")
+;;       mu4e-headers-thread-blank-prefix '(" " . " "))
 
-(map! :leader
-      (:desc "Compose email" "e" #'+mu4e/compose))
-(map! :leader
-      (:prefix ("o" . "open")
-       :desc "Email" "m" #'=mu4e))
+;; (map! :leader
+;;       (:desc "Compose email" "e" #'+mu4e/compose))
+;; (map! :leader
+;;       (:prefix ("o" . "open")
+;;        :desc "Email" "m" #'=mu4e))
 
-(map! :map mu4e-compose-mode-map
-      :localleader
-      :desc "convert to html email" "h" #'org-mime-htmlize
-      :desc "edit email in org buffer" "o" #'org-mime-edit-mail-in-org-mode)
+;; (map! :map mu4e-compose-mode-map
+;;       :localleader
+;;       :desc "convert to html email" "h" #'org-mime-htmlize
+;;       :desc "edit email in org buffer" "o" #'org-mime-edit-mail-in-org-mode)
 
-(set-popup-rule! "^\\*mu4e-\\(main\\|headers\\)\\*" :ignore t)
+;; (set-popup-rule! "^\\*mu4e-\\(main\\|headers\\)\\*" :ignore t)
 
 (setq projectile-project-search-path '("~/dev/"))
 

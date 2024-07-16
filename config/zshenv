@@ -13,3 +13,4 @@ function exists() {
 # export PATH=$HOME/.emacs.d/bin:$PATH
 # export DYLD_LIBRARY_PATH=$HOME/dev/z3/build
 # export PATH=$DYLD_LIBRARY_PATH:$PATH
+. "$HOME/.cargo/env"
