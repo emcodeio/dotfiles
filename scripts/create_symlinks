@@ -98,7 +98,7 @@ create_all_symlinks() {
   echo "Adding Kanata to Sudoers..."
   echo "$(whoami) ALL=(root) NOPASSWD: sha256:$(shasum -a 256 $(which kanata) | cut -d " " -f 1) $(which kanata) -c $HOME/.dotfiles/config/kanata.kbd" | sudo tee /private/etc/sudoers.d/kanata
   echo "Creating LaunchDaemon for Kanata..."
-  sudo cp $HOME/.dotfiles/bin/launch_daemons/local.kanata.plist /Library/LaunchDaemons/local.kanata.plist
+  sudo cp $HOME/.dotfiles/bin/launch_daemons/local.kanata.plist /Library/LaunchDaemons
   sudo chown root:wheel /Library/LaunchDaemons/local.kanata.plist
   sudo chmod 644 /Library/LaunchDaemons/local.kanata.plist
 
