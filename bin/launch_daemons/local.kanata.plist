@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>local.kanata</string>
+    <key>ProgramArguments</key>
+    <array>
+      <string>/usr/local/bin/kanata</string>
+      <string>--cfg</string>
+      <string>/Users/eerickson/.dotfiles/config/kanata.kbd</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/tmp/kanata.stdout</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/kanata.stderr</string>
+  </dict>
+</plist>
