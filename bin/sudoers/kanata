@@ -1,0 +1,1 @@
+eerickson ALL=(root) NOPASSWD: sha256:73106996253bf1070a15b70b1897bbfdcb5dfe7eeff45f937179a87c8850c4c0 /usr/local/bin/kanata --cfg /Users/eerickson/.dotfiles/config/kanata.kbd

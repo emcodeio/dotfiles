@@ -32,6 +32,7 @@ symlinks=(
   "$HOME/Pictures/wallpaper/processing/to_rename         :$HOME/.dotfiles/bin/python_scripts/gpt_rename_image/images_to_rename"
   "$HOME/Library/LaunchAgents                            :$HOME/.dotfiles/bin/launch_agents/local.kanata.plist"
   "/usr/local/bin/kanata                                 :$HOME/.dotfiles/bin/compiled_executables/kanata"
+  "/private/etc/sudoers.d/kanata                         :$HOME/.dotfiles/bin/sudoers/kanata"
 )
 
 # Function to create symlink if it doesn't already exist
