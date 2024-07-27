@@ -22,7 +22,7 @@ symlinks=(
   "$HOME/.config/karabiner                               :$HOME/.dotfiles/config/karabiner"
   "$HOME/Library/Application Support/Keyboard Maestro    :$HOME/.dotfiles/config/keyboard_maestro"
   "$HOME/.ideavimrc                                      :$HOME/.dotfiles/config/ideavimrc"
-  "$HOME/.config/kmonad.kbd                              :$HOME/.dotfiles/config/kmonad.kbd"
+  # "$HOME/.config/kmonad.kbd                              :$HOME/.dotfiles/config/kmonad.kbd"
   # "$HOME/Images                                          :$HOME/Photos"
   # "$HOME/Audio                                           :$HOME/Music"
   # "$HOME/Videos                                          :$HOME/Movies"
