@@ -6,6 +6,7 @@
     <string>local.kanata</string>
     <key>ProgramArguments</key>
     <array>
+      <string>/usr/bin/sudo</string>
       <string>/usr/local/bin/kanata</string>
       <string>--cfg</string>
       <string>/Users/eerickson/.dotfiles/config/kanata.kbd</string>
