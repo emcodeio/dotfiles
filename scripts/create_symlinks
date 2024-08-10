@@ -25,6 +25,7 @@ symlinks=(
   "$HOME/.dotfiles/fonts                                 :$HOME/Library/Mobile Documents/com~apple~CloudDocs/Documents/dotfiles/fonts"
   "$HOME/.dotfiles/dmgs                                  :$HOME/Library/Mobile Documents/com~apple~CloudDocs/Documents/dotfiles/dmgs"
   "$HOME/Pictures/wallpaper/processing/to_rename         :$HOME/.dotfiles/bin/python_scripts/gpt_rename_image/images_to_rename"
+  "$HOME/.mackup.cfg                                     :$HOME/.dotfiles/config/mackup.cfg"
   # "$HOME/Library/LaunchAgents                            :$HOME/.dotfiles/bin/launch_agents/local.kanata.plist"
 )
 
