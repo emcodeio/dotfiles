@@ -4,6 +4,14 @@
 <array>
 	<dict>
 		<key>BundleIdentifier</key>
+		<string>com.apple.systempreferences</string>
+		<key>Name</key>
+		<string>System Settings</string>
+		<key>NewFile</key>
+		<string>/System/Applications/System Settings.app</string>
+	</dict>
+	<dict>
+		<key>BundleIdentifier</key>
 		<string>com.apple.finder</string>
 		<key>Name</key>
 		<string>Finder</string>
@@ -41,14 +49,6 @@
 		<string>Archive Utility</string>
 		<key>NewFile</key>
 		<string>/System/Library/CoreServices/Applications/Archive Utility.app</string>
-	</dict>
-	<dict>
-		<key>BundleIdentifier</key>
-		<string>com.apple.systempreferences</string>
-		<key>Name</key>
-		<string>System Settings</string>
-		<key>NewFile</key>
-		<string>/System/Applications/System Settings.app</string>
 	</dict>
 	<dict>
 		<key>BundleIdentifier</key>
