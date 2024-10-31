@@ -27,7 +27,7 @@ copy_fonts() {
   fi
 
   # Find and copy .otf and .ttc files to the destination directory
-  find -L "$SOURCE_DIR" -type f \( -iname "*.otf" -o -iname "*.ttc" \) -exec cp -v {} "$DEST_DIR" \;
+  find -L "$SOURCE_DIR" -type f \( -iname "*.otf" -o -iname "*.ttc" -o -iname "*.ttf" \) -exec cp -v {} "$DEST_DIR" \;
 
   info "Fonts copied successfully to $DEST_DIR. Continuing..."
 

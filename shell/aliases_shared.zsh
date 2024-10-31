@@ -63,3 +63,5 @@ alias mkwphone="$HOME/.dotfiles/bin/shell_scripts/make_wallpaper/make_wallpaper.
 alias gptrn="cd $HOME/.dotfiles/bin/python_scripts/gpt_rename_image/ && pipenv run python3 $HOME/.dotfiles/bin/python_scripts/gpt_rename_image/rename_images_unique.py $HOME/.dotfiles/bin/python_scripts/gpt_rename_image/images_to_rename"
 alias enhance="$HOME/.dotfiles/bin/shell_scripts/enhance.zsh"
 alias linkwall="$HOME/.dotfiles/scripts/symlink_wallpaper"
+alias mbackup="mackup backup --force && mackup uninstall --force"
+alias mrestore="mackup restore --force && mackup uninstall --force"

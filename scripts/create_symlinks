@@ -14,19 +14,15 @@ symlinks=(
   "$HOME/.doom.d                                         :$HOME/.dotfiles/config/doom.d"
   "$HOME/.zsh_plugins.txt                                :$HOME/.dotfiles/config/zsh_plugins.txt"
   "$HOME/.p10k.zsh                                       :$HOME/.dotfiles/config/p10k.zsh"
-  # "$HOME/.mbsyncrc                                       :$HOME/.dotfiles/config/mbsyncrc"
-  # "$HOME/.msmtprc                                        :$HOME/.dotfiles/config/msmtprc"
   "$HOME/.yabairc                                        :$HOME/.dotfiles/config/yabairc"
   "$HOME/.skhdrc                                         :$HOME/.dotfiles/config/skhdrc"
-  # "$HOME/.config/karabiner                               :$HOME/.dotfiles/config/karabiner"
   "$HOME/Library/Application Support/Keyboard Maestro    :$HOME/.dotfiles/config/keyboard_maestro"
   "$HOME/.ideavimrc                                      :$HOME/.dotfiles/config/ideavimrc"
-  "$HOME/.dotfiles/private_info                          :$HOME/Library/Mobile Documents/com~apple~CloudDocs/Documents/dotfiles/private_info"
-  "$HOME/.dotfiles/fonts                                 :$HOME/Library/Mobile Documents/com~apple~CloudDocs/Documents/dotfiles/fonts"
-  "$HOME/.dotfiles/dmgs                                  :$HOME/Library/Mobile Documents/com~apple~CloudDocs/Documents/dotfiles/dmgs"
+  "$HOME/.dotfiles/private_info                          :$HOME/Library/Mobile Documents/com~apple~CloudDocs/Documents/technology_computing/dotfiles/private_info"
+  "$HOME/.dotfiles/fonts                                 :$HOME/Library/Mobile Documents/com~apple~CloudDocs/Documents/technology_computing/dotfiles/fonts"
+  "$HOME/.dotfiles/dmgs                                  :$HOME/Library/Mobile Documents/com~apple~CloudDocs/Documents/technology_computing/dotfiles/dmgs"
   "$HOME/Pictures/wallpaper/processing/to_rename         :$HOME/.dotfiles/bin/python_scripts/gpt_rename_image/images_to_rename"
-  "$HOME/.mackup.cfg                                     :$HOME/.dotfiles/config/mackup.cfg"
-  # "$HOME/Library/LaunchAgents                            :$HOME/.dotfiles/bin/launch_agents/local.kanata.plist"
+  "$HOME/Library/LaunchAgents                            :$HOME/.dotfiles/bin/launch_agents/local.kanata.plist"
 )
 
 sudo_symlinks=(
@@ -97,11 +93,7 @@ create_all_symlinks() {
 
   # Add Kanata to Sudoers
   echo "Adding Kanata to Sudoers..."
-  echo "$(whoami) ALL=(root) NOPASSWD: sha256:$(shasum -a 256 $(which kanata) | cut -d " " -f 1) $(which kanata) -c $HOME/.dotfiles/config/kanata.kbd" | sudo tee /private/etc/sudoers.d/kanata
-  echo "Creating LaunchDaemon for Kanata..."
-  sudo cp $HOME/.dotfiles/bin/launch_daemons/local.kanata.plist /Library/LaunchDaemons
-  sudo chown root:wheel /Library/LaunchDaemons/local.kanata.plist
-  sudo chmod 644 /Library/LaunchDaemons/local.kanata.plist
+  echo "$(whoami) ALL=(root) NOPASSWD: $(which kanata) -c $HOME/.dotfiles/config/kanata.kbd" | sudo tee /private/etc/sudoers.d/kanata
 
   if [ -e "$SECRETS_KEYCHAIN_DEST" ]; then
   echo "Secrets keychain from iCloud already linked..."
